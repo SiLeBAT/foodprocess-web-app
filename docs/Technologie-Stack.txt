@@ -5,5 +5,5 @@ Event-Handling: 		Backbone, jQuery
 Utils:					Lodash, jQuery 
 Oberflächen-Elemente: 	Foundation
 Module-Loader: 			Webpack
-MVC-Framework:			Backbone (?)
-CSS-Preprocessor:		SASS (?)
+MVC-Framework:			Backbone
+CSS-Preprocessor:		SASS
