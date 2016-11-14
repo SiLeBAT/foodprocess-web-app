@@ -1,6 +1,4 @@
 @import "colors";
-
-body {
-    background: $backgroundColor;
-    color: $textColor;
-}
+@import "scaffolding";
+@import "workspace";
+@import "menu";

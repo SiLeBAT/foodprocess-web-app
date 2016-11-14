@@ -1,2 +1,11 @@
-$backgroundColor: white;
-$textColor: black;
+$white: white;
+$black: black;
+$lightGray: #eee;
+$gray: #ccc;
+$darkGray: #3f3f3f;
+
+$backgroundColor: $white;
+$textColor: $darkGray;
+
+$borderColor: $gray;
+$shadowColor: $gray;

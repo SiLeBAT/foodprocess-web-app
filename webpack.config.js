@@ -23,8 +23,11 @@ module.exports = {
         loaders: [
             {
                 test: /\.jsx?$/,
-                loaders: [ 'babel' ],
-                exclude: /node_modules/
+                loader: 'babel',
+                exclude: /node_modules/,
+                query: {
+                    presets: ['es2015']
+                }
             },
             {
                 test: /\.scss$/,
@@ -33,6 +36,10 @@ module.exports = {
             {
                 test: /\.css$/,
                 loaders: [ 'style', 'css?sourceMap', 'autoprefixer' ]
+            },
+            {
+                test: /\.html$/,
+                loaders: [ 'html' ]
             }
         ]
     },
