@@ -3,7 +3,8 @@ window.$ = window.jQuery = require('jquery');
 let _ = require('underscore');
 let Backbone = require('backbone');
 
-// JointJS Stylesheets
+// JointJS
+let joint = require('../vendor/joint.js');
 require('../vendor/joint.css');
 
 // Foundation
@@ -29,13 +30,18 @@ let AppView = Backbone.View.extend({
     },
     render: function() {
         this.$el.html(this.template({}));
+
+        // Workspace graph
+        let workspaceGraph = new joint.dia.Graph;
+        let workspaceElement = this.$('#workspace');
+
         // Menu
-        this.menu = new MenuView();
+        this.menu = new MenuView(workspaceGraph, workspaceElement);
         this.menu.$el = this.$('#menu');
         this.menu.render();
         // Workspace
-        this.workspace = new WorkspaceView();
-        this.workspace.$el = this.$('#workspace');
+        this.workspace = new WorkspaceView(workspaceGraph);
+        this.workspace.$el = workspaceElement;
         this.workspace.render();
         // Properties
         this.properties = new PropertiesView();

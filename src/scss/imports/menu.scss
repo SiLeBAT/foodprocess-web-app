@@ -5,4 +5,26 @@
     position: relative;
     z-index: 100;
     padding: 30px;
+    border-right: 1px solid $borderColor;
+    box-shadow: 1px 0 4px $shadowColor;
+
+    display: flex;
+    flex-flow: column nowrap;
 }
+
+    .nodes-library {
+        flex-grow: 1;
+        flex-flow: column nowrap;
+        display: flex;
+
+        svg {
+            flex-grow: 1;
+        }
+    }
+
+        .flyingNode {
+            position: fixed;
+            z-index: 100;
+            opacity: .7;
+            pointer-events: none;
+        }
