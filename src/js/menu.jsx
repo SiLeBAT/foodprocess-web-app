@@ -3,6 +3,13 @@ let joint = require('../vendor/joint.js');
 
 let menuTemplate = require('../templates/menu.html');
 
+// TODO move to common place
+let defaultNodeConfig = {
+    position: { x: 0, y: 0 },
+    size: { width: 80, height: 80 },
+    attrs: { text: { text: 'NodeName' } }
+}
+
 export let MenuView = Backbone.View.extend({
     template: _.template(menuTemplate),
     nodesLibraryElementId: '#nodes-library',
@@ -24,45 +31,32 @@ export let MenuView = Backbone.View.extend({
             interactive: false
         });
 
-        nodesLibraryGraph.addCells(this.createPredefinedNodes());
+        nodesLibraryGraph.addCells(this.createMenuNodes());
 
         let workspaceGraph = this.workspaceGraph;
         let workspaceElement = this.workspaceElement;
 
         this.addDragAndDropListener(workspaceGraph, workspaceElement, nodesLibraryPaper);
     },
-    createPredefinedNodes: function() {
+    // TODO move to common place
+    createNode: function(name, positionObject) {
+        let config = defaultNodeConfig;
+
+        if(name != undefined) {
+            config.attrs.text.text = name;
+        }
+
+        if(positionObject != undefined) {
+            config.position = positionObject;
+        }
+
+        let rect = new joint.shapes.basic.Rect(config);
+        return rect;
+    },
+    createMenuNodes: function() {
         let nodes = [];
-        nodes.push(new joint.shapes.basic.Rect({
-            position: {
-                x: 0,
-                y: 0
-            },
-            size: {
-                width: 80,
-                height: 80
-            },
-            attrs: {
-                text: {
-                    text: 'FP'
-                }
-            }
-        }));
-        nodes.push(new joint.shapes.basic.Rect({
-            position: {
-                x: 0,
-                y: 100
-            },
-            size: {
-                width: 80,
-                height: 80
-            },
-            attrs: {
-                text: {
-                    text: 'I'
-                }
-            }
-        }));
+        nodes.push(this.createNode("Food Process", { x: 0, y: 0} ));
+        nodes.push(this.createNode("Ingredient", { x: 0, y: 100} ));
         return nodes;
     },
     addDragAndDropListener: function(workspaceGraph, workspaceElement, nodesLibraryPaper) {
