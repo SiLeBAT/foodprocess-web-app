@@ -15,7 +15,10 @@ export let WorkspaceView = Backbone.View.extend({
         let rect = new joint.shapes.basic.Rect({
             position: { x: 100, y: 30 },
             size: { width: 100, height: 30 },
-            attrs: { rect: { fill: 'blue' }, text: { text: 'my box', fill: 'white' } }
+            attrs: {
+                rect: { fill: 'blue' },
+                text: { text: 'my box2', fill: 'white' }
+            }
         });
 
         let rect2 = rect.clone();

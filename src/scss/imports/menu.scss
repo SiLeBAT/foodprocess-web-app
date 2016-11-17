@@ -1,9 +1,8 @@
 .menu {
     width: auto;
     float: left;
+    background-color: $sideBackgroundColor;
     position: relative;
     z-index: 100;
     padding: 30px;
-    border-right: 1px solid $borderColor;
-    box-shadow: 1px 0 4px $shadowColor;
 }

@@ -15,12 +15,14 @@ require('../scss/main.scss');
 
 import {WorkspaceView} from './workspace.jsx';
 import {MenuView} from './menu.jsx';
+import {PropertiesView} from './properties.jsx';
 
 // Templates
 let appTemplate = require('../templates/app.html');
 
 let AppView = Backbone.View.extend({
     el: $('#app'),
+
     template: _.template(appTemplate),
     initialize: function() {
         this.render();
@@ -35,6 +37,10 @@ let AppView = Backbone.View.extend({
         this.workspace = new WorkspaceView();
         this.workspace.$el = this.$('#workspace');
         this.workspace.render();
+        // Properties
+        this.properties = new PropertiesView();
+        this.properties.$el = this.$('#properties');
+        this.properties.render();
     }
 });
 

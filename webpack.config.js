@@ -18,7 +18,7 @@ module.exports = {
         path: path.join(__dirname, 'dist'),
         publicPath: '/dist/'
     },
-    devtool: 'source-map',
+    devtool: production ? 'source-map' : 'eval-source-map',
     module: {
         loaders: [
             {
