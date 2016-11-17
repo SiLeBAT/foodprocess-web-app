@@ -1,13 +1,13 @@
 let joint = require('../vendor/joint.js');
 
 export let WorkspaceView = Backbone.View.extend({
-    render: function(width, height) {
+    render: function() {
         let graph = new joint.dia.Graph;
 
         let paper = new joint.dia.Paper({
             el: this.$el,
-            width: width + 'px',
-            height: height + 'px',
+            width: '100%',
+            height: '100%',
             model: graph,
             gridSize: 1
         });

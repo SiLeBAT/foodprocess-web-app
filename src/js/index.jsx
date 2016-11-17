@@ -1,8 +1,7 @@
 // Dependencies
 window.$ = window.jQuery = require('jquery');
-var lodash = require('lodash');
-var _ = require('underscore');
-var Backbone = require('backbone');
+let _ = require('underscore');
+let Backbone = require('backbone');
 
 // JointJS Stylesheets
 require('../vendor/joint.css');
@@ -35,15 +34,7 @@ let AppView = Backbone.View.extend({
         // Workspace
         this.workspace = new WorkspaceView();
         this.workspace.$el = this.$('#workspace');
-        this.workspace.render(this.calcWorkspaceWidth(), this.calcWorkspaceHeight());
-    },
-    calcWorkspaceWidth: function() {
-        // return $(window).width() - this.menu.$el.outerWidth();
-        return 600;
-    },
-    calcWorkspaceHeight: function() {
-        // return $(window).height() - this.menu.$el.outerHeight();
-        return $(window).height();
+        this.workspace.render();
     }
 });
 
