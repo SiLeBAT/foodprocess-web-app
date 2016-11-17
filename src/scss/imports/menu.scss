@@ -16,6 +16,7 @@
         flex-grow: 1;
         flex-flow: column nowrap;
         display: flex;
+        background-color: transparent !important;
 
         svg {
             flex-grow: 1;
@@ -27,4 +28,5 @@
             z-index: 100;
             opacity: .7;
             pointer-events: none;
+            background-color: transparent;
         }
