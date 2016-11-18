@@ -3,7 +3,7 @@ let joint = require('../../vendor/joint.js');
 
 let menuTemplate = require('../../templates/menu.html');
 
-import {FoodProcess, nodeConfig} from '../models/index.jsx';
+import {FoodProcessNode, nodeConfig} from '../models/index.jsx';
 
 export let MenuView = Backbone.View.extend({
     template: _.template(menuTemplate),
@@ -35,12 +35,12 @@ export let MenuView = Backbone.View.extend({
     },
     createMenuNodes: function() {
         let nodes = [];
-        nodes.push(new FoodProcess({ x: 0, y: 0}, "", 0, 1));
-        nodes.push(new FoodProcess({ x: 0, y: nodeConfig.totalHeight}, "", 1, 0));
-        nodes.push(new FoodProcess({ x: 0, y: nodeConfig.totalHeight*2}, "", 1, 1));
-        nodes.push(new FoodProcess({ x: 0, y: nodeConfig.totalHeight*3}, "", 2, 1));
-        nodes.push(new FoodProcess({ x: 0, y: nodeConfig.totalHeight*4}, "", 1, 2));
-        nodes.push(new FoodProcess({ x: 0, y: nodeConfig.totalHeight*5}, "", 2, 2));
+        nodes.push(new FoodProcessNode({ x: 0, y: 0}, "", 0, 1));
+        nodes.push(new FoodProcessNode({ x: 0, y: nodeConfig.totalHeight}, "", 1, 0));
+        nodes.push(new FoodProcessNode({ x: 0, y: nodeConfig.totalHeight*2}, "", 1, 1));
+        nodes.push(new FoodProcessNode({ x: 0, y: nodeConfig.totalHeight*3}, "", 2, 1));
+        nodes.push(new FoodProcessNode({ x: 0, y: nodeConfig.totalHeight*4}, "", 1, 2));
+        nodes.push(new FoodProcessNode({ x: 0, y: nodeConfig.totalHeight*5}, "", 2, 2));
         return nodes;
     },
     addDragAndDropListener: function(workspaceGraph, workspaceElement, nodesLibraryPaper) {
@@ -85,7 +85,7 @@ export let MenuView = Backbone.View.extend({
                 // Dropped over paper ?
                 if (x > target.left && x < target.left + workspaceElement.width() && y > target.top && y < target.top + workspaceElement.height()) {
                     let newNode = flyingNodeShape.clone();
-                    newNode.position(x - target.left - offset.x, y - target.top - offset.y);
+                    newNode.position(x - target.left - offset.x + nodeConfig.portSize/2, y - target.top - offset.y);
                     workspaceGraph.addCell(newNode);
                 }
                 rootElement.off('mousemove.fly').off('mouseup.fly');

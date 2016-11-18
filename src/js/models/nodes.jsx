@@ -1,7 +1,7 @@
 let joint = require('../../vendor/joint.js');
 let _ = require('lodash');
 
-export class FoodProcess {
+export class FoodProcessNode {
     constructor(position, name, numberOfInPorts, numberOfOutPorts) {
         this.node = new Node({
             attrs: {
@@ -50,7 +50,7 @@ export let nodeConfig = {
 nodeConfig.totalWidth = nodeConfig.bodyWidth + nodeConfig.portSize;
 nodeConfig.totalHeight = nodeConfig.bodyHeight - nodeConfig.labelOffset;
 
-let basicPorts = {
+let basicPortGroup = {
     attrs: {
         rect: {
             width: nodeConfig.portSize,
@@ -67,8 +67,8 @@ let basicPorts = {
     },
 };
 
-let rightPorts = _.cloneDeep(basicPorts);
-rightPorts.position.name = 'right';
+let rightPortGroup = _.cloneDeep(basicPortGroup);
+rightPortGroup.position.name = 'right';
 
 let Node = joint.shapes.basic.Rect.extend({
 
@@ -98,8 +98,8 @@ let Node = joint.shapes.basic.Rect.extend({
         },
         ports: {
             groups: {
-                inPorts: basicPorts,
-                outPorts: rightPorts
+                inPorts: basicPortGroup,
+                outPorts: rightPortGroup
             }
         }
 
