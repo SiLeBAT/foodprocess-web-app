@@ -1,14 +1,9 @@
 let $ = require('jquery');
-let joint = require('../vendor/joint.js');
+let joint = require('../../vendor/joint.js');
 
-let menuTemplate = require('../templates/menu.html');
+let menuTemplate = require('../../templates/menu.html');
 
-// TODO move to common place
-let defaultNodeConfig = {
-    position: { x: 0, y: 0 },
-    size: { width: 80, height: 80 },
-    attrs: { text: { text: 'NodeName' } }
-}
+import {FoodProcess, nodeConfig} from '../models/index.jsx';
 
 export let MenuView = Backbone.View.extend({
     template: _.template(menuTemplate),
@@ -25,10 +20,10 @@ export let MenuView = Backbone.View.extend({
         let nodesLibraryGraph = new joint.dia.Graph;
         let nodesLibraryPaper = new joint.dia.Paper({
             el: this.$(this.nodesLibraryElementId),
-            width: '82px',
+            width: nodeConfig.totalWidth+ 'px',
             height: '100%',
             model: nodesLibraryGraph,
-            interactive: false
+            interactive: false,
         });
 
         nodesLibraryGraph.addCells(this.createMenuNodes());
@@ -38,25 +33,14 @@ export let MenuView = Backbone.View.extend({
 
         this.addDragAndDropListener(workspaceGraph, workspaceElement, nodesLibraryPaper);
     },
-    // TODO move to common place
-    createNode: function(name, positionObject) {
-        let config = defaultNodeConfig;
-
-        if(name != undefined) {
-            config.attrs.text.text = name;
-        }
-
-        if(positionObject != undefined) {
-            config.position = positionObject;
-        }
-
-        let rect = new joint.shapes.basic.Rect(config);
-        return rect;
-    },
     createMenuNodes: function() {
         let nodes = [];
-        nodes.push(this.createNode("Food Process", { x: 0, y: 0} ));
-        nodes.push(this.createNode("Ingredient", { x: 0, y: 100} ));
+        nodes.push(new FoodProcess({ x: 0, y: 0}, "", 0, 1));
+        nodes.push(new FoodProcess({ x: 0, y: nodeConfig.totalHeight}, "", 1, 0));
+        nodes.push(new FoodProcess({ x: 0, y: nodeConfig.totalHeight*2}, "", 1, 1));
+        nodes.push(new FoodProcess({ x: 0, y: nodeConfig.totalHeight*3}, "", 2, 1));
+        nodes.push(new FoodProcess({ x: 0, y: nodeConfig.totalHeight*4}, "", 1, 2));
+        nodes.push(new FoodProcess({ x: 0, y: nodeConfig.totalHeight*5}, "", 2, 2));
         return nodes;
     },
     addDragAndDropListener: function(workspaceGraph, workspaceElement, nodesLibraryPaper) {
@@ -68,8 +52,8 @@ export let MenuView = Backbone.View.extend({
             let flyingNodePaper = new joint.dia.Paper({
                 el: flyingNodeElement,
                 model: flyingNodeGraph,
-                width: '81px',
-                height: '81px',
+                width: nodeConfig.totalWidth + 'px',
+                height: nodeConfig.totalHeight + 'px',
                 interactive: false
             });
             let flyingNodeShape = nodeView.model.clone();
@@ -79,7 +63,7 @@ export let MenuView = Backbone.View.extend({
                 y: y - position.y
             };
 
-            flyingNodeShape.position(0, 0);
+            flyingNodeShape.position(nodeConfig.portSize/2, 0);
             flyingNodeGraph.addCell(flyingNodeShape);
             flyingNodeElement.offset({
                 left: event.pageX - offset.x,

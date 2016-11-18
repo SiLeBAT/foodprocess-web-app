@@ -1,5 +1,6 @@
 $white: white;
 $black: black;
+$lighterGray: #f6f6f6;
 $lightGray: #eee;
 $gray: #ccc;
 $darkGray: #3f3f3f;
@@ -10,3 +11,8 @@ $sideBackgroundColor: $lightGray;
 
 $borderColor: $gray;
 $shadowColor: $gray;
+
+$nodeBorderColor: $darkGray;
+$nodeBackgroundColor: $lighterGray;
+$nodePortColor: $gray;
+$nodePortHoverColor: $black;

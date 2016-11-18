@@ -14,16 +14,13 @@ require('foundation-sites/dist/foundation.css');
 // Stylesheets
 require('../scss/main.scss');
 
-import {WorkspaceView} from './workspace.jsx';
-import {MenuView} from './menu.jsx';
-import {PropertiesView} from './properties.jsx';
+import {WorkspaceView, MenuView, PropertiesView} from './views/index.jsx';
 
 // Templates
 let appTemplate = require('../templates/app.html');
 
 let AppView = Backbone.View.extend({
     el: $('#app'),
-
     template: _.template(appTemplate),
     initialize: function() {
         this.render();

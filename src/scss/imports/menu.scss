@@ -17,9 +17,14 @@
         flex-flow: column nowrap;
         display: flex;
         background-color: transparent !important;
+        margin-top: 20px;
 
         svg {
             flex-grow: 1;
+
+            .node-port {
+                pointer-events: none;
+            }
         }
     }
 
@@ -28,5 +33,5 @@
             z-index: 100;
             opacity: .7;
             pointer-events: none;
-            background-color: transparent;
+            background-color: transparent !important;
         }
