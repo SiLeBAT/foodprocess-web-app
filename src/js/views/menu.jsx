@@ -7,6 +7,7 @@ import {FoodProcessNode, nodeConfig} from '../models/index.jsx';
 
 export let MenuView = Backbone.View.extend({
     template: _.template(menuTemplate),
+    // Render the nodes library in the element with the given selector
     nodesLibraryElementId: '#nodes-library',
     initialize: function(workspaceGraph, workspaceElement) {
         this.workspaceGraph = workspaceGraph;
@@ -17,22 +18,30 @@ export let MenuView = Backbone.View.extend({
         this.renderNodesLibrary();
     },
     renderNodesLibrary: function() {
+        // Create a graph to hold the nodes of the library
         let nodesLibraryGraph = new joint.dia.Graph;
+        // Create a paper to display the nodes of the library
         let nodesLibraryPaper = new joint.dia.Paper({
             el: this.$(this.nodesLibraryElementId),
-            width: nodeConfig.totalWidth+ 'px',
+            // The size of the paper is equal with the size of a node
+            width: nodeConfig.totalWidth + 'px',
             height: '100%',
             model: nodesLibraryGraph,
+            // Configure the library to be not interactive, so the nodes can't be moved
             interactive: false,
         });
 
+        // Add the library nodes
         nodesLibraryGraph.addCells(this.createMenuNodes());
 
+        // Create a reference of the workspace object for later
         let workspaceGraph = this.workspaceGraph;
         let workspaceElement = this.workspaceElement;
 
+        // Listen for drag events to enable drag and drop of the nodes of the library
         this.addDragAndDropListener(workspaceGraph, workspaceElement, nodesLibraryPaper);
     },
+    // Create the nodes for the library
     createMenuNodes: function() {
         let nodes = [];
         nodes.push(new FoodProcessNode({ x: 0, y: 0}, "", 0, 1));
@@ -44,10 +53,13 @@ export let MenuView = Backbone.View.extend({
         return nodes;
     },
     addDragAndDropListener: function(workspaceGraph, workspaceElement, nodesLibraryPaper) {
+        // Listen for the "pointerdown" event on a node of the library
         nodesLibraryPaper.on('cell:pointerdown', function(nodeView, event, x, y) {
             let rootElement = $('body');
+            // Add a DOM element to hold the node that is dragged
             rootElement.append(`<div id="flyingNode" class="flyingNode"></div>`);
             let flyingNodeElement = $('#flyingNode');
+            // Create new graph and paper for the dragged node
             let flyingNodeGraph = new joint.dia.Graph;
             let flyingNodePaper = new joint.dia.Paper({
                 el: flyingNodeElement,
@@ -56,6 +68,7 @@ export let MenuView = Backbone.View.extend({
                 height: nodeConfig.totalHeight + 'px',
                 interactive: false
             });
+            // Copy the dragged node of the library
             let flyingNodeShape = nodeView.model.clone();
             let position = nodeView.model.position();
             let offset = {
@@ -64,18 +77,21 @@ export let MenuView = Backbone.View.extend({
             };
 
             flyingNodeShape.position(nodeConfig.portSize/2, 0);
+            // Add the copy of the node to the new graph
             flyingNodeGraph.addCell(flyingNodeShape);
             flyingNodeElement.offset({
                 left: event.pageX - offset.x,
                 top: event.pageY - offset.y
             });
 
+            // Move the flying node with the movement of the mouse
             rootElement.on('mousemove.fly', function(event) {
                 flyingNodeElement.offset({
                     left: event.pageX - offset.x,
                     top: event.pageY - offset.y
                 });
             });
+            // Listen for the drop
             rootElement.on('mouseup.fly', function(event) {
 
                 let x = event.pageX;
@@ -86,8 +102,10 @@ export let MenuView = Backbone.View.extend({
                 if (x > target.left && x < target.left + workspaceElement.width() && y > target.top && y < target.top + workspaceElement.height()) {
                     let newNode = flyingNodeShape.clone();
                     newNode.position(x - target.left - offset.x + nodeConfig.portSize/2, y - target.top - offset.y);
+                    // Add the node to the main workspace
                     workspaceGraph.addCell(newNode);
                 }
+                // cleanup
                 rootElement.off('mousemove.fly').off('mouseup.fly');
                 flyingNodeShape.remove();
                 flyingNodeElement.remove();
