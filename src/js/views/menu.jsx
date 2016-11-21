@@ -1,4 +1,5 @@
 let $ = require('jquery');
+let _ = require('lodash');
 let joint = require('../../vendor/joint.js');
 
 let menuTemplate = require('../../templates/menu.html');
@@ -44,12 +45,12 @@ export let MenuView = Backbone.View.extend({
     // Create the nodes for the library
     createMenuNodes: function() {
         let nodes = [];
-        nodes.push(new FoodProcessNode({ x: 0, y: 0}, "", 0, 1));
-        nodes.push(new FoodProcessNode({ x: 0, y: nodeConfig.totalHeight}, "", 1, 0));
-        nodes.push(new FoodProcessNode({ x: 0, y: nodeConfig.totalHeight*2}, "", 1, 1));
-        nodes.push(new FoodProcessNode({ x: 0, y: nodeConfig.totalHeight*3}, "", 2, 1));
-        nodes.push(new FoodProcessNode({ x: 0, y: nodeConfig.totalHeight*4}, "", 1, 2));
-        nodes.push(new FoodProcessNode({ x: 0, y: nodeConfig.totalHeight*5}, "", 2, 2));
+        nodes.push(new FoodProcessNode({ x: 0, y: 0}, 0, 1));
+        nodes.push(new FoodProcessNode({ x: 0, y: nodeConfig.totalHeight}, 1, 0));
+        nodes.push(new FoodProcessNode({ x: 0, y: nodeConfig.totalHeight*2}, 1, 1));
+        nodes.push(new FoodProcessNode({ x: 0, y: nodeConfig.totalHeight*3}, 2, 1));
+        nodes.push(new FoodProcessNode({ x: 0, y: nodeConfig.totalHeight*4}, 1, 2));
+        nodes.push(new FoodProcessNode({ x: 0, y: nodeConfig.totalHeight*5}, 2, 2));
         return nodes;
     },
     addDragAndDropListener: function(workspaceGraph, workspaceElement, nodesLibraryPaper) {
@@ -93,7 +94,6 @@ export let MenuView = Backbone.View.extend({
             });
             // Listen for the drop
             rootElement.on('mouseup.fly', function(event) {
-
                 let x = event.pageX;
                 let y = event.pageY;
                 let target = workspaceElement.offset();
@@ -101,6 +101,10 @@ export let MenuView = Backbone.View.extend({
                 // Dropped over paper ?
                 if (x > target.left && x < target.left + workspaceElement.width() && y > target.top && y < target.top + workspaceElement.height()) {
                     let newNode = flyingNodeShape.clone();
+                    // Clone the properties separately to generate a unique id
+                    newNode.set({
+                        properties: newNode.attributes.properties.clone()
+                    });
                     newNode.position(x - target.left - offset.x + nodeConfig.portSize/2, y - target.top - offset.y);
                     // Add the node to the main workspace
                     workspaceGraph.addCell(newNode);

@@ -1,11 +1,20 @@
-<h2>Properties</h2>
+<h4>Properties</h4>
 <form data-abide novalidate>
     <label>Process Name</label>
-    <input type="text" placeholder="my process" aria-describedby="process name" required pattern="text">
-    <label>Author</label>
-    <input type="text" placeholder="firstname lastname" aria-describedby="author name" required pattern="text">
-    <label>Created</label>
-    <input type="text" placeholder="created" aria-describedby="date of creation" pattern="date" disabled>
-    <label>Last Modified</label>
-    <input type="text" placeholder="edited" aria-describedby="date of last modification" pattern="date" disabled>
+    <input type="text" id="processName" placeholder="" aria-describedby="process name" required>
+    <label>Duration</label>
+    <input type="number" id="duration" placeholder="" aria-describedby="duration" required>
 </form>
+<h4>Process Parameters</h4>
+<form data-abide novalidate>
+    <label>Temperature</label>
+    <input type="number" id="temperature" placeholder="" aria-describedby="temperature" required>
+    <label>pH</label>
+    <input type="number" id="pH" placeholder="" aria-describedby="pH" required>
+    <label>aw</label>
+    <input type="number" id="aw" placeholder="" aria-describedby="aw">
+    <label>Pressure</label>
+    <input type="number" id="pressure" placeholder="" aria-describedby="pressure">
+</form>
+
+<button type="button" id="delete" class="alert button">Delete</button>

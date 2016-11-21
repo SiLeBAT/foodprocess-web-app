@@ -1,7 +1,9 @@
 // Dependencies
 window.$ = window.jQuery = require('jquery');
-let _ = require('underscore');
+let _ = require('lodash');
 let Backbone = require('backbone');
+// Stickit for easier data binding
+require('backbone.stickit');
 
 // JointJS
 let joint = require('../vendor/joint.js');
@@ -13,6 +15,7 @@ require('foundation-sites/dist/foundation.css');
 
 // Stylesheets
 require('../scss/main.scss');
+
 
 import {WorkspaceView, MenuView, PropertiesView} from './views/index.jsx';
 
@@ -37,14 +40,14 @@ let AppView = Backbone.View.extend({
         this.menu = new MenuView(workspaceGraph, workspaceElement);
         this.menu.$el = this.$('#menu');
         this.menu.render();
-        // Render the workspace
-        this.workspace = new WorkspaceView(workspaceGraph);
-        this.workspace.$el = workspaceElement;
-        this.workspace.render();
         // Render the properties
         this.properties = new PropertiesView();
         this.properties.$el = this.$('#properties');
         this.properties.render();
+        // Render the workspace
+        this.workspace = new WorkspaceView(workspaceGraph, this.properties);
+        this.workspace.$el = workspaceElement;
+        this.workspace.render();
     }
 });
 

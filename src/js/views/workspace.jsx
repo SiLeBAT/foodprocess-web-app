@@ -1,15 +1,20 @@
 let joint = require('../../vendor/joint.js');
+let Backbone = require('backbone');
 
 export let WorkspaceView = Backbone.View.extend({
-    initialize: function(workspaceGraph) {
+    initialize: function(workspaceGraph, propertiesView) {
         this.workspaceGraph = workspaceGraph;
+        this.propertiesView = propertiesView;
     },
     render: function() {
-        let paper = new joint.dia.Paper({
+        let workspaceGraph = this.workspaceGraph;
+        let propertiesView = this.propertiesView;
+
+        let workspace = new joint.dia.Paper({
             el: this.$el,
             width: '100%',
             height: '100%',
-            model: this.workspaceGraph,
+            model: workspaceGraph,
             // TODO style link
             defaultLink: new joint.dia.Link({
                 attrs: {
@@ -39,6 +44,13 @@ export let WorkspaceView = Backbone.View.extend({
                 // Prevent linking from output ports to input ports within one element.
                 return cellViewS !== cellViewT;
             }
+        });
+
+        // Listen for clicks on a node
+        workspace.on('cell:pointerclick', function(cellView, event) {
+            // Update the model of the properties view to the model of the selected node
+            propertiesView.model = cellView.model.attributes.properties;
+            propertiesView.render();
         });
     }
 });

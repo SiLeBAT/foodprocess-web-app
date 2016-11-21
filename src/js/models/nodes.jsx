@@ -1,16 +1,13 @@
 let joint = require('../../vendor/joint.js');
 let _ = require('lodash');
+let Backbone = require('backbone');
 
 // This class represents a food process node. It creates an instance of the basic node and adds some configuration to it.
 export class FoodProcessNode {
-    constructor(position, name, numberOfInPorts, numberOfOutPorts) {
-        // Set the name of the label
+    constructor(position, numberOfInPorts, numberOfOutPorts) {
+        // Set the properties of the node
         this.node = new Node({
-            attrs: {
-                '.label': {
-                    text: name ? name : ''
-                }
-            }
+            properties: new FoodProcessProperties()
         });
         // Add the given position to the default position
         let newPosition = {
@@ -23,30 +20,44 @@ export class FoodProcessNode {
         numberOfOutPorts = numberOfOutPorts !== undefined ? numberOfOutPorts : 1;
         // Add the input and output ports
         for (let i = 0; i < numberOfInPorts; i++) {
-            this.addInPort();
+            this.addPort('in');
         }
         for (let i = 0; i < numberOfOutPorts; i++) {
-            this.addOutPort();
+            this.addPort('out');
         }
         return this.node;
     };
 
-    // Add an input port to the node
-    addInPort() {
+    // Add an input or output port to the node
+    // Use type 'in' for input and 'out' for output
+    addPort(type) {
         this.node.addPort({
-            id: 'in' + this.node.getPorts().length + 1,
-            group: 'inPorts'
+            id: type + this.node.getPorts().length + 1,
+            group: type + 'Ports'
         });
-    };
-
-    // Add an output port to the node
-    addOutPort() {
-        this.node.addPort({
-            id: 'out' + this.node.getPorts().length + 1,
-            group: 'outPorts'
-        });
-    };
+    }
 }
+
+export const nodeTypes = {
+    FOOD_PROCESS: 0,
+    INGREDIENTS: 1
+};
+
+// The properties for a food process
+let FoodProcessProperties = Backbone.Model.extend({
+    defaults: {
+        type: nodeTypes.FOOD_PROCESS,
+        processName: "",
+        duration: 0,
+        durationUnit: "min",
+        temperature: 0,
+        temperatureUnit: "C",
+        pH: 0,
+        aw: 0,
+        pressure: 0,
+        pressureUnit: "bar"
+    }
+});
 
 // Some configuration for the nodes
 export let nodeConfig = {
@@ -110,7 +121,7 @@ let Node = joint.shapes.basic.Rect.extend({
                 inPorts: basicPortGroup,
                 outPorts: rightPortGroup
             }
-        }
-
+        },
+        properties: {}
     }, joint.shapes.devs.Model.prototype.defaults)
 });
