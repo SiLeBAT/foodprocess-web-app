@@ -30,17 +30,18 @@ let AppView = Backbone.View.extend({
 
         // Workspace graph
         let workspaceGraph = new joint.dia.Graph;
+        // Element to render the workspace in
         let workspaceElement = this.$('#workspace');
 
-        // Menu
+        // Render the menu
         this.menu = new MenuView(workspaceGraph, workspaceElement);
         this.menu.$el = this.$('#menu');
         this.menu.render();
-        // Workspace
+        // Render the workspace
         this.workspace = new WorkspaceView(workspaceGraph);
         this.workspace.$el = workspaceElement;
         this.workspace.render();
-        // Properties
+        // Render the properties
         this.properties = new PropertiesView();
         this.properties.$el = this.$('#properties');
         this.properties.render();

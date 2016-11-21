@@ -1,8 +1,10 @@
 let joint = require('../../vendor/joint.js');
 let _ = require('lodash');
 
+// This class represents a food process node. It creates an instance of the basic node and adds some configuration to it.
 export class FoodProcessNode {
     constructor(position, name, numberOfInPorts, numberOfOutPorts) {
+        // Set the name of the label
         this.node = new Node({
             attrs: {
                 '.label': {
@@ -10,13 +12,16 @@ export class FoodProcessNode {
                 }
             }
         });
+        // Add the given position to the default position
         let newPosition = {
             x: this.node.position().x + position.x,
             y: this.node.position().y + position.y
         };
         this.node.position(newPosition.x, newPosition.y);
+        // Take the default number of ports it's undefined
         numberOfInPorts = numberOfInPorts !== undefined ? numberOfInPorts : 2;
         numberOfOutPorts = numberOfOutPorts !== undefined ? numberOfOutPorts : 1;
+        // Add the input and output ports
         for (let i = 0; i < numberOfInPorts; i++) {
             this.addInPort();
         }
@@ -26,6 +31,7 @@ export class FoodProcessNode {
         return this.node;
     };
 
+    // Add an input port to the node
     addInPort() {
         this.node.addPort({
             id: 'in' + this.node.getPorts().length + 1,
@@ -33,6 +39,7 @@ export class FoodProcessNode {
         });
     };
 
+    // Add an output port to the node
     addOutPort() {
         this.node.addPort({
             id: 'out' + this.node.getPorts().length + 1,
@@ -41,6 +48,7 @@ export class FoodProcessNode {
     };
 }
 
+// Some configuration for the nodes
 export let nodeConfig = {
     bodyWidth: 60,
     bodyHeight: 60,
@@ -50,6 +58,7 @@ export let nodeConfig = {
 nodeConfig.totalWidth = nodeConfig.bodyWidth + nodeConfig.portSize;
 nodeConfig.totalHeight = nodeConfig.bodyHeight - nodeConfig.labelOffset;
 
+// Configuration for the ports of a node
 let basicPortGroup = {
     attrs: {
         rect: {
@@ -66,10 +75,10 @@ let basicPortGroup = {
         }
     },
 };
-
 let rightPortGroup = _.cloneDeep(basicPortGroup);
 rightPortGroup.position.name = 'right';
 
+// The basic node object
 let Node = joint.shapes.basic.Rect.extend({
 
     markup: '<g class="rotatable"><g class="scalable"><rect class="node-body"/></g><text class="label"/></g>',

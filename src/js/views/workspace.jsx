@@ -15,8 +15,14 @@ export let WorkspaceView = Backbone.View.extend({
                 attrs: {
                 }
             }),
+            // Remove links without target
             linkPinning: false,
+            // An element may not have more than one link with the same source and target element
             multiLinks: false,
+            // Enable link snapping
+            snapLinks: {
+                radius: 15
+            },
             validateConnection: function(cellViewS, magnetS, cellViewT, magnetT, end, linkView) {
                 // Prevent linking from input ports to input ports.
                 if (magnetS && magnetS.getAttribute('port-group') === 'inPorts' && magnetT && magnetT.getAttribute('port-group') === 'inPorts') {
