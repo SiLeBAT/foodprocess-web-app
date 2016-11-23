@@ -1,9 +1,72 @@
 .properties {
-  width: 300px;
-  background-color: $sideBackgroundColor;
-  position: relative;
-  z-index: 100;
-  padding: 30px;
-  border-left: 1px solid $borderColor;
-  box-shadow: -1px 0 4px $shadowColor;
+    width: 350px;
+    background-color: $sideBackgroundColor;
+    position: relative;
+    z-index: 100;
+    border-left: 1px solid $borderColor;
+    box-shadow: -1px 0 4px $shadowColor;
+
+    display: flex;
+    flex-flow: column nowrap;
 }
+
+    .properties-area {
+        padding: 1.5em;
+        flex-grow: 1;
+        flex-shrink: 1;
+        overflow: auto;
+    }
+
+        .property-row {
+            display: flex;
+            flex-flow: row nowrap;
+
+            .property-name {
+                width: 93px;
+                margin-right: 10px;
+                flex-shrink: 0;
+                margin-bottom: 0;
+            }
+
+            .property-input {
+                flex-grow: 1;
+            }
+
+            .property-unit {
+                flex-shrink: 0;
+                height: 2.4375rem;
+                width: 80px;
+            }
+
+            * {
+                margin-bottom: 0.4rem;
+            }
+        }
+
+    .controls-area {
+        padding: 1.5em;
+        flex-grow: 0;
+        flex-shrink: 0;
+        border-top: 1px solid $borderColor;
+
+        .button-row {
+            display: flex;
+            flex-flow: row nowrap;
+
+            .button {
+                flex-shrink: 0;
+
+                &:first-child {
+                    flex-grow: 1;
+                    margin-right: 5px;
+                }
+            }
+        }
+
+        .button {
+            margin-bottom: .4rem;
+            &.last {
+                margin-bottom: 0;
+            }
+        }
+    }

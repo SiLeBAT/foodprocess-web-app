@@ -4,7 +4,7 @@ let joint = require('../../vendor/joint.js');
 
 let menuTemplate = require('../../templates/menu.html');
 
-import {FoodProcessNode, nodeConfig} from '../models/index.jsx';
+import {FoodProcessNode, IngredientsNode, nodeConfig} from '../models/index.jsx';
 
 export let MenuView = Backbone.View.extend({
     template: _.template(menuTemplate),
@@ -51,6 +51,7 @@ export let MenuView = Backbone.View.extend({
         nodes.push(new FoodProcessNode({ x: 0, y: nodeConfig.totalHeight*3}, 2, 1));
         nodes.push(new FoodProcessNode({ x: 0, y: nodeConfig.totalHeight*4}, 1, 2));
         nodes.push(new FoodProcessNode({ x: 0, y: nodeConfig.totalHeight*5}, 2, 2));
+        nodes.push(new IngredientsNode({ x: 0, y: nodeConfig.totalHeight*6}, 0, 1));
         return nodes;
     },
     addDragAndDropListener: function(workspaceGraph, workspaceElement, nodesLibraryPaper) {

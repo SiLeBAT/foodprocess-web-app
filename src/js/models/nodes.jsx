@@ -2,6 +2,11 @@ let joint = require('../../vendor/joint.js');
 let _ = require('lodash');
 let Backbone = require('backbone');
 
+export const nodeTypes = {
+    FOOD_PROCESS: 0,
+    INGREDIENTS: 1
+};
+
 // This class represents a food process node. It creates an instance of the basic node and adds some configuration to it.
 export class FoodProcessNode {
     constructor(position, numberOfInPorts, numberOfOutPorts) {
@@ -20,28 +25,14 @@ export class FoodProcessNode {
         numberOfOutPorts = numberOfOutPorts !== undefined ? numberOfOutPorts : 1;
         // Add the input and output ports
         for (let i = 0; i < numberOfInPorts; i++) {
-            this.addPort('in');
+            this.node.addDefaultPort('in');
         }
         for (let i = 0; i < numberOfOutPorts; i++) {
-            this.addPort('out');
+            this.node.addDefaultPort('out');
         }
         return this.node;
     };
-
-    // Add an input or output port to the node
-    // Use type 'in' for input and 'out' for output
-    addPort(type) {
-        this.node.addPort({
-            id: type + this.node.getPorts().length + 1,
-            group: type + 'Ports'
-        });
-    }
 }
-
-export const nodeTypes = {
-    FOOD_PROCESS: 0,
-    INGREDIENTS: 1
-};
 
 // The properties for a food process
 let FoodProcessProperties = Backbone.Model.extend({
@@ -56,6 +47,32 @@ let FoodProcessProperties = Backbone.Model.extend({
         aw: 0,
         pressure: 0,
         pressureUnit: "bar"
+    }
+});
+
+// This class represents an ingredients node. It creates an instance of the basic node and adds some configuration to it.
+export class IngredientsNode {
+    constructor(position) {
+        // Set the properties of the node
+        this.node = new Node({
+            properties: new IngredientsProperties()
+        });
+        // Add the given position to the default position
+        let newPosition = {
+            x: this.node.position().x + position.x,
+            y: this.node.position().y + position.y
+        };
+        this.node.position(newPosition.x, newPosition.y);
+        this.node.addDefaultPort('out');
+        return this.node;
+    };
+}
+
+// The properties for a food process
+let IngredientsProperties = Backbone.Model.extend({
+    defaults: {
+        type: nodeTypes.INGREDIENTS,
+        ingredients: []
     }
 });
 
@@ -84,7 +101,7 @@ let basicPortGroup = {
             dx: -(nodeConfig.portSize/2),
             dy: -(nodeConfig.portSize/2),
         }
-    },
+    }
 };
 let rightPortGroup = _.cloneDeep(basicPortGroup);
 rightPortGroup.position.name = 'right';
@@ -123,5 +140,29 @@ let Node = joint.shapes.basic.Rect.extend({
             }
         },
         properties: {}
-    }, joint.shapes.devs.Model.prototype.defaults)
+    }, joint.shapes.devs.Model.prototype.defaults),
+
+    // Add an input or output port to the node
+    // Use type 'in' for input and 'out' for output
+    addDefaultPort(type) {
+        let portsOfType = _.filter(this.getPorts(), {group: type + 'Ports'});
+        // Maximal number of ports reached
+        if (portsOfType.length >= 4) {
+            return;
+        }
+        this.addPort({
+            id: type + (portsOfType.length + 1),
+            group: type + 'Ports'
+        });
+    },
+    // Remove the last added input or output port from the node
+    // Use type 'in' for input and 'out' for output
+    removeDefaultPort(type) {
+        let portsOfType = _.filter(this.getPorts(), {group: type + 'Ports'});
+        // Minimal number of ports reached
+        if (portsOfType.length <= 0) {
+            return;
+        }
+        this.removePort(portsOfType[portsOfType.length - 1]);
+    }
 });

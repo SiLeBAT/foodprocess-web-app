@@ -13,6 +13,10 @@ require('../vendor/joint.css');
 require('foundation-sites/dist/foundation.js');
 require('foundation-sites/dist/foundation.css');
 
+// Icon font
+// TODO fonts not working
+require('font-awesome/css/font-awesome.css');
+
 // Stylesheets
 require('../scss/main.scss');
 
@@ -38,15 +42,15 @@ let AppView = Backbone.View.extend({
 
         // Render the menu
         this.menu = new MenuView(workspaceGraph, workspaceElement);
-        this.menu.$el = this.$('#menu');
+        this.menu.setElement(this.$('#menu'));
         this.menu.render();
         // Render the properties
         this.properties = new PropertiesView();
-        this.properties.$el = this.$('#properties');
+        this.properties.setElement(this.$('#properties'));
         this.properties.render();
         // Render the workspace
         this.workspace = new WorkspaceView(workspaceGraph, this.properties);
-        this.workspace.$el = workspaceElement;
+        this.workspace.setElement(workspaceElement);
         this.workspace.render();
     }
 });
