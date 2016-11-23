@@ -101,6 +101,14 @@ joint.shapes.custom.Node = joint.shapes.basic.Rect.extend({
             return;
         }
         this.removePort(portsOfType[portsOfType.length - 1]);
+    },
+    // TODO change text dynamically
+    setName: function(name) {
+        this.attr({
+            '.label': {
+                text: name
+            }
+        });
     }
 });
 

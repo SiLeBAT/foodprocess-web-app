@@ -15,7 +15,7 @@ export let MenuView = Backbone.View.extend({
         this.workspaceElement = workspaceElement;
     },
     render: function() {
-        this.$el.html(this.template({}));
+        this.$el.html(this.template());
         this.renderNodesLibrary();
     },
     renderNodesLibrary: function() {

@@ -1,10 +1,9 @@
 .menu {
-    width: auto;
+    width: 205px;
     float: left;
     background-color: $sideBackgroundColor;
     position: relative;
     z-index: 100;
-    padding: 30px;
     border-right: 1px solid $borderColor;
     box-shadow: 1px 0 4px $shadowColor;
 
@@ -12,26 +11,47 @@
     flex-flow: column nowrap;
 }
 
-    .nodes-library {
-        flex-grow: 1;
-        flex-flow: column nowrap;
-        display: flex;
-        background-color: transparent !important;
-        margin-top: 20px;
+    .settings-area {
+        padding: 1.5rem;
+        border-bottom: 1px solid $borderColor;
 
-        svg {
-            flex-grow: 1;
+        .bfr-logo {
+            width: 100%;
+            margin-bottom: 20px;
+        }
 
-            .node-port {
-                pointer-events: none;
-            }
+        .settings-button {
+            margin-bottom: 10px;
         }
     }
 
-        .flyingNode {
-            position: fixed;
-            z-index: 100;
-            opacity: .7;
-            pointer-events: none;
+    .nodes-area {
+        padding: 1.5rem;
+        flex-grow: 1;
+        flex-flow: column nowrap;
+        display: flex;
+    }
+
+        .nodes-library {
+            height: 100%;
+            flex-grow: 1;
+            display: flex;
+            flex-flow: column nowrap;
             background-color: transparent !important;
+
+            svg {
+                flex-grow: 1;
+
+                .node-port {
+                    pointer-events: none;
+                }
+            }
         }
+
+            .flyingNode {
+                position: fixed;
+                z-index: 100;
+                opacity: .7;
+                pointer-events: none;
+                background-color: transparent !important;
+            }

@@ -49,6 +49,11 @@ export let PropertiesView = Backbone.View.extend({
     setCurrentNode: function(node) {
         this.currentNode = node;
         this.model = node.attributes.properties;
+        let model = this.model;
+        let currentNode = this.currentNode;
+        this.model.on('change:processName', function() {
+            currentNode.setName(model.attributes.processName);
+        });
         this.render();
     },
     // delete the node and clear the menu
