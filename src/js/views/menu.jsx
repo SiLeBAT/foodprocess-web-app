@@ -25,7 +25,7 @@ export let MenuView = Backbone.View.extend({
         let nodesLibraryPaper = new joint.dia.Paper({
             el: this.$(this.nodesLibraryElementId),
             // The size of the paper is equal with the size of a node
-            width: nodeConfig.totalWidth + 'px',
+            width: nodeConfig.totalWidth*2 + nodeConfig.spacing + 'px',
             height: '100%',
             model: nodesLibraryGraph,
             // Configure the library to be not interactive, so the nodes can't be moved
@@ -45,13 +45,11 @@ export let MenuView = Backbone.View.extend({
     // Create the nodes for the library
     createMenuNodes: function() {
         let nodes = [];
-        nodes.push(new FoodProcessNode({ x: 0, y: 0}, 0, 1));
-        nodes.push(new FoodProcessNode({ x: 0, y: nodeConfig.totalHeight}, 1, 0));
-        nodes.push(new FoodProcessNode({ x: 0, y: nodeConfig.totalHeight*2}, 1, 1));
-        nodes.push(new FoodProcessNode({ x: 0, y: nodeConfig.totalHeight*3}, 2, 1));
-        nodes.push(new FoodProcessNode({ x: 0, y: nodeConfig.totalHeight*4}, 1, 2));
-        nodes.push(new FoodProcessNode({ x: 0, y: nodeConfig.totalHeight*5}, 2, 2));
-        nodes.push(new IngredientsNode({ x: 0, y: nodeConfig.totalHeight*6}, 0, 1));
+        nodes.push(new FoodProcessNode({ x: 0, y: 0}, 1, 1));
+        nodes.push(new FoodProcessNode({ x: nodeConfig.totalWidth + nodeConfig.spacing, y: 0}, 2, 1));
+        nodes.push(new FoodProcessNode({ x: 0, y: nodeConfig.totalHeight}, 1, 2));
+        nodes.push(new FoodProcessNode({ x: nodeConfig.totalWidth + nodeConfig.spacing, y: nodeConfig.totalHeight}, 1, 0));
+        nodes.push(new IngredientsNode({ x: 0, y: nodeConfig.totalHeight*2}, 0, 1));
         return nodes;
     },
     addDragAndDropListener: function(workspaceGraph, workspaceElement, nodesLibraryPaper) {

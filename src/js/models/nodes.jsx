@@ -81,7 +81,8 @@ export let nodeConfig = {
     bodyWidth: 60,
     bodyHeight: 60,
     portSize: 12,
-    labelOffset: -15
+    labelOffset: -15,
+    spacing: 10
 };
 nodeConfig.totalWidth = nodeConfig.bodyWidth + nodeConfig.portSize;
 nodeConfig.totalHeight = nodeConfig.bodyHeight - nodeConfig.labelOffset;

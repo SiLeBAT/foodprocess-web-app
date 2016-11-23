@@ -14,7 +14,6 @@ require('foundation-sites/dist/foundation.js');
 require('foundation-sites/dist/foundation.css');
 
 // Icon font
-// TODO fonts not working
 require('font-awesome/css/font-awesome.css');
 
 // Stylesheets
