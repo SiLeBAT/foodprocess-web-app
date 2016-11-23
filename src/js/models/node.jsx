@@ -38,13 +38,14 @@ let basicPortGroup = {
 let rightPortGroup = _.cloneDeep(basicPortGroup);
 rightPortGroup.position.name = 'right';
 
-// The basic node object
-export let Node = joint.shapes.basic.Rect.extend({
+joint.shapes.custom = {};
+joint.shapes.custom.Node = joint.shapes.basic.Rect.extend({
 
-    markup: '<g class="rotatable"><g class="scalable"><rect class="node-body"/></g><text class="label"/></g>',
-    portMarkup: '<rect class="node-port"/>',
+    markup: `<g class="rotatable"><g class="scalable"><rect class="node-body"/></g><text class="label"/></g>`,
+    portMarkup: `<rect class="node-port"/>`,
 
     defaults: _.defaultsDeep({
+        type: 'custom.Node',
         size: {
             width: nodeConfig.bodyWidth,
             height: nodeConfig.bodyHeight
@@ -92,9 +93,66 @@ export let Node = joint.shapes.basic.Rect.extend({
     removeDefaultPort(type) {
         let portsOfType = _.filter(this.getPorts(), {group: type + 'Ports'});
         // Minimal number of ports reached
-        if (portsOfType.length <= 0) {
+        if (type === 'out' && portsOfType.length <= 0) {
+            return;
+        } else if (type === 'in' && portsOfType.length <= 1) {
             return;
         }
         this.removePort(portsOfType[portsOfType.length - 1]);
     }
+});
+
+joint.shapes.custom.NodeView = joint.dia.ElementView.extend({
+    init: function() {
+        this.template = this.createTemplate(this.model.attributes.properties.attributes.icon, this.model.attributes.properties.attributes.cssClasses || '');
+
+        // Update the box position whenever the underlying model changes.
+        this.listenTo(this.model, 'change', this.updateBox);
+    },
+
+    createTemplate: function(icon, cssClasses) {
+        return '<div class="node-content ' + cssClasses + '"><i class="fa fa-' + icon + ' fa-2x" aria-hidden="true"></i></div>';
+    },
+
+    onRender: function() {
+
+        if (this.$box) this.$box.remove();
+
+        let boxMarkup = joint.util.template(this.template)();
+        let $box = this.$box = $(boxMarkup);
+
+        // Update the box size and position whenever the paper transformation changes.
+        this.listenTo(this.paper, 'scale', this.updateBox);
+
+        $box.appendTo(this.paper.el);
+        this.updateBox();
+
+        return this;
+    },
+
+    updateBox: function() {
+
+        // Set the position and the size of the box so that it covers the JointJS element
+        // (taking the paper transformations into account).
+        let bbox = this.getBBox({ useModelGeometry: true });
+        // let scale = V(this.paper.viewport).scale();
+        let scale = {
+            sx: 1,
+            sy: 1
+        };
+        this.$box.css({
+            transform: 'scale(' + scale.sx + ',' + scale.sy + ')',
+            transformOrigin: '0 0',
+            width: bbox.width / scale.sx,
+            height: bbox.height / scale.sy,
+            left: bbox.x,
+            top: bbox.y
+        });
+    },
+
+    onRemove: function() {
+
+        this.$box.remove();
+    }
+
 });

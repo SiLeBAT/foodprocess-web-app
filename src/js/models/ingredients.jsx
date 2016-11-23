@@ -2,13 +2,13 @@ let joint = require('../../vendor/joint.js');
 let _ = require('lodash');
 let Backbone = require('backbone');
 
-import { Node, nodeTypes } from './index.jsx';
+import { nodeTypes } from './index.jsx';
 
 // This class represents an ingredients node. It creates an instance of the basic node and adds some configuration to it.
 export class IngredientsNode {
     constructor(position) {
         // Set the properties of the node
-        this.node = new Node({
+        this.node = new joint.shapes.custom.Node({
             properties: new IngredientsProperties()
         });
         // Add the given position to the default position
@@ -26,6 +26,8 @@ export class IngredientsNode {
 let IngredientsProperties = Backbone.Model.extend({
     defaults: {
         type: nodeTypes.INGREDIENTS,
+        icon: 'cutlery',
+        cssClasses: 'ingredients',
         ingredients: []
     }
 });

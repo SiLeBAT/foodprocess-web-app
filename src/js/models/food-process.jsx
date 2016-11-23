@@ -2,13 +2,13 @@ let joint = require('../../vendor/joint.js');
 let _ = require('lodash');
 let Backbone = require('backbone');
 
-import { Node, nodeTypes } from './index.jsx';
+import { nodeTypes } from './index.jsx';
 
 // This class represents a food process node. It creates an instance of the basic node and adds some configuration to it.
 export class FoodProcessNode {
     constructor(position, numberOfInPorts, numberOfOutPorts) {
         // Set the properties of the node
-        this.node = new Node({
+        this.node = new joint.shapes.custom.Node({
             properties: new FoodProcessProperties()
         });
         // Add the given position to the default position
@@ -35,6 +35,8 @@ export class FoodProcessNode {
 let FoodProcessProperties = Backbone.Model.extend({
     defaults: {
         type: nodeTypes.FOOD_PROCESS,
+        icon: 'random',
+        cssClasses: 'food-process',
         processName: "",
         duration: 0,
         durationUnit: "min",

@@ -3,16 +3,18 @@ $black: black;
 $lighterGray: #f6f6f6;
 $lightGray: #eee;
 $gray: #ccc;
-$darkGray: #3f3f3f;
+$darkGray: #696969;
+$darkerGray: #3f3f3f;
 
 $backgroundColor: $white;
-$textColor: $darkGray;
+$textColor: $darkerGray;
 $sideBackgroundColor: $lightGray;
 
 $borderColor: $gray;
 $shadowColor: $gray;
 
-$nodeBorderColor: $darkGray;
+$nodeBorderColor: $darkerGray;
 $nodeBackgroundColor: $lighterGray;
+$nodeContentColor: $darkGray;
 $nodePortColor: $gray;
 $nodePortHoverColor: $black;

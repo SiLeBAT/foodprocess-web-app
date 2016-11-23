@@ -9,6 +9,23 @@
         fill: $nodeBackgroundColor;
     }
 
+        .node-content {
+            position: absolute;
+            background: transparent;
+            pointer-events: none;
+            user-select: none;
+            padding: 15px;
+            box-sizing: border-box;
+            color: $nodeContentColor;
+
+            &.food-process {
+                padding-left: 14px;
+            }
+            &.ingredients {
+                padding-left: 17px;
+            }
+        }
+
     .node-port {
         stroke: none;
         fill: $nodePortColor;
