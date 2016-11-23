@@ -35,7 +35,9 @@ export class FoodProcessNode {
 let FoodProcessProperties = Backbone.Model.extend({
     defaults: {
         type: nodeTypes.FOOD_PROCESS,
+        // font-awesome icon
         icon: 'random',
+        // optional additional css class for the node content
         cssClasses: 'food-process',
         processName: "",
         duration: 0,

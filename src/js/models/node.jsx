@@ -2,6 +2,7 @@ let joint = require('../../vendor/joint.js');
 let _ = require('lodash');
 let Backbone = require('backbone');
 
+// Possible types of nodes
 export const nodeTypes = {
     FOOD_PROCESS: 0,
     INGREDIENTS: 1
@@ -38,6 +39,7 @@ let basicPortGroup = {
 let rightPortGroup = _.cloneDeep(basicPortGroup);
 rightPortGroup.position.name = 'right';
 
+// Basic node object
 joint.shapes.custom = {};
 joint.shapes.custom.Node = joint.shapes.basic.Rect.extend({
 
@@ -102,6 +104,7 @@ joint.shapes.custom.Node = joint.shapes.basic.Rect.extend({
     }
 });
 
+// The NodeView creates a HTML element wich follows the node and displays the node icon.
 joint.shapes.custom.NodeView = joint.dia.ElementView.extend({
     init: function() {
         this.template = this.createTemplate(this.model.attributes.properties.attributes.icon, this.model.attributes.properties.attributes.cssClasses || '');

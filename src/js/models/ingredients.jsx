@@ -26,7 +26,9 @@ export class IngredientsNode {
 let IngredientsProperties = Backbone.Model.extend({
     defaults: {
         type: nodeTypes.INGREDIENTS,
+        // font-awesome icon
         icon: 'cutlery',
+        // optional additional css class for the node content
         cssClasses: 'ingredients',
         ingredients: []
     }
