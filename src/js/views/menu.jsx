@@ -31,7 +31,7 @@ export let MenuView = Backbone.View.extend({
         processName: '',
         author: '',
         created: '',
-        lastChange: '',
+        lastChanged: '',
         additionalMetadata: []
     }),
     initialize: function(workspaceGraph, workspaceElement) {
@@ -44,7 +44,7 @@ export let MenuView = Backbone.View.extend({
         this.renderNodesLibrary();
         this.stickit();
 
-        // Render the settings
+        // Render the settings modal
         this.settings = new SettingsView(this.model, this.workspaceGraph, this.$el.find('#processNameInput'), this.$el.find('#authorInput'));
         this.settings.setElement(this.$('#settings'));
         this.settings.render();

@@ -1,6 +1,7 @@
 let $ = require('jquery');
 let joint = require('../../vendor/joint.js');
 let Backbone = require('backbone');
+let moment = require('moment');
 
 let settingsTemplate = require('../../templates/settings.html');
 
@@ -10,8 +11,13 @@ export let SettingsView = Backbone.View.extend({
     bindings: {
         '#settingsProcessNameInput': 'processName',
         '#settingsAuthorInput': 'author',
-        '#settingsCreated': 'created',
-        '#settingsLastChange': 'lastChange',
+        '#settingsCreated': {
+            observe: 'created',
+            // onGet: function() {
+            //     return 'hello';
+            // }
+        },
+        '#settingsLastChange': 'lastChanged',
     },
     initialize: function(model, workspaceGraph, processNameInput, authorInput) {
         this.model = model;
@@ -21,12 +27,12 @@ export let SettingsView = Backbone.View.extend({
 
         // Set the dates of creation and last change
         this.model.set('created', new Date());
-        this.model.set('lastChange', new Date());
+        this.model.set('lastChanged', new Date());
 
         // Listen to changes and update the date of the last change
         let self = this;
         this.workspaceGraph.on('add remove change', function() {
-            self.model.set('lastChange', new Date());
+            self.model.set('lastChanged', new Date());
         });
     },
     render: function() {

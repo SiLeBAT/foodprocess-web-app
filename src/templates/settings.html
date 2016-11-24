@@ -3,16 +3,23 @@
     <button class="close-button" data-close aria-label="Close modal" type="button">
         <i class="fa fa-times" aria-hidden="true"></i>
     </button>
+    <br>
     <form data-abide novalidate>
-        <label>Process Name
-            <input type="text" id="settingsProcessNameInput" placeholder="" aria-describedby="name" required>
-        </label>
-        <label>Author
-            <input type="text" id="settingsAuthorInput" placeholder="" aria-describedby="duration" required>
-        </label>
-        <span>Created: </span>
-        <span id="settingsCreated"></span>
-        <span>Last change: </span>
-        <span id="settingsLastChange"></span>
+        <div class="settings-row">
+            <label class="middle settings-key">Process Name</label>
+            <input type="text" class="settings-value" id="settingsProcessNameInput" placeholder="" aria-describedby="process name" required>
+        </div>
+        <div class="settings-row">
+            <label class="middle settings-key">Author</label>
+            <input type="text" class="settings-value" id="settingsAuthorInput" placeholder="" aria-describedby="author" required>
+        </div>
+        <div class="settings-row">
+            <label class="middle settings-key">Created: </label>
+            <span class="settings-value bold" id="settingsCreated"></span>
+        </div>
+        <div class="settings-row">
+            <label class="middle settings-key">Last changed: </label>
+            <span class="settings-value bold" id="settingsLastChange"></span>
+        </div>
     </form>
 </div>

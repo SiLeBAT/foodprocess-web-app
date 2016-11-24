@@ -4,3 +4,23 @@
         font-size: 1.3em;
     }
 }
+
+    .settings-row {
+        display: flex;
+        flex-flow: row nowrap;
+
+        .settings-key {
+            width: 120px;
+            margin-right: 10px;
+            flex-shrink: 0;
+            margin-bottom: 0;
+        }
+
+        .settings-value {
+            flex-grow: 1;
+
+            &.bold {
+                font-weight: bold;
+            }
+        }
+    }
