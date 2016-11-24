@@ -115,7 +115,7 @@ joint.shapes.custom.Node = joint.shapes.basic.Rect.extend({
 // The NodeView creates a HTML element wich follows the node and displays the node icon.
 joint.shapes.custom.NodeView = joint.dia.ElementView.extend({
     init: function() {
-        this.template = this.createTemplate(this.model.attributes.properties.attributes.icon, this.model.attributes.properties.attributes.cssClasses || '');
+        this.template = this.createTemplate(this.model.get('properties').get('icon'), this.model.get('properties').get('cssClasses') || '');
 
         // Update the box position whenever the underlying model changes.
         this.listenTo(this.model, 'change', this.updateBox);

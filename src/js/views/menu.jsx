@@ -5,19 +5,20 @@ let Backbone = require('backbone');
 let menuTemplate = require('../../templates/menu.html');
 
 import {FoodProcessNode, IngredientsNode, nodeConfig} from '../models/index.jsx';
+import {SettingsView} from './index.jsx';
 
 export let MenuView = Backbone.View.extend({
     template: menuTemplate,
     // Render the nodes library in the element with the given selector
     nodesLibraryElementId: 'nodes-library',
-    // The id of the settings modal
-    settingsModalId: 'settingsModoal',
     // Bind the content of the input fields to the model
     bindings: {
         '#processNameInput': 'processName',
         '#authorInput': 'author',
         '#settingsProcessNameInput': 'processName',
         '#settingsAuthorInput': 'author',
+        '#settingsCreated': 'created',
+        '#settingsLastChange': 'lastChange',
     },
     // Bind events to appropriate functions
     events: {
@@ -29,8 +30,8 @@ export let MenuView = Backbone.View.extend({
     model: new Backbone.Model({
         processName: '',
         author: '',
-        dateOfCreation: '',
-        dateOfLastChange: '',
+        created: '',
+        lastChange: '',
         additionalMetadata: []
     }),
     initialize: function(workspaceGraph, workspaceElement) {
@@ -38,11 +39,15 @@ export let MenuView = Backbone.View.extend({
         this.workspaceElement = workspaceElement;
     },
     render: function() {
-        this.workspaceGraph.attributes.meta = this.model;
+        this.workspaceGraph.set('meta', this.model);
         this.$el.html(this.template);
         this.renderNodesLibrary();
         this.stickit();
-        this.createListenerForSettingSynchronisation();
+
+        // Render the settings
+        this.settings = new SettingsView(this.model, this.workspaceGraph, this.$el.find('#processNameInput'), this.$el.find('#authorInput'));
+        this.settings.setElement(this.$('#settings'));
+        this.settings.render();
     },
     renderNodesLibrary: function() {
         // Create a graph to hold the nodes of the library
@@ -138,7 +143,7 @@ export let MenuView = Backbone.View.extend({
                     let newNode = flyingNodeShape.clone();
                     // Clone the properties separately to generate a unique id
                     newNode.set({
-                        properties: newNode.attributes.properties.clone()
+                        properties: newNode.get('properties').clone()
                     });
                     newNode.position(posX - target.left - offset.x + nodeConfig.portSize/2, posY - target.top - offset.y);
                     // Add the node to the main workspace
@@ -149,17 +154,6 @@ export let MenuView = Backbone.View.extend({
                 flyingNodeShape.remove();
                 flyingNodeElement.remove();
             });
-        });
-    },
-    // Create additional listeners to synchronize the settings that are displayed twice (processName and author)
-    createListenerForSettingSynchronisation: function() {
-        let self = this;
-        // Update the input field in the menu if the input field in the settings changes
-        this.$el.find('#settingsProcessNameInput').on('propertychange change click keyup input paste', function() {
-            self.$el.find('#processNameInput').val($(this).val());
-        });
-        this.$el.find('#settingsAuthorInput').on('propertychange change click keyup input paste', function() {
-            self.$el.find('#authorInput').val($(this).val());
         });
     },
     sendToAPI: function() {

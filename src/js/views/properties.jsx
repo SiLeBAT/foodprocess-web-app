@@ -48,16 +48,15 @@ export let PropertiesView = Backbone.View.extend({
     // Set the selected node and rerender the menu
     setCurrentNode: function(nodeView) {
         // Unregister change listener from current node
-        console.log(this.model);
         this.model && this.model.off('change:processName');
         this.currentNode = nodeView.model;
-        this.model = this.currentNode.attributes.properties;
+        this.model = this.currentNode.get('properties');
         let model = this.model;
         let currentNode = this.currentNode;
         // Register change listener to update the model and label of the node
         this.model.on('change:processName', function() {
-            currentNode.setName(model.attributes.processName);
-            $(nodeView.el).find('.label').text(model.attributes.processName);
+            currentNode.setName(model.get('processName'));
+            $(nodeView.el).find('.label').text(model.get('processName'));
         });
         this.render();
     },
