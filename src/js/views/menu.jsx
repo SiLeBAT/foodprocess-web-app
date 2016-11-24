@@ -85,31 +85,41 @@ export let MenuView = Backbone.View.extend({
             });
 
             // Move the flying node with the movement of the mouse
-            rootElement.on('mousemove.fly', function(event) {
+            rootElement.on('mousemove.fly touchmove.fly', function(event) {
+                let posX = event.pageX;
+                let posY = event.pageY;
+                if (event.type === 'touchmove') {
+                    posX = event.originalEvent.touches[0].pageX;
+                    posY = event.originalEvent.touches[0].pageY;
+                }
                 flyingNodeElement.offset({
-                    left: event.pageX - offset.x,
-                    top: event.pageY - offset.y
+                    left: posX - offset.x,
+                    top: posY - offset.y
                 });
             });
             // Listen for the drop
-            rootElement.on('mouseup.fly', function(event) {
-                let x = event.pageX;
-                let y = event.pageY;
+            rootElement.on('mouseup.fly touchend.fly', function(event) {
+                let posX = event.pageX;
+                let posY = event.pageY;
+                if (event.type === 'touchend') {
+                    posX = event.originalEvent.changedTouches[0].pageX;
+                    posY = event.originalEvent.changedTouches[0].pageY;
+                }
                 let target = workspaceElement.offset();
 
                 // Dropped over paper ?
-                if (x > target.left && x < target.left + workspaceElement.width() && y > target.top && y < target.top + workspaceElement.height()) {
+                if (posX > target.left && posX < target.left + workspaceElement.width() && posY > target.top && posY < target.top + workspaceElement.height()) {
                     let newNode = flyingNodeShape.clone();
                     // Clone the properties separately to generate a unique id
                     newNode.set({
                         properties: newNode.attributes.properties.clone()
                     });
-                    newNode.position(x - target.left - offset.x + nodeConfig.portSize/2, y - target.top - offset.y);
+                    newNode.position(posX - target.left - offset.x + nodeConfig.portSize/2, posY - target.top - offset.y);
                     // Add the node to the main workspace
                     workspaceGraph.addCell(newNode);
                 }
                 // cleanup
-                rootElement.off('mousemove.fly').off('mouseup.fly');
+                rootElement.off('mousemove.fly touchmove.fly').off('mouseup.fly touchend.fly');
                 flyingNodeShape.remove();
                 flyingNodeElement.remove();
             });
