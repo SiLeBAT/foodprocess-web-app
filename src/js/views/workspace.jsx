@@ -47,9 +47,9 @@ export let WorkspaceView = Backbone.View.extend({
         });
 
         // Listen for clicks on a node
-        workspace.on('cell:pointerclick', function(cellView, event) {
+        workspace.on('cell:pointerdown', function(cellView) {
             // Update the model of the properties view to the model of the selected node
-            propertiesView.setCurrentNode(cellView.model);
+            propertiesView.setCurrentNode(cellView);
         });
     }
 });

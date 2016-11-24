@@ -9,6 +9,7 @@
 
     display: flex;
     flex-flow: column nowrap;
+    overflow: auto;
 }
 
     .settings-area {
@@ -28,20 +29,15 @@
     .nodes-area {
         padding: 1.5rem;
         flex-grow: 1;
-        flex-flow: column nowrap;
-        display: flex;
+        overflow: auto;
+        min-height: 80px;
     }
 
         .nodes-library {
             height: 100%;
-            flex-grow: 1;
-            display: flex;
-            flex-flow: column nowrap;
             background-color: transparent !important;
 
             svg {
-                flex-grow: 1;
-
                 .node-port {
                     pointer-events: none;
                 }

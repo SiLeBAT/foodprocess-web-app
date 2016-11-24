@@ -4,6 +4,8 @@
     flex-flow: row nowrap;
     align-items: stretch;
     height: 100vh;
+    overflow-x: auto;
+    overflow-y: hidden;
 }
 
     .app-menu {

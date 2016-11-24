@@ -51,6 +51,19 @@ let AppView = Backbone.View.extend({
         this.workspace = new WorkspaceView(workspaceGraph, this.properties);
         this.workspace.setElement(workspaceElement);
         this.workspace.render();
+
+        this.addKeydownListener();
+    },
+    // Listen for keydown events
+    addKeydownListener: function() {
+        let self = this;
+        $(document).keydown(function(event) {
+            // 46 = DEL, 8 = BACKSPACE
+            if (event.keyCode === 46 || event.keyCode === 8) {
+                // Delete currently selected node
+                self.properties.deleteCurrentNode();
+            }
+        });
     }
 });
 

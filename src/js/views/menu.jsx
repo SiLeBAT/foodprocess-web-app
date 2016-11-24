@@ -26,7 +26,7 @@ export let MenuView = Backbone.View.extend({
             el: this.$(this.nodesLibraryElementId),
             // The size of the paper is equal with the size of a node
             width: nodeConfig.totalWidth*2 + nodeConfig.spacing + 'px',
-            height: '100%',
+            height: nodeConfig.totalHeight*3 + 'px',
             model: nodesLibraryGraph,
             // Configure the library to be not interactive, so the nodes can't be moved
             interactive: false,
