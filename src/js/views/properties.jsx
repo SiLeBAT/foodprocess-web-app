@@ -10,24 +10,24 @@ export let PropertiesView = Backbone.View.extend({
     foodProcessTemplate: foodProcessPropertiesTemplate,
     ingredientsTemplate: ingredientsPropertiesTemplate,
     emptyTemplate: emptyPropertiesTemplate,
+    defaultModel: new Backbone.Model(),
     // Bind the content of the input fields to the model of the node
     bindings: {
-        '#processName': 'processName',
-        '#duration': 'duration',
-        '#temperature': 'temperature',
-        '#pH': 'pH',
-        '#aw': 'aw',
-        '#pressure': 'pressure',
+        '#nameInput': 'processName',
+        '#durationInput': 'duration',
+        '#temperatureInput': 'temperature',
+        '#pHInput': 'pH',
+        '#awInput': 'aw',
+        '#pressureInput': 'pressure',
     },
-    // Bind the the click events of the buttons to the appropriate functions
+    // Bind events to appropriate functions
     events: {
-        'click #deleteNode': 'deleteNode',
-        'click #addInPort': 'addInPort',
-        'click #addOutPort': 'addOutPort',
-        'click #removeInPort': 'removeInPort',
-        'click #removeOutPort': 'removeOutPort'
+        'click #deleteNodeButton': 'deleteCurrentNode',
+        'click #addInPortButton': 'addInPort',
+        'click #addOutPortButton': 'addOutPort',
+        'click #removeInPortButton': 'removeInPort',
+        'click #removeOutPortButton': 'removeOutPort',
     },
-    defaultModel: new Backbone.Model(),
     initialize: function() {
         this.model = this.model || this.defaultModel;
     },
@@ -46,19 +46,28 @@ export let PropertiesView = Backbone.View.extend({
         this.stickit();
     },
     // Set the selected node and rerender the menu
-    setCurrentNode: function(node) {
-        this.currentNode = node;
-        this.model = node.attributes.properties;
+    setCurrentNode: function(nodeView) {
+        // Unregister change listener from current node
+        console.log(this.model);
+        this.model && this.model.off('change:processName');
+        this.currentNode = nodeView.model;
+        this.model = this.currentNode.attributes.properties;
         let model = this.model;
         let currentNode = this.currentNode;
+        // Register change listener to update the model and label of the node
         this.model.on('change:processName', function() {
             currentNode.setName(model.attributes.processName);
+            $(nodeView.el).find('.label').text(model.attributes.processName);
         });
         this.render();
     },
     // delete the node and clear the menu
-    deleteNode: function(){
-        this.currentNode && this.currentNode.remove();
+    deleteCurrentNode: function() {
+        if (!this.currentNode) {
+            return;
+        }
+        this.currentNode.remove();
+        delete this.currentNode;
         this.model = this.defaultModel;
         this.render();
     },

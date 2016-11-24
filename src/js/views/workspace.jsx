@@ -48,6 +48,10 @@ export let WorkspaceView = Backbone.View.extend({
 
         // Listen for clicks on a node
         workspace.on('cell:pointerdown', function(cellView) {
+            // Check if cell is a port or node
+            if (!cellView.model.hasPorts ||!cellView.model.hasPorts()) {
+                return;
+            }
             // Update the model of the properties view to the model of the selected node
             propertiesView.setCurrentNode(cellView);
         });

@@ -1,14 +1,14 @@
 <div class="settings-area">
     <img class="bfr-logo" src="../img/bfr-logo.png">
-    <button type="button" id="settings" class="button expanded settings-button" title="Open settings">
+    <button type="button" id="settingsButton" data-open="settings" class="button expanded settings-button" title="Open settings">
         <i class="fa fa-cog" aria-hidden="true"></i> Settings
     </button>
     <form data-abide novalidate>
-        <label>Name
-            <input type="text" id="name" placeholder="" aria-describedby="name" required>
+        <label>Process Name
+            <input type="text" id="processNameInput" placeholder="" aria-describedby="name" required>
         </label>
         <label>Author
-            <input type="text" id="author" placeholder="" aria-describedby="duration" required>
+            <input type="text" id="authorInput" placeholder="" aria-describedby="duration" required>
         </label>
     </form>
 </div>
@@ -16,7 +16,23 @@
     <div id="nodes-library" class="nodes-library"></div>
 </div>
 <div class="controls-area">
-    <button type="button" id="sendToAPI" class="button expanded" title="Send the model to the API">Send to API</button>
-    <button type="button" id="save" class="button secondary expanded" title="Save the model">Save</button>
-    <button type="button" id="load" class="button secondary expanded last" title="Load a model from file">Load</button>
+    <button type="button" id="sendToAPIButton" class="button expanded" title="Send the model to the API">Send to API</button>
+    <button type="button" id="saveButton" class="button secondary expanded" title="Save the model">Save</button>
+    <button type="button" id="loadButton" class="button secondary expanded last" title="Load a model from file">Load</button>
+</div>
+
+<!--Settings-->
+<div class="reveal settings" id="settings" data-reveal>
+    <h4>Settings</h4>
+    <button class="close-button" data-close aria-label="Close modal" type="button">
+        <i class="fa fa-times" aria-hidden="true"></i>
+    </button>
+    <form data-abide novalidate>
+        <label>Process Name
+            <input type="text" id="settingsProcessNameInput" placeholder="" aria-describedby="name" required>
+        </label>
+        <label>Author
+            <input type="text" id="settingsAuthorInput" placeholder="" aria-describedby="duration" required>
+        </label>
+    </form>
 </div>

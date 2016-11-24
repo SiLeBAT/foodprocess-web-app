@@ -1,29 +1,55 @@
 let $ = require('jquery');
-let _ = require('lodash');
 let joint = require('../../vendor/joint.js');
+let Backbone = require('backbone');
 
 let menuTemplate = require('../../templates/menu.html');
 
 import {FoodProcessNode, IngredientsNode, nodeConfig} from '../models/index.jsx';
 
 export let MenuView = Backbone.View.extend({
-    template: _.template(menuTemplate),
+    template: menuTemplate,
     // Render the nodes library in the element with the given selector
-    nodesLibraryElementId: '#nodes-library',
+    nodesLibraryElementId: 'nodes-library',
+    // The id of the settings modal
+    settingsModalId: 'settingsModoal',
+    // Bind the content of the input fields to the model
+    bindings: {
+        '#processNameInput': 'processName',
+        '#authorInput': 'author',
+        '#settingsProcessNameInput': 'processName',
+        '#settingsAuthorInput': 'author',
+    },
+    // Bind events to appropriate functions
+    events: {
+        'click #sendToAPIButton': 'sendToAPI',
+        'click #saveButton': 'saveModel',
+        'click #loadButton': 'loadModel',
+    },
+    // The model for all metadata
+    model: new Backbone.Model({
+        processName: '',
+        author: '',
+        dateOfCreation: '',
+        dateOfLastChange: '',
+        additionalMetadata: []
+    }),
     initialize: function(workspaceGraph, workspaceElement) {
         this.workspaceGraph = workspaceGraph;
         this.workspaceElement = workspaceElement;
     },
     render: function() {
-        this.$el.html(this.template());
+        this.workspaceGraph.attributes.meta = this.model;
+        this.$el.html(this.template);
         this.renderNodesLibrary();
+        this.stickit();
+        this.createListenerForSettingSynchronisation();
     },
     renderNodesLibrary: function() {
         // Create a graph to hold the nodes of the library
         let nodesLibraryGraph = new joint.dia.Graph;
         // Create a paper to display the nodes of the library
         let nodesLibraryPaper = new joint.dia.Paper({
-            el: this.$(this.nodesLibraryElementId),
+            el: this.$('#' + this.nodesLibraryElementId),
             // The size of the paper is equal with the size of a node
             width: nodeConfig.totalWidth*2 + nodeConfig.spacing + 'px',
             height: nodeConfig.totalHeight*3 + 'px',
@@ -125,4 +151,26 @@ export let MenuView = Backbone.View.extend({
             });
         });
     },
+    // Create additional listeners to synchronize the settings that are displayed twice (processName and author)
+    createListenerForSettingSynchronisation: function() {
+        let self = this;
+        // Update the input field in the menu if the input field in the settings changes
+        this.$el.find('#settingsProcessNameInput').on('propertychange change click keyup input paste', function() {
+            self.$el.find('#processNameInput').val($(this).val());
+        });
+        this.$el.find('#settingsAuthorInput').on('propertychange change click keyup input paste', function() {
+            self.$el.find('#authorInput').val($(this).val());
+        });
+    },
+    sendToAPI: function() {
+        console.log(this.workspaceGraph);
+        console.log(this.workspaceGraph.toJSON());
+        console.log(JSON.stringify(this.workspaceGraph.toJSON()));
+    },
+    saveModel: function() {
+        // TODO
+    },
+    loadModel: function() {
+        // TODO
+    }
 });

@@ -2,12 +2,12 @@
     <h4>Properties</h4>
     <form data-abide novalidate>
         <div class="property-row">
-            <label for="processName" class="middle property-name">Process Name</label>
-            <input type="text" id="processName" placeholder="" aria-describedby="process name" required>
+            <label for="nameInput" class="middle property-name">Name</label>
+            <input type="text" id="nameInput" placeholder="" aria-describedby="process name" required>
         </div>
         <div class="property-row">
-            <label for="duration" class="middle property-name">Duration</label>
-            <input type="number" id="duration" placeholder="" aria-describedby="duration" required>
+            <label for="durationInput" class="middle property-name">Duration</label>
+            <input type="number" id="durationInput" placeholder="" aria-describedby="duration" required>
             <button class="button dropdown property-unit" type="button">min</button>
         </div>
     </form>
@@ -15,21 +15,21 @@
     <h4>Process Parameters</h4>
     <form data-abide novalidate>
         <div class="property-row">
-            <label for="temperature" class="middle property-name">Temperature</label>
-            <input type="number" id="temperature" placeholder="" aria-describedby="temperature" required>
+            <label for="temperatureInput" class="middle property-name">Temperature</label>
+            <input type="number" id="temperatureInput" placeholder="" aria-describedby="temperature" required>
             <button class="button dropdown property-unit" type="button">°C</button>
         </div>
         <div class="property-row">
-            <label for="pH" class="middle property-name">pH</label>
-            <input type="number" id="pH" placeholder="" aria-describedby="pH" required>
+            <label for="pHInput" class="middle property-name">pH</label>
+            <input type="number" id="pHInput" placeholder="" aria-describedby="pH" required>
         </div>
         <div class="property-row">
-            <label for="aw" class="middle property-name">aw</label>
-            <input type="number" id="aw" placeholder="" aria-describedby="aw" required>
+            <label for="awInput" class="middle property-name">aw</label>
+            <input type="number" id="awInput" placeholder="" aria-describedby="aw" required>
         </div>
         <div class="property-row">
-            <label for="pressure" class="middle property-name">Pressure</label>
-            <input type="number" id="pressure" placeholder="" aria-describedby="pressure" required>
+            <label for="pressureInput" class="middle property-name">Pressure</label>
+            <input type="number" id="pressureInput" placeholder="" aria-describedby="pressure" required>
             <button class="button dropdown property-unit" type="button">bar</button>
         </div>
     </form>
@@ -37,16 +37,16 @@
 
 <div class="controls-area">
     <div class="button-row expanded">
-        <button type="button" id="addInPort" class="button" title="Add an input port to the FoodProcess">Add InPort</button>
-        <button type="button" id="removeInPort" class="secondary button" title="Remove an input port from the FoodProcess">
+        <button type="button" id="addInPortButton" class="button" title="Add an input port to the FoodProcess">Add InPort</button>
+        <button type="button" id="removeInPortButton" class="secondary button" title="Remove an input port from the FoodProcess">
             <i class="fa fa-times" aria-hidden="true"></i>
         </button>
     </div>
     <div class="button-row expanded">
-        <button type="button" id="addOutPort" class="button" title="Add an output port to the FoodProcess">Add OutPort</button>
-        <button type="button" id="removeOutPort" class="secondary button" title="Remove an output port from the FoodProcess">
+        <button type="button" id="addOutPortButton" class="button" title="Add an output port to the FoodProcess">Add OutPort</button>
+        <button type="button" id="removeOutPortButton" class="secondary button" title="Remove an output port from the FoodProcess">
             <i class="fa fa-times" aria-hidden="true"></i>
         </button>
     </div>
-    <button type="button" id="deleteNode" class="alert button expanded last" title="Delete the selected FoodProcess">Delete Node</button>
+    <button type="button" id="deleteNodeButton" class="alert button expanded last" title="Delete the selected FoodProcess">Delete Node</button>
 </div>

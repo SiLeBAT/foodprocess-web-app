@@ -30,6 +30,7 @@ let AppView = Backbone.View.extend({
     template: _.template(appTemplate),
     initialize: function() {
         this.render();
+        $(document).foundation();
     },
     render: function() {
         this.$el.html(this.template({}));
