@@ -52,7 +52,6 @@ export let SettingsView = Backbone.View.extend({
     },
     render: function() {
         this.$el.html(this.template({model: this.model}));
-        // this.$el.find('#settingsModal').foundation('open');
         if (!this.listenerAdded) {
             this.addMetadataListener();
             this.createListenerForSettingSynchronisation();
@@ -96,7 +95,7 @@ export let SettingsView = Backbone.View.extend({
             // Scroll to bottom if the settings view is higher than the viewport
             self.$el.scrollTop(self.$el.children(':first').height());
         });
-        // Update last changed when settings will be closed
+        // Update last changed when settings are closed
         this.$el.find('#settingsModal').on('closed.zf.reveal', function() {
             self.updateLastChanged();
         });
