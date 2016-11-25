@@ -41,7 +41,13 @@ export let SettingsView = Backbone.View.extend({
         // Listen to changes and update the date of the last change
         let self = this;
         this.workspaceGraph.on('add remove change', function() {
-            self.model.set('lastChanged', new Date());
+            self.updateLastChanged();
+        });
+        this.model.on('change', function() {
+            if (self.model.changedAttributes().hasOwnProperty('lastChanged')) {
+                return;
+            }
+            self.updateLastChanged();
         });
     },
     render: function() {
@@ -69,6 +75,9 @@ export let SettingsView = Backbone.View.extend({
     formatDate: function(date) {
         return moment(date).format('DD.MM.YYYY HH:mm');
     },
+    updateLastChanged: function() {
+        this.model.set('lastChanged', new Date());
+    },
     // Add a key value pair to the metadata
     addMetadataListener: function() {
         let self = this;
@@ -86,6 +95,10 @@ export let SettingsView = Backbone.View.extend({
             self.addBindings();
             // Scroll to bottom if the settings view is higher than the viewport
             self.$el.scrollTop(self.$el.children(':first').height());
+        });
+        // Update last changed when settings will be closed
+        this.$el.find('#settingsModal').on('closed.zf.reveal', function() {
+            self.updateLastChanged();
         });
     },
     // Add bindings for all metadata inputs for data synchronization
