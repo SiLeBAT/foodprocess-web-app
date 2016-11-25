@@ -64,8 +64,7 @@ joint.shapes.custom.Node = joint.shapes.basic.Rect.extend({
             },
             '.node-body': {
                 'ref-width': '100%',
-                'ref-height': '100%',
-                'shape-rendering': 'crispEdges'
+                'ref-height': '100%'
             }
         },
         ports: {
@@ -102,7 +101,6 @@ joint.shapes.custom.Node = joint.shapes.basic.Rect.extend({
         }
         this.removePort(portsOfType[portsOfType.length - 1]);
     },
-    // TODO change text dynamically
     setName: function(name) {
         this.attr({
             '.label': {

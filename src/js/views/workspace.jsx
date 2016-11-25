@@ -15,9 +15,12 @@ export let WorkspaceView = Backbone.View.extend({
             width: '100%',
             height: '100%',
             model: workspaceGraph,
-            // TODO style link
             defaultLink: new joint.dia.Link({
-                attrs: {
+                router: {
+                    name: 'manhattan'
+                },
+                connector: {
+                    name: 'normal'
                 }
             }),
             // Remove links without target
@@ -43,17 +46,23 @@ export let WorkspaceView = Backbone.View.extend({
                 }
                 // Prevent linking from output ports to input ports within one element.
                 return cellViewS !== cellViewT;
+            },
+            interactive: function(cellView) {
+                if (cellView.model instanceof joint.dia.Link) {
+                    // Disable the default vertex add functionality on pointerdown.
+                    return { vertexAdd: false };
+                }
+                return true;
             }
         });
 
         // Listen for clicks on a node
         workspace.on('cell:pointerdown', function(cellView) {
-            // Check if cell is a port or node
-            if (!cellView.model.hasPorts ||!cellView.model.hasPorts()) {
-                return;
+            // Check if cell a node
+            if (cellView.model instanceof joint.shapes.custom.Node) {
+                // Update the model of the properties view to the model of the selected node
+                propertiesView.setCurrentNode(cellView);
             }
-            // Update the model of the properties view to the model of the selected node
-            propertiesView.setCurrentNode(cellView);
         });
     }
 });

@@ -7,6 +7,7 @@
     .node-body {
         stroke: $nodeBorderColor;
         fill: $nodeBackgroundColor;
+        shape-rendering: crispEdges;
     }
 
         .node-content {
@@ -37,3 +38,26 @@
             stroke-width: 2;
         }
     }
+
+.joint-highlight-stroke {
+    stroke: $nodePortHoverColor;
+    stroke-width: 3;
+    shape-rendering: crispEdges;
+}
+
+.connection {
+    stroke: $linkStrokeColor;
+    shape-rendering: crispEdges;
+}
+
+.connection-wrap {
+    opacity: 0 !important;
+}
+
+.marker-arrowheads {
+    display: none;
+}
+
+.joint-link.joint-theme-default .link-tools .tool-remove circle {
+    fill: #ec5840;
+}
