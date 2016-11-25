@@ -32,7 +32,7 @@ export let MenuView = Backbone.View.extend({
         author: '',
         created: '',
         lastChanged: '',
-        additionalMetadata: []
+        metadata: [],
     }),
     initialize: function(workspaceGraph, workspaceElement) {
         this.workspaceGraph = workspaceGraph;
@@ -111,7 +111,7 @@ export let MenuView = Backbone.View.extend({
             // Add the copy of the node to the new graph
             flyingNodeGraph.addCell(flyingNodeShape);
             flyingNodeElement.offset({
-                left: event.pageX - offset.x,
+                left: event.pageX - offset.x - nodeConfig.portSize/2,
                 top: event.pageY - offset.y
             });
 

@@ -1,0 +1,13 @@
+<% var metadata = model.get('metadata') %>
+<% if (metadata.length) { %>
+    <h4>Metadata</h4>
+    <% for(var i = 0; i < metadata.length; i++) { %>
+        <div class="settings-row">
+            <% var dataElement = metadata[i] %>
+            <input type="text" class="settings-key meta" id="metadata-key-<%= i %>" placeholder="" aria-describedby="process name"
+                   value="<%= dataElement.key %>" required>
+            <input type="text" class="settings-value meta" id="metadata-value-<%= i %>" placeholder="" aria-describedby="process name"
+                   value="<%= dataElement.value %>" required>
+        </div>
+    <% } %>
+<% } %>

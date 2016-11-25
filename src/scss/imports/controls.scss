@@ -20,8 +20,11 @@
 
     .button {
         margin-bottom: .4rem;
-        &.last {
-            margin-bottom: 0;
-        }
+    }
+}
+
+.button {
+    &.last {
+        margin-bottom: 0;
     }
 }

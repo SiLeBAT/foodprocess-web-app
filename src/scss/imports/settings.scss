@@ -1,9 +1,15 @@
 .settings {
+    outline: none;
+
     .close-button {
         right: 0.5rem;
         font-size: 1.3em;
     }
 }
+
+    .metadata-section {
+        margin: .5rem 0;
+    }
 
     .settings-row {
         display: flex;
@@ -11,9 +17,15 @@
 
         .settings-key {
             width: 120px;
-            margin-right: 10px;
+            margin-right: .6rem;
             flex-shrink: 0;
             margin-bottom: 0;
+
+            &.meta {
+                width: 38%;
+                margin-right: .4rem;
+                margin-bottom: .4rem;
+            }
         }
 
         .settings-value {
@@ -21,6 +33,9 @@
 
             &.bold {
                 font-weight: bold;
+            }
+            &.meta {
+                margin-bottom: .4rem;
             }
         }
     }
