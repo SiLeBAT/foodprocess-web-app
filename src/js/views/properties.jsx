@@ -11,14 +11,41 @@ export let PropertiesView = Backbone.View.extend({
     ingredientsTemplate: ingredientsPropertiesTemplate,
     emptyTemplate: emptyPropertiesTemplate,
     defaultModel: new Backbone.Model(),
+    durationUnits: [{name:'sec'}, {name:'min'}, {name:'h'}, {name:'d'}],
+    temperatureUnits: [{name:'°C'}, {name:'°F'}, {name:'K'}],
+    pressureUnits: [{name:'bar'}, {name:'Pa'}],
     // Bind the content of the input fields to the model of the node
     bindings: {
         '#processNameInput': 'processName',
         '#durationInput': 'duration',
+        'select#durationUnitInput': {
+            observe: 'durationUnit',
+            selectOptions: {
+                collection: 'this.durationUnits',
+                labelPath: 'name',
+                valuePath: 'name'
+            }
+        },
         '#temperatureInput': 'temperature',
+        '#temperatureUnitInput': {
+            observe: 'temperatureUnit',
+            selectOptions: {
+                collection: 'this.temperatureUnits',
+                labelPath: 'name',
+                valuePath: 'name'
+            }
+        },
         '#pHInput': 'pH',
         '#awInput': 'aw',
         '#pressureInput': 'pressure',
+        '#pressureUnitInput': {
+            observe: 'pressureUnit',
+            selectOptions: {
+                collection: 'this.pressureUnits',
+                labelPath: 'name',
+                valuePath: 'name'
+            }
+        },
     },
     // Bind events to appropriate functions
     events: {

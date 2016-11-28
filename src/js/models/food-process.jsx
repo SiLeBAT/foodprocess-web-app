@@ -42,7 +42,7 @@ let FoodProcessProperties = Backbone.Model.extend({
         duration: undefined,
         durationUnit: "min",
         temperature: undefined,
-        temperatureUnit: "C",
+        temperatureUnit: "°C",
         pH: undefined,
         aw: undefined,
         pressure: undefined,
