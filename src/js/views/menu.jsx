@@ -1,5 +1,5 @@
 let $ = require('jquery');
-let joint = require('../../vendor/joint.js');
+let joint = require('jointjs/dist/joint.js');
 let Backbone = require('backbone');
 
 let menuTemplate = require('../../templates/menu.html');

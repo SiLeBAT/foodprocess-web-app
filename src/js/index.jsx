@@ -6,8 +6,8 @@ let Backbone = require('backbone');
 require('backbone.stickit');
 
 // JointJS
-let joint = require('../vendor/joint.js');
-require('../vendor/joint.css');
+let joint = require('jointjs/dist/joint.js');
+require('jointjs/dist/joint.css');
 
 // Foundation
 require('foundation-sites/dist/foundation.js');

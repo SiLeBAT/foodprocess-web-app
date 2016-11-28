@@ -1,4 +1,4 @@
-let joint = require('../../vendor/joint.js');
+let joint = require('jointjs/dist/joint.js');
 let _ = require('lodash');
 let Backbone = require('backbone');
 

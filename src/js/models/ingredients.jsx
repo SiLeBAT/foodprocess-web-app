@@ -1,5 +1,4 @@
-let joint = require('../../vendor/joint.js');
-let _ = require('lodash');
+let joint = require('jointjs/dist/joint.js');
 let Backbone = require('backbone');
 
 import { nodeTypes } from './index.jsx';
