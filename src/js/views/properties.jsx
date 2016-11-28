@@ -45,16 +45,12 @@ export let PropertiesView = Backbone.View.extend({
         this.$el.html(template);
         this.stickit();
         this.$el.foundation();
-
-        // Prevent the node to be deleted by keydown if the properties menu is in focus
-        this.$el.keydown(function(event) {
-            event.stopPropagation();
-        });
     },
     // Set the selected node and rerender the menu
     setCurrentNode: function(nodeView) {
         if (!nodeView) {
             this.model = this.defaultModel;
+            this.currentNode = null;
         } else {
             // Unregister change listener from current node
             this.model && this.model.off('change:processName');
