@@ -73,7 +73,8 @@ module.exports = {
     sassLoader: {
         includePaths: [
             'src/scss',
-            'src/scss/imports'
+            'src/scss/imports',
+            'node_modules'
         ]
     }
 };

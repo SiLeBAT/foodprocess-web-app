@@ -13,9 +13,9 @@ export let MenuView = Backbone.View.extend({
     nodesLibraryElementId: 'nodes-library',
     // Bind the content of the input fields to the model
     bindings: {
-        '#processNameInput': 'processName',
+        '#workflowNameInput': 'workflowName',
         '#authorInput': 'author',
-        '#settingsProcessNameInput': 'processName',
+        '#settingsWorkflowNameInput': 'workflowName',
         '#settingsAuthorInput': 'author',
         '#settingsCreated': 'created',
         '#settingsLastChange': 'lastChange',
@@ -28,7 +28,7 @@ export let MenuView = Backbone.View.extend({
     },
     // The model for all metadata
     model: new Backbone.Model({
-        processName: '',
+        workflowName: '',
         author: '',
         created: '',
         lastChanged: '',
@@ -45,7 +45,7 @@ export let MenuView = Backbone.View.extend({
         this.stickit();
 
         // Render the settings modal
-        this.settings = new SettingsView(this.model, this.workspaceGraph, this.$el.find('#processNameInput'), this.$el.find('#authorInput'));
+        this.settings = new SettingsView(this.model, this.workspaceGraph, this.$el.find('#workflowNameInput'), this.$el.find('#authorInput'));
         this.settings.setElement(this.$('#settings'));
         this.settings.render();
     },

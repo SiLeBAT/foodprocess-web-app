@@ -13,7 +13,7 @@ export let PropertiesView = Backbone.View.extend({
     defaultModel: new Backbone.Model(),
     // Bind the content of the input fields to the model of the node
     bindings: {
-        '#nameInput': 'processName',
+        '#processNameInput': 'processName',
         '#durationInput': 'duration',
         '#temperatureInput': 'temperature',
         '#pHInput': 'pH',
@@ -44,6 +44,7 @@ export let PropertiesView = Backbone.View.extend({
         }
         this.$el.html(template);
         this.stickit();
+        this.$el.foundation();
     },
     // Set the selected node and rerender the menu
     setCurrentNode: function(nodeView) {

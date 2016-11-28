@@ -8,7 +8,12 @@
         <div class="property-row">
             <label for="durationInput" class="middle property-name">Duration</label>
             <input type="number" id="durationInput" placeholder="" aria-describedby="duration" required>
-            <button class="button dropdown property-unit" type="button">min</button>
+            <select class="property-unit">
+                <option value="husker">sec</option>
+                <option value="starbuck" selected="selected">min</option>
+                <option value="hotdog">h</option>
+                <option value="apollo">d</option>
+            </select>
         </div>
     </form>
     <h4>Process Parameters</h4>
@@ -16,7 +21,11 @@
         <div class="property-row">
             <label for="temperatureInput" class="middle property-name">Temperature</label>
             <input type="number" id="temperatureInput" placeholder="" aria-describedby="temperature" required>
-            <button class="button dropdown property-unit" type="button">°C</button>
+            <select class="property-unit">
+                <option value="husker" selected="selected">°C</option>
+                <option value="starbuck">°F</option>
+                <option value="starbuck">K</option>
+            </select>
         </div>
         <div class="property-row">
             <label for="pHInput" class="middle property-name">pH</label>
@@ -29,7 +38,10 @@
         <div class="property-row">
             <label for="pressureInput" class="middle property-name">Pressure</label>
             <input type="number" id="pressureInput" placeholder="" aria-describedby="pressure" required>
-            <button class="button dropdown property-unit" type="button">bar</button>
+            <select class="property-unit">
+                <option value="husker" selected="selected">bar</option>
+                <option value="husker">Pa</option>
+            </select>
         </div>
     </form>
     <button type="button" id="addParameterButton" class="button expanded last" title="">Add Parameter</button>

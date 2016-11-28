@@ -19,7 +19,6 @@ require('font-awesome/css/font-awesome.css');
 // Stylesheets
 require('../scss/main.scss');
 
-
 import {WorkspaceView, MenuView, PropertiesView} from './views/index.jsx';
 
 // Templates

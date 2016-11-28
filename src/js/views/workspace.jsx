@@ -80,14 +80,16 @@ export let WorkspaceView = Backbone.View.extend({
             }
         });
 
-        // Listen for clicks on the paper
-        workspace.on('blank:pointerdown', function(nodeView) {
-            // Deselect currently selected node
-            if (this.activeNodeView) {
-                this.activeNodeView.$el.find('.node-body').removeClass('active');
-                this.activeNodeView = null;
-                propertiesView.setCurrentNode(null);
-            }
-        });
-    },
+        // let zoomLevel = 1;
+        // this.$el.on('mousewheel', function(event) {
+        //     if (event.originalEvent.wheelDelta > 0) {
+        //         // zoom in
+        //         zoomLevel = Math.min(3, zoomLevel + 0.1);
+        //     } else {
+        //         // zoom out
+        //         zoomLevel = Math.max(0.2, zoomLevel - 0.1);
+        //     }
+        //     workspace.scale(zoomLevel, zoomLevel, 0, 0);
+        // });
+    }
 });

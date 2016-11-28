@@ -12,7 +12,7 @@ export let SettingsView = Backbone.View.extend({
     metadataTemplate: _.template(metadataTemplate),
     // Bind the content of the input fields to the model
     bindings: {
-        '#settingsProcessNameInput': 'processName',
+        '#settingsWorkflowNameInput': 'workflowName',
         '#settingsAuthorInput': 'author',
         '#settingsCreated': {
             observe: 'created',
@@ -28,10 +28,10 @@ export let SettingsView = Backbone.View.extend({
         'click #addMetadataButton': 'addMetadata'
     },
     listenerAdded: false,
-    initialize: function(model, workspaceGraph, processNameInput, authorInput) {
+    initialize: function(model, workspaceGraph, workflowNameInput, authorInput) {
         this.model = model;
         this.workspaceGraph = workspaceGraph;
-        this.processNameInput = processNameInput;
+        this.workflowNameInput = workflowNameInput;
         this.authorInput = authorInput;
 
         // Set the dates of creation and last change
@@ -59,12 +59,12 @@ export let SettingsView = Backbone.View.extend({
             this.listenerAdded = true;
         }
     },
-    // Create additional listeners to synchronize the settings that are displayed twice (processName and author)
+    // Create additional listeners to synchronize the settings that are displayed twice (workflowName and author)
     createListenerForSettingSynchronisation: function() {
         let self = this;
         // Update the input field in the menu if the input field in the settings changes
-        this.$el.find('#settingsProcessNameInput').on('propertychange change click keyup input paste', function() {
-            self.processNameInput.val($(this).val());
+        this.$el.find('#settingsWorkflowNameInput').on('propertychange change click keyup input paste', function() {
+            self.workflowNameInput.val($(this).val());
         });
         this.$el.find('#settingsAuthorInput').on('propertychange change click keyup input paste', function() {
             self.authorInput.val($(this).val());
