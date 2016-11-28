@@ -1,6 +1,6 @@
 <div class="properties-area">
     <h4>Properties</h4>
-    <form data-abide novalidate>
+    <form class="properties-form" data-abide novalidate>
         <div class="property-row">
             <label for="nameInput" class="middle property-name">Name</label>
             <input type="text" id="nameInput" placeholder="" aria-describedby="process name" required>
@@ -11,9 +11,8 @@
             <button class="button dropdown property-unit" type="button">min</button>
         </div>
     </form>
-    <br>
     <h4>Process Parameters</h4>
-    <form data-abide novalidate>
+    <form class="properties-form" data-abide novalidate>
         <div class="property-row">
             <label for="temperatureInput" class="middle property-name">Temperature</label>
             <input type="number" id="temperatureInput" placeholder="" aria-describedby="temperature" required>
@@ -33,6 +32,7 @@
             <button class="button dropdown property-unit" type="button">bar</button>
         </div>
     </form>
+    <button type="button" id="addParameterButton" class="button expanded last" title="">Add Parameter</button>
 </div>
 
 <div class="controls-area">

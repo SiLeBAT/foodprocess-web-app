@@ -47,17 +47,21 @@ export let PropertiesView = Backbone.View.extend({
     },
     // Set the selected node and rerender the menu
     setCurrentNode: function(nodeView) {
-        // Unregister change listener from current node
-        this.model && this.model.off('change:processName');
-        this.currentNode = nodeView.model;
-        this.model = this.currentNode.get('properties');
-        let model = this.model;
-        let currentNode = this.currentNode;
-        // Register change listener to update the model and label of the node
-        this.model.on('change:processName', function() {
-            currentNode.setName(model.get('processName'));
-            $(nodeView.el).find('.label').text(model.get('processName'));
-        });
+        if (!nodeView) {
+            this.model = this.defaultModel;
+        } else {
+            // Unregister change listener from current node
+            this.model && this.model.off('change:processName');
+            this.currentNode = nodeView.model;
+            this.model = this.currentNode.get('properties');
+            let model = this.model;
+            let currentNode = this.currentNode;
+            // Register change listener to update the model and label of the node
+            this.model.on('change:processName', function() {
+                currentNode.setName(model.get('processName'));
+                $(nodeView.el).find('.label').text(model.get('processName'));
+            });
+        }
         this.render();
     },
     // delete the node and clear the menu

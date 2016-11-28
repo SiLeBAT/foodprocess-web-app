@@ -57,12 +57,27 @@ export let WorkspaceView = Backbone.View.extend({
         });
 
         // Listen for clicks on a node
-        workspace.on('cell:pointerdown', function(cellView) {
+        workspace.on('cell:pointerdown', function(nodeView) {
             // Check if cell a node
-            if (cellView.model instanceof joint.shapes.custom.Node) {
+            if (nodeView.model instanceof joint.shapes.custom.Node) {
+                // Deselect currently selected node
+                this.activeNodeView && this.activeNodeView.$el.find('.node-body').removeClass('active');
+                // Set node element to active
+                nodeView.$el.find('.node-body').addClass('active');
                 // Update the model of the properties view to the model of the selected node
-                propertiesView.setCurrentNode(cellView);
+                propertiesView.setCurrentNode(nodeView);
+                this.activeNodeView = nodeView;
             }
         });
-    }
+        // Listen for clicks on the paper
+        workspace.on('blank:pointerdown', function(nodeView) {
+            // Deselect currently selected node
+            if (this.activeNodeView) {
+                this.activeNodeView.$el.find('.node-body').removeClass('active');
+                this.activeNodeView = null;
+                propertiesView.setCurrentNode(null);
+            }
+        });
+    },
+    activeNodeView: null
 });
