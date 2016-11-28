@@ -157,9 +157,9 @@ export let MenuView = Backbone.View.extend({
         });
     },
     sendToAPI: function() {
-        console.log(this.workspaceGraph);
-        console.log(this.workspaceGraph.toJSON());
-        console.log(JSON.stringify(this.workspaceGraph.toJSON()));
+        // console.log(this.workspaceGraph);
+        // console.log(this.workspaceGraph.toJSON());
+        // console.log(JSON.stringify(this.workspaceGraph.toJSON()));
     },
     saveModel: function() {
         // TODO

@@ -39,13 +39,13 @@ let FoodProcessProperties = Backbone.Model.extend({
         // optional additional css class for the node content
         cssClasses: 'food-process',
         processName: "",
-        duration: 0,
+        duration: undefined,
         durationUnit: "min",
-        temperature: 0,
+        temperature: undefined,
         temperatureUnit: "C",
-        pH: 0,
-        aw: 0,
-        pressure: 0,
+        pH: undefined,
+        aw: undefined,
+        pressure: undefined,
         pressureUnit: "bar"
     }
 });
