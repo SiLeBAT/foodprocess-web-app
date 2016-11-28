@@ -2,6 +2,7 @@ let joint = require('jointjs/dist/joint.js');
 let Backbone = require('backbone');
 
 export let WorkspaceView = Backbone.View.extend({
+    activeNodeView: null,
     initialize: function(workspaceGraph, propertiesView) {
         this.workspaceGraph = workspaceGraph;
         this.propertiesView = propertiesView;
@@ -78,6 +79,15 @@ export let WorkspaceView = Backbone.View.extend({
                 propertiesView.setCurrentNode(null);
             }
         });
+
+        // Listen for clicks on the paper
+        workspace.on('blank:pointerdown', function(nodeView) {
+            // Deselect currently selected node
+            if (this.activeNodeView) {
+                this.activeNodeView.$el.find('.node-body').removeClass('active');
+                this.activeNodeView = null;
+                propertiesView.setCurrentNode(null);
+            }
+        });
     },
-    activeNodeView: null
 });
