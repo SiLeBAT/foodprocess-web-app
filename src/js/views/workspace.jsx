@@ -59,6 +59,8 @@ export let WorkspaceView = Backbone.View.extend({
 
         // Listen for clicks on a node
         workspace.on('cell:pointerdown', function(nodeView) {
+            // Remove the focus of the element that is currently in focus
+            $($(':focus')[0]).blur();
             // Check if cell a node
             if (nodeView.model instanceof joint.shapes.custom.Node) {
                 // Deselect currently selected node
@@ -72,6 +74,8 @@ export let WorkspaceView = Backbone.View.extend({
         });
         // Listen for clicks on the paper
         workspace.on('blank:pointerdown', function(nodeView) {
+            // Remove the focus of the element that is currently in focus
+            $($(':focus')[0]).blur();
             // Deselect currently selected node
             if (this.activeNodeView) {
                 this.activeNodeView.$el.find('.node-body').removeClass('active');

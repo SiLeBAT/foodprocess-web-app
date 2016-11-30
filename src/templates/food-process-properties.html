@@ -2,18 +2,13 @@
     <h4>Properties</h4>
     <form class="properties-form" data-abide novalidate>
         <div class="property-row">
-            <label for="nameInput" class="middle property-name">Name</label>
-            <input type="text" id="nameInput" placeholder="" aria-describedby="process name" required>
+            <label for="processNameInput" class="middle property-name">Name</label>
+            <input type="text" id="processNameInput" placeholder="" aria-describedby="process name" required>
         </div>
         <div class="property-row">
             <label for="durationInput" class="middle property-name">Duration</label>
             <input type="number" id="durationInput" placeholder="" aria-describedby="duration" required>
-            <select class="property-unit">
-                <option value="husker">sec</option>
-                <option value="starbuck" selected="selected">min</option>
-                <option value="hotdog">h</option>
-                <option value="apollo">d</option>
-            </select>
+            <select class="property-unit" id="durationUnitInput"></select>
         </div>
     </form>
     <h4>Process Parameters</h4>
@@ -21,11 +16,7 @@
         <div class="property-row">
             <label for="temperatureInput" class="middle property-name">Temperature</label>
             <input type="number" id="temperatureInput" placeholder="" aria-describedby="temperature" required>
-            <select class="property-unit">
-                <option value="husker" selected="selected">°C</option>
-                <option value="starbuck">°F</option>
-                <option value="starbuck">K</option>
-            </select>
+            <select class="property-unit" id="temperatureUnitInput"></select>
         </div>
         <div class="property-row">
             <label for="pHInput" class="middle property-name">pH</label>
@@ -38,10 +29,7 @@
         <div class="property-row">
             <label for="pressureInput" class="middle property-name">Pressure</label>
             <input type="number" id="pressureInput" placeholder="" aria-describedby="pressure" required>
-            <select class="property-unit">
-                <option value="husker" selected="selected">bar</option>
-                <option value="husker">Pa</option>
-            </select>
+            <select class="property-unit" id="pressureUnitInput"></select>
         </div>
     </form>
     <button type="button" id="addParameterButton" class="button expanded last" title="" disabled="true">Add Parameter</button>

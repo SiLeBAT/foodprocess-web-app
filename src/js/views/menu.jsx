@@ -76,11 +76,11 @@ export let MenuView = Backbone.View.extend({
     // Create the nodes for the library
     createMenuNodes: function() {
         let nodes = [];
-        nodes.push(new FoodProcessNode({ x: 0, y: 0}, 1, 1));
-        nodes.push(new FoodProcessNode({ x: nodeConfig.totalWidth + nodeConfig.spacing, y: 0}, 2, 1));
-        nodes.push(new FoodProcessNode({ x: 0, y: nodeConfig.totalHeight}, 1, 2));
-        nodes.push(new FoodProcessNode({ x: nodeConfig.totalWidth + nodeConfig.spacing, y: nodeConfig.totalHeight}, 1, 0));
-        nodes.push(new IngredientsNode({ x: 0, y: nodeConfig.totalHeight*2}, 0, 1));
+        nodes.push(new FoodProcessNode({ x: 0, y: 1}, 1, 1));
+        nodes.push(new FoodProcessNode({ x: nodeConfig.totalWidth + nodeConfig.spacing, y: 1}, 2, 1));
+        nodes.push(new FoodProcessNode({ x: 0, y: nodeConfig.totalHeight + 1}, 1, 2));
+        nodes.push(new FoodProcessNode({ x: nodeConfig.totalWidth + nodeConfig.spacing, y: nodeConfig.totalHeight + 1}, 1, 0));
+        nodes.push(new IngredientsNode({ x: 0, y: nodeConfig.totalHeight*2 + 1}, 0, 1));
         return nodes;
     },
     addDragAndDropListener: function(workspaceGraph, workspaceElement, nodesLibraryPaper) {

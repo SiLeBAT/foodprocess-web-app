@@ -11,14 +11,41 @@ export let PropertiesView = Backbone.View.extend({
     ingredientsTemplate: ingredientsPropertiesTemplate,
     emptyTemplate: emptyPropertiesTemplate,
     defaultModel: new Backbone.Model(),
+    durationUnits: [{name:'sec'}, {name:'min'}, {name:'h'}, {name:'d'}],
+    temperatureUnits: [{name:'°C'}, {name:'°F'}, {name:'K'}],
+    pressureUnits: [{name:'bar'}, {name:'Pa'}],
     // Bind the content of the input fields to the model of the node
     bindings: {
         '#processNameInput': 'processName',
         '#durationInput': 'duration',
+        'select#durationUnitInput': {
+            observe: 'durationUnit',
+            selectOptions: {
+                collection: 'this.durationUnits',
+                labelPath: 'name',
+                valuePath: 'name'
+            }
+        },
         '#temperatureInput': 'temperature',
+        '#temperatureUnitInput': {
+            observe: 'temperatureUnit',
+            selectOptions: {
+                collection: 'this.temperatureUnits',
+                labelPath: 'name',
+                valuePath: 'name'
+            }
+        },
         '#pHInput': 'pH',
         '#awInput': 'aw',
         '#pressureInput': 'pressure',
+        '#pressureUnitInput': {
+            observe: 'pressureUnit',
+            selectOptions: {
+                collection: 'this.pressureUnits',
+                labelPath: 'name',
+                valuePath: 'name'
+            }
+        },
     },
     // Bind events to appropriate functions
     events: {
@@ -45,16 +72,12 @@ export let PropertiesView = Backbone.View.extend({
         this.$el.html(template);
         this.stickit();
         this.$el.foundation();
-
-        // Prevent the node to be deleted by keydown if the properties menu is in focus
-        this.$el.keydown(function(event) {
-            event.stopPropagation();
-        });
     },
     // Set the selected node and rerender the menu
     setCurrentNode: function(nodeView) {
         if (!nodeView) {
             this.model = this.defaultModel;
+            this.currentNode = null;
         } else {
             // Unregister change listener from current node
             this.model && this.model.off('change:processName');

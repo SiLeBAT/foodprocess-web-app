@@ -58,6 +58,10 @@ let AppView = Backbone.View.extend({
     addKeydownListener: function() {
         let self = this;
         $(document).keydown(function(event) {
+            // Do not handle keydown if any element is in focus
+            if (!$(event.target).is("body")) {
+                return;
+            }
             // 46 = DEL, 8 = BACKSPACE
             if (event.keyCode === 46 || event.keyCode === 8) {
                 // Delete currently selected node

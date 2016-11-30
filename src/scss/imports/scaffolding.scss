@@ -7,3 +7,7 @@ body {
     color: $textColor;
     font-family: "Open Sans Local", "Open Sans";
 }
+
+input {
+    min-width: 10px;
+}
