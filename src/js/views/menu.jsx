@@ -1,6 +1,7 @@
 let $ = require('jquery');
 let joint = require('jointjs/dist/joint.js');
 let Backbone = require('backbone');
+let _ = require('lodash');
 
 let menuTemplate = require('../../templates/menu.html');
 
@@ -24,7 +25,7 @@ export let MenuView = Backbone.View.extend({
     events: {
         'click #sendToAPIButton': 'sendToAPI',
         'click #saveButton': 'saveModel',
-        'click #loadButton': 'loadModel',
+        'change #uploadInput': 'loadModel',
     },
     // The model for all metadata
     model: new Backbone.Model({
@@ -156,15 +157,20 @@ export let MenuView = Backbone.View.extend({
             });
         });
     },
-    sendToAPI: function() {
-        // console.log(this.workspaceGraph);
-        // console.log(this.workspaceGraph.toJSON());
-        // console.log(JSON.stringify(this.workspaceGraph.toJSON()));
+    sendToAPI: function(event) {
+        // TODO
     },
     saveModel: function() {
-        // TODO
+        let exportJSON = this.workspaceGraph.toJSON();
+        let blob = new Blob([JSON.stringify(exportJSON)], {type: "application/json"});
+        let url  = URL.createObjectURL(blob);
+        let fileName = (exportJSON.meta.get('workflowName') || 'workflow') + '.json';
+        $(event.target).attr('download', fileName);
+        $(event.target).attr('href', url);
     },
-    loadModel: function() {
+    loadModel: function(event) {
         // TODO
-    }
+        console.log(event.target.files);
+    },
+
 });

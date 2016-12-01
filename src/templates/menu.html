@@ -16,15 +16,16 @@
     <div id="nodes-library" class="nodes-library"></div>
 </div>
 <div class="controls-area">
-    <button type="button" id="sendToAPIButton" class="button expanded" title="Send the model to the API">
+    <a type="button" id="sendToAPIButton" class="button expanded" title="Send the model to the API">
         <i class="fa fa-paper-plane" aria-hidden="true"></i> Send to API
-    </button>
-    <button type="button" id="saveButton" class="button secondary expanded" title="Save the model">
+    </a>
+    <a type="button" id="saveButton" class="button secondary expanded" title="Save the model">
         <i class="fa fa-download" aria-hidden="true"></i> Save
-    </button>
-    <button type="button" id="loadButton" class="button secondary expanded last" title="Load a model from file">
+    </a>
+    <label for="uploadInput" class="button secondary expanded last">
         <i class="fa fa-upload" aria-hidden="true"></i> Load
-    </button>
+    </label>
+    <input type="file" id="uploadInput" class="show-for-sr">
 </div>
 
 <div id="settings"></div>

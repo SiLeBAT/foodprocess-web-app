@@ -57,6 +57,7 @@ export let WorkspaceView = Backbone.View.extend({
             }
         });
 
+        let self = this;
         // Listen for clicks on a node
         workspace.on('cell:pointerdown', function(nodeView) {
             // Remove the focus of the element that is currently in focus
@@ -64,12 +65,12 @@ export let WorkspaceView = Backbone.View.extend({
             // Check if cell a node
             if (nodeView.model instanceof joint.shapes.custom.Node) {
                 // Deselect currently selected node
-                this.activeNodeView && this.activeNodeView.$el.find('.node-body').removeClass('active');
+                self.activeNodeView && self.activeNodeView.$el.find('.node-body').removeClass('active');
                 // Set node element to active
                 nodeView.$el.find('.node-body').addClass('active');
                 // Update the model of the properties view to the model of the selected node
                 propertiesView.setCurrentNode(nodeView);
-                this.activeNodeView = nodeView;
+                self.activeNodeView = nodeView;
             }
         });
         // Listen for clicks on the paper
@@ -77,9 +78,9 @@ export let WorkspaceView = Backbone.View.extend({
             // Remove the focus of the element that is currently in focus
             $($(':focus')[0]).blur();
             // Deselect currently selected node
-            if (this.activeNodeView) {
-                this.activeNodeView.$el.find('.node-body').removeClass('active');
-                this.activeNodeView = null;
+            if (self.activeNodeView) {
+                self.activeNodeView.$el.find('.node-body').removeClass('active');
+                self.activeNodeView = null;
                 propertiesView.setCurrentNode(null);
             }
         });

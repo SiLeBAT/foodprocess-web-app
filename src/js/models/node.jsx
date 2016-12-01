@@ -107,6 +107,13 @@ joint.shapes.custom.Node = joint.shapes.basic.Rect.extend({
                 text: name
             }
         });
+    },
+    // Overwrite the toJSON method to convert the custom properties to json too
+    toJSON: function() {
+        let propertiesJSON = this.get('properties').toJSON();
+        let jsonNode = joint.shapes.basic.Rect.prototype.toJSON.apply(this, arguments);
+        jsonNode.properties = propertiesJSON;
+        return jsonNode;
     }
 });
 
