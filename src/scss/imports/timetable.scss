@@ -1,0 +1,23 @@
+.timetable {
+    outline: none;
+
+    .close-button {
+        right: 0.5rem;
+        font-size: 1.3em;
+    }
+}
+
+    .timetable-row {
+        display: flex;
+        flex-flow: row nowrap;
+
+        .timetable-key {
+            width: 50%;
+            margin-right: .6rem;
+            flex-shrink: 0;
+        }
+
+        .timetable-value {
+            flex-grow: 1;
+        }
+    }

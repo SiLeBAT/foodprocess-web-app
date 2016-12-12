@@ -34,7 +34,7 @@ let AppView = Backbone.View.extend({
     render: function() {
         this.$el.html(this.template({}));
 
-        // Workspace graph
+        // Workspace graph // JointJs graph
         let workspaceGraph = new joint.dia.Graph;
         // Element to render the workspace in
         let workspaceElement = this.$('#workspace');
@@ -67,6 +67,7 @@ let AppView = Backbone.View.extend({
                 // Delete currently selected node
                 self.properties.deleteCurrentNode();
             }
+            // add more key handling here!
         });
     }
 });

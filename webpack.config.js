@@ -1,14 +1,14 @@
-var path = require('path');
-var webpack = require('webpack');
-var minimist = require('minimist');
+let path = require('path');
+let webpack = require('webpack');
+let minimist = require('minimist');
 
-var production = (function(prod) {
-    var cliParams = minimist(process.argv.slice(2));
+let production = (function(prod) {
+    let cliParams = minimist(process.argv.slice(2));
     prod = cliParams.production || cliParams.prod || cliParams.p || process.env.NODE_ENV === 'production' || false;
     return prod;
 })({});
 
-var entry = ['./src/js/index.jsx'];
+let entry = ['./src/js/index.jsx'];
 !production && entry.push('webpack-dev-server/client?http://localhost:8080');
 
 module.exports = {

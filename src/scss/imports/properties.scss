@@ -41,8 +41,13 @@
             .property-unit {
                 flex-shrink: 0;
                 height: 2.4375rem;
-                width: 70px;
+                width: 66px;
                 margin-left: -1px;
+            }
+
+            .property-button {
+                height: 2.4375rem;
+                margin-left: 1px;
             }
 
             * {

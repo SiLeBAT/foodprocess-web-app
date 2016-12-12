@@ -93,7 +93,7 @@ export let MenuView = Backbone.View.extend({
             let flyingNodeElement = $('#flyingNode');
             // Create new graph and paper for the dragged node
             let flyingNodeGraph = new joint.dia.Graph;
-            let flyingNodePaper = new joint.dia.Paper({
+            let flyingNodePaper = new joint.dia.Paper({ // MPA
                 el: flyingNodeElement,
                 model: flyingNodeGraph,
                 width: nodeConfig.totalWidth + 'px',

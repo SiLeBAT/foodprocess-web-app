@@ -5,12 +5,13 @@ let ingredientsPropertiesTemplate = require('../../templates/ingredients-propert
 let emptyPropertiesTemplate = require('../../templates/empty-properties.html');
 
 import {nodeTypes} from '../models/index.jsx';
+import {TimetableView} from './index.jsx'
 
 export let PropertiesView = Backbone.View.extend({
     foodProcessTemplate: foodProcessPropertiesTemplate,
     ingredientsTemplate: ingredientsPropertiesTemplate,
     emptyTemplate: emptyPropertiesTemplate,
-    defaultModel: new Backbone.Model(),
+    emptyModel: new Backbone.Model(),
     durationUnits: [{name:'sec'}, {name:'min'}, {name:'h'}, {name:'d'}],
     temperatureUnits: [{name:'°C'}, {name:'°F'}, {name:'K'}],
     pressureUnits: [{name:'bar'}, {name:'Pa'}],
@@ -56,7 +57,7 @@ export let PropertiesView = Backbone.View.extend({
         'click #removeOutPortButton': 'removeOutPort',
     },
     initialize: function() {
-        this.model = this.model || this.defaultModel;
+        this.model = this.model || this.emptyModel; // MPA
     },
     render: function() {
         // Render the appropriate context menu for the selected node
@@ -70,25 +71,34 @@ export let PropertiesView = Backbone.View.extend({
                 break;
         }
         this.$el.html(template);
+
+        if(this.model != this.emptyModel) {
+            // Render the timetable modal
+            this.timetable = new TimetableView(this.model); // model now == food node properties
+            this.timetable.setElement(this.$('#timetable'));
+            this.timetable.render();
+        }
+
         this.stickit();
         this.$el.foundation();
     },
     // Set the selected node and rerender the menu
     setCurrentNode: function(nodeView) {
         if (!nodeView) {
-            this.model = this.defaultModel;
+            this.model = this.emptyModel;
             this.currentNode = null;
         } else {
             // Unregister change listener from current node
             this.model && this.model.off('change:processName');
             this.currentNode = nodeView.model;
             this.model = this.currentNode.get('properties');
-            let model = this.model;
-            let currentNode = this.currentNode;
+
             // Register change listener to update the model and label of the node
+            let propertiesModel = this.model;
+            let currentNode = this.currentNode;
             this.model.on('change:processName', function() {
-                currentNode.setName(model.get('processName'));
-                $(nodeView.el).find('.label').text(model.get('processName'));
+                currentNode.setName(propertiesModel.get('processName'));
+                $(nodeView.el).find('.label').text(propertiesModel.get('processName'));
             });
         }
         this.render();
@@ -100,7 +110,7 @@ export let PropertiesView = Backbone.View.extend({
         }
         this.currentNode.remove();
         delete this.currentNode;
-        this.model = this.defaultModel;
+        this.model = this.emptyModel;
         this.render();
     },
     // Add an input port to the selected node

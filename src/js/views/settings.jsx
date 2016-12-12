@@ -25,7 +25,7 @@ export let SettingsView = Backbone.View.extend({
     },
     // Bind events to appropriate functions
     events: {
-        'click #addMetadataButton': 'addMetadata'
+        'click #addMetadataButton': 'addMetadata' // MPA
     },
     listenerAdded: false,
     initialize: function(model, workspaceGraph, workflowNameInput, authorInput) {
