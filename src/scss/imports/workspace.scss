@@ -9,7 +9,7 @@
     .node-body {
         stroke: $nodeBorderColor;
         fill: $nodeBackgroundColor;
-        shape-rendering: crispEdges;
+        shape-rendering: auto;
 
         &.active {
             outline: 2px auto $nodeOutlineColor;
@@ -49,12 +49,12 @@
 .joint-highlight-stroke {
     stroke: $nodePortHoverColor;
     stroke-width: 3;
-    shape-rendering: crispEdges;
+    shape-rendering: auto;
 }
 
 .connection {
     stroke: $linkStrokeColor;
-    shape-rendering: crispEdges;
+    shape-rendering: auto;
 }
 
 .connection-wrap {

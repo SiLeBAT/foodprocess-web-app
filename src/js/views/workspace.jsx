@@ -18,12 +18,17 @@ export let WorkspaceView = Backbone.View.extend({
             model: workspaceGraph,
             defaultLink: new joint.dia.Link({
                 router: {
-                    name: 'manhattan'
+                    name: 'metro'
                 },
                 connector: {
-                    name: 'normal'
-                }
+                    name: 'rounded'
+                },
+                attrs: { '.connection':
+                    {'stroke-width': 2 }
+                },
             }),
+            drawGrid: true,
+            gridSize: 15,
             // Remove links without target
             linkPinning: false,
             // An element may not have more than one link with the same source and target element
