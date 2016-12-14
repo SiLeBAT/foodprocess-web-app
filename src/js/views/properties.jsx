@@ -1,16 +1,18 @@
 let Backbone = require('backbone');
+let modelbinder = require('backbone.modelbinder');
+let _ = require('lodash');
 
 let foodProcessPropertiesTemplate = require('../../templates/food-process-properties.html');
 let ingredientsPropertiesTemplate = require('../../templates/ingredients-properties.html');
 let emptyPropertiesTemplate = require('../../templates/empty-properties.html');
 
-import {nodeTypes} from '../models/index.jsx';
+import {nodeTypes, ParameterModel} from '../models/index.jsx';
 import {TimetableView} from './index.jsx'
 
 export let PropertiesView = Backbone.View.extend({
-    foodProcessTemplate: foodProcessPropertiesTemplate,
-    ingredientsTemplate: ingredientsPropertiesTemplate,
-    emptyTemplate: emptyPropertiesTemplate,
+    foodProcessTemplate: _.template(foodProcessPropertiesTemplate),
+    ingredientsTemplate: _.template(ingredientsPropertiesTemplate),
+    emptyTemplate: _.template(emptyPropertiesTemplate),
     emptyModel: new Backbone.Model(),
     durationUnits: [{name:'sec'}, {name:'min'}, {name:'h'}, {name:'d'}],
     temperatureUnits: [{name:'°C'}, {name:'°F'}, {name:'K'}],
@@ -37,6 +39,7 @@ export let PropertiesView = Backbone.View.extend({
             }
         },
         '#pHInput': 'pH',
+        '#parameterInput': 'parameter',
         '#awInput': 'aw',
         '#pressureInput': 'pressure',
         '#pressureUnitInput': {
@@ -55,6 +58,7 @@ export let PropertiesView = Backbone.View.extend({
         'click #addOutPortButton': 'addOutPort',
         'click #removeInPortButton': 'removeInPort',
         'click #removeOutPortButton': 'removeOutPort',
+        'click #addParameterButton': 'addParameter'
     },
     initialize: function() {
         this.model = this.model || this.emptyModel; // MPA
@@ -70,16 +74,20 @@ export let PropertiesView = Backbone.View.extend({
                 template = this.ingredientsTemplate;
                 break;
         }
-        this.$el.html(template);
+        this.$el.html(template({model: this.model}));
 
-        if(this.model != this.emptyModel) {
+        // if food process, render food process specific elements
+        if(this.model.toJSON().type == nodeTypes.FOOD_PROCESS && this.model != this.emptyModel) {
             // Render the timetable modal
             this.timetable = new TimetableView(this.model); // model now == food node properties
             this.timetable.setElement(this.$('#timetable'));
             this.timetable.render();
-        }
 
+            // now that we have a model and parameters, we can add more bindings
+            this.addParameterBindings();
+        }
         this.stickit();
+
         this.$el.foundation();
     },
     // Set the selected node and rerender the menu
@@ -93,6 +101,10 @@ export let PropertiesView = Backbone.View.extend({
             this.currentNode = nodeView.model;
             this.model = this.currentNode.get('properties');
 
+            // Test
+            //let param = new ParameterModel({name : "gold", unit: "w", timeValues: [{ 1: 2}, { 3: 4}]});
+            //this.model.set('parameters', new ParameterCollection([param]));
+
             // Register change listener to update the model and label of the node
             let propertiesModel = this.model;
             let currentNode = this.currentNode;
@@ -101,6 +113,27 @@ export let PropertiesView = Backbone.View.extend({
                 $(nodeView.el).find('.label').text(propertiesModel.get('processName'));
             });
         }
+        this.render();
+    },
+    addParameterBindings: function() {
+        let parameters = this.model.get('parameters').models;
+        let self = this;
+        _.each(parameters, function (parameterModel) {
+            let parameterName = parameterModel.get('name');
+            let bindings = {
+                // FIXME: binding erfolgt noch über name -entweder in ui validieren oder auf ID ändern)
+                name: '#parameterInputName' + parameterName,
+                value: '#parameterInputValue' + parameterName,
+                unit: '#pressureUnitInput' + parameterName
+            };
+            let binder = new Backbone.ModelBinder(); // needs to be a new instance for each "bindings"!
+            binder.bind(parameterModel, self.el, bindings);
+        });
+    },
+    addParameter: function() {
+        let parametersCollection = this.model.get('parameters');
+        let colectionSize = parametersCollection.size();
+        parametersCollection.add(new ParameterModel({name: "optional-" + colectionSize}));
         this.render();
     },
     // delete the node and clear the menu
@@ -128,5 +161,8 @@ export let PropertiesView = Backbone.View.extend({
     // Remove an output port from the selected node
     removeOutPort: function(){
         this.currentNode && this.currentNode.removeDefaultPort('out');
+    },
+    close: function () {
+        this.model.unbind();
     }
 });

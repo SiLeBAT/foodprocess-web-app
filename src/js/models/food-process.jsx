@@ -1,7 +1,8 @@
 let joint = require('jointjs/dist/joint.js');
 let Backbone = require('backbone');
 
-import { nodeTypes } from './index.jsx';
+import { nodeTypes, ParameterCollection, ParameterModel } from './index.jsx';
+
 
 // This class represents a food process node. It creates an instance of the basic node and adds some configuration to it.
 export class FoodProcessNode {
@@ -10,6 +11,7 @@ export class FoodProcessNode {
         this.node = new joint.shapes.custom.Node({
             properties: new FoodProcessProperties()
         });
+        this.node.get('properties').set('parameters', buildDefaultCollection()); // MPA
         // Add the given position to the default position
         let newPosition = {
             x: this.node.position().x + position.x,
@@ -30,6 +32,9 @@ export class FoodProcessNode {
     };
 }
 
+function buildDefaultCollection() {
+    return new ParameterCollection();
+}
 // The properties for a food process node
 let FoodProcessProperties = Backbone.Model.extend({
     defaults: {
@@ -50,6 +55,7 @@ let FoodProcessProperties = Backbone.Model.extend({
         awTimeValues: [],
         pressure: undefined,
         pressureUnit: "bar",
-        pressureTimeValues: []
+        pressureTimeValues: [],
+        parameters: ParameterCollection // collection of Parameter-Models
     }
 });

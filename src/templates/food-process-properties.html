@@ -43,6 +43,18 @@
                 <i class="fa fa-clock-o" aria-hidden="true"></i>
             </button>
         </div>
+        <% var parameters = model.get('parameters').models %>
+        <% _.each(parameters, function (parameter) { %>
+            <div class="property-row">
+                <input type="text" id="parameterInputName<%= parameter.get('name') %>" class="middle property-name">
+                <input type="number" id="parameterInputValue<%= parameter.get('name') %>" placeholder="" aria-describedby="parameter" required>
+                <select class="property-unit" id="pressureUnitInput<%= parameter.get('name') %>"></select>
+                <button type="button" id="addTimeTableParameter" data-open="timetableModal" class="primary button property-button" title="Change value for specific points in time">
+                    <i class="fa fa-clock-o" aria-hidden="true"></i>
+                </button>
+            </div>
+        <% }); %>
+
     </form>
     <button type="button" id="addParameterButton" class="button expanded last" title="">Add Parameter</button>
 </div>

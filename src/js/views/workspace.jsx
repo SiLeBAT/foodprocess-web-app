@@ -71,6 +71,7 @@ export let WorkspaceView = Backbone.View.extend({
             if (nodeView.model instanceof joint.shapes.custom.Node) {
                 // Deselect currently selected node
                 self.activeNodeView && self.activeNodeView.$el.find('.node-body').removeClass('active');
+
                 // Set node element to active
                 nodeView.$el.find('.node-body').addClass('active');
                 // Update the model of the properties view to the model of the selected node

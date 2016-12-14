@@ -142,9 +142,12 @@ export let MenuView = Backbone.View.extend({
                 // Dropped over paper ?
                 if (posX > target.left && posX < target.left + workspaceElement.width() && posY > target.top && posY < target.top + workspaceElement.height()) {
                     let newNode = flyingNodeShape.clone();
-                    // Clone the properties separately to generate a unique id
+                    // Clone the properties and parameters separately to generate a unique id (applies for all nested models)
+                    let clonedProperties = newNode.get('properties').clone();
+                    let clonedParameters = clonedProperties.get('parameters').clone();
+                    clonedProperties.set('parameters', clonedParameters);
                     newNode.set({
-                        properties: newNode.get('properties').clone()
+                        properties: clonedProperties
                     });
                     newNode.position(posX - target.left - offset.x + nodeConfig.portSize/2, posY - target.top - offset.y);
                     // Add the node to the main workspace
