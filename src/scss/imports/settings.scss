@@ -15,6 +15,10 @@
         display: flex;
         flex-flow: row nowrap;
 
+        &.meta {
+            margin-bottom: .4rem;
+        }
+
         .settings-key {
             width: 120px;
             margin-right: .6rem;
@@ -24,7 +28,6 @@
             &.meta {
                 width: 38%;
                 margin-right: .4rem;
-                margin-bottom: .4rem;
             }
         }
 
@@ -35,7 +38,15 @@
                 font-weight: bold;
             }
             &.meta {
-                margin-bottom: .4rem;
+                margin-right: .2rem;
+                margin-bottom: 0;
             }
+        }
+
+        .remove-metadata {
+            margin-bottom: 0;
+            flex-shrink: 0;
+            height: 2.4375rem;
+            width: 2.4375rem;
         }
     }

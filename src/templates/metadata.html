@@ -2,12 +2,15 @@
 <% if (metadata.length) { %>
     <h4>Additional Values</h4>
     <% for(var i = 0; i < metadata.length; i++) { %>
-        <div class="settings-row">
+        <div class="settings-row meta">
             <% var dataElement = metadata[i] %>
             <input type="text" class="settings-key meta" id="metadata-key-<%= i %>" placeholder="" aria-describedby="process name"
                    value="<%= dataElement.key %>" required>
             <input type="text" class="settings-value meta" id="metadata-value-<%= i %>" placeholder="" aria-describedby="process name"
                    value="<%= dataElement.value %>" required>
+            <button type="button" id="remove-metadata-<%= i %>" class="secondary button remove-metadata" title="Remove the metadata row" value="<%= i %>">
+                <i class="fa fa-times" aria-hidden="true"></i>
+            </button>
         </div>
     <% } %>
 <% } %>
