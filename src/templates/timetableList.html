@@ -1,12 +1,12 @@
-<% var timeValues = model.get('pressureTimeValues') %>
+<% var timeValues = model.get('timeValues') %>
     <% if (timeValues.length) { %>
-        <% for(var i = 0; i < timeValues.length; i++) { %>
-            <div class="timetable-row">
-                <% var dataElement = timeValues[i] %>
-                <input type="number" class="timetable-key" id="timetableList-key-<%= i %>" placeholder="" aria-describedby="process name"
-                       value="<%= dataElement.key %>" required>
-                <input type="number" class="timetable-value" id="timetableList-value-<%= i %>" placeholder="" aria-describedby="process name"
-                       value="<%= dataElement.value %>" required>
-            </div>
+    <% for(var i = 0; i < timeValues.length; i++) { %>
+        <div class="timetable-row">
+            <% var dataElement = timeValues[i] %>
+            <input type="number" class="timetable-key" id="timetableList-key-<%= i %>" placeholder="" aria-describedby="process name"
+                   value="<%= dataElement.key %>" required>
+            <input type="number" class="timetable-value" id="timetableList-value-<%= i %>" placeholder="" aria-describedby="process name"
+                   value="<%= dataElement.value %>" required>
+        </div>
     <% } %>
 <% } %>

@@ -28,7 +28,7 @@ export let MenuView = Backbone.View.extend({
         'change #uploadInput': 'loadModel',
     },
     // The model for all metadata
-    model: new Backbone.Model({
+    model: new Backbone.Model({ // FIXME: auslagern
         workflowName: '',
         author: '',
         created: '',
@@ -93,7 +93,7 @@ export let MenuView = Backbone.View.extend({
             let flyingNodeElement = $('#flyingNode');
             // Create new graph and paper for the dragged node
             let flyingNodeGraph = new joint.dia.Graph;
-            let flyingNodePaper = new joint.dia.Paper({ // MPA
+            new joint.dia.Paper({ // needs to be initialized
                 el: flyingNodeElement,
                 model: flyingNodeGraph,
                 width: nodeConfig.totalWidth + 'px',
@@ -144,8 +144,10 @@ export let MenuView = Backbone.View.extend({
                     let newNode = flyingNodeShape.clone();
                     // Clone the properties and parameters separately to generate a unique id (applies for all nested models)
                     let clonedProperties = newNode.get('properties').clone();
-                    let clonedParameters = clonedProperties.get('parameters').clone();
-                    clonedProperties.set('parameters', clonedParameters);
+                    if (clonedProperties.get('parameters')) {
+                        let clonedParameters = clonedProperties.get('parameters').clone();
+                        clonedProperties.set('parameters', clonedParameters);
+                    }
                     newNode.set({
                         properties: clonedProperties
                     });

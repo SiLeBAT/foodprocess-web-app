@@ -11,7 +11,7 @@ export class FoodProcessNode {
         this.node = new joint.shapes.custom.Node({
             properties: new FoodProcessProperties()
         });
-        this.node.get('properties').set('parameters', buildDefaultCollection()); // MPA
+        this.node.get('properties').set('parameters', this.buildDefaultCollection());
         // Add the given position to the default position
         let newPosition = {
             x: this.node.position().x + position.x,
@@ -30,10 +30,12 @@ export class FoodProcessNode {
         }
         return this.node;
     };
-}
 
-function buildDefaultCollection() {
-    return new ParameterCollection();
+    buildDefaultCollection() { // FIXME
+        return new ParameterCollection();
+        // temperature
+        // aw ...
+    }
 }
 // The properties for a food process node
 let FoodProcessProperties = Backbone.Model.extend({
@@ -56,6 +58,6 @@ let FoodProcessProperties = Backbone.Model.extend({
         pressure: undefined,
         pressureUnit: "bar",
         pressureTimeValues: [],
-        parameters: ParameterCollection // collection of Parameter-Models
+        parameters: undefined // instance of ParameterCollection
     }
 });
