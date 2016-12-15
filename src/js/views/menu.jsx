@@ -163,7 +163,7 @@ export let MenuView = Backbone.View.extend({
     sendToAPI: function(event) {
         // TODO
     },
-    saveModel: function() {
+    saveModel: function(event) {
         let exportJSON = this.workspaceGraph.toJSON();
         let blob = new Blob([JSON.stringify(exportJSON)], {type: "application/json"});
         let url  = URL.createObjectURL(blob);
