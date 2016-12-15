@@ -89,6 +89,7 @@ export let PropertiesView = Backbone.View.extend({
         this.stickit();
 
         this.$el.foundation();
+        this.initValidators();
     },
     // Set the selected node and rerender the menu
     setCurrentNode: function(nodeView) {
@@ -100,10 +101,6 @@ export let PropertiesView = Backbone.View.extend({
             this.model && this.model.off('change:processName');
             this.currentNode = nodeView.model;
             this.model = this.currentNode.get('properties');
-
-            // Test
-            //let param = new ParameterModel({name : "gold", unit: "w", timeValues: [{ 1: 2}, { 3: 4}]});
-            //this.model.set('parameters', new ParameterCollection([param]));
 
             // Register change listener to update the model and label of the node
             let propertiesModel = this.model;
@@ -121,7 +118,7 @@ export let PropertiesView = Backbone.View.extend({
         _.each(parameters, function (parameterModel) {
             let parameterName = parameterModel.get('name');
             let bindings = {
-                // FIXME: binding erfolgt noch über name -entweder in ui validieren oder auf ID ändern)
+                // FIXME: binding erfolgt noch über name (entweder in ui validieren oder auf ID ändern)
                 name: '#parameterInputName' + parameterName,
                 value: '#parameterInputValue' + parameterName,
                 unit: '#pressureUnitInput' + parameterName
@@ -146,6 +143,26 @@ export let PropertiesView = Backbone.View.extend({
         this.model = this.emptyModel;
         this.render();
     },
+    initValidators: function() {
+        Foundation.Abide.defaults.validators['awValidation'] =
+            function($el, required) {
+                if(!required) return true;
+                let value = $el.val();
+                return (0 <= value && value <= 1)
+            }
+        Foundation.Abide.defaults.validators['phValidation'] =
+            function($el, required) {
+                if(!required) return true;
+                let value = $el.val();
+                return (0 <= value && value <= 14)
+            }
+        Foundation.Abide.defaults.validators['tempValidation'] =
+            function($el, required) {
+                if(!required) return true;
+                let value = $el.val();
+                return (-273.15 <= value && value <= 1000)
+            }
+    },
     // Add an input port to the selected node
     addInPort: function(){
         this.currentNode && this.currentNode.addDefaultPort('in');
@@ -161,8 +178,5 @@ export let PropertiesView = Backbone.View.extend({
     // Remove an output port from the selected node
     removeOutPort: function(){
         this.currentNode && this.currentNode.removeDefaultPort('out');
-    },
-    close: function () {
-        this.model.unbind();
     }
 });

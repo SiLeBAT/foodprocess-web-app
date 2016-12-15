@@ -15,7 +15,7 @@
     <form class="properties-form" data-abide novalidate>
         <div class="property-row">
             <label for="temperatureInput" class="middle property-name">Temperature</label>
-            <input type="number" id="temperatureInput" placeholder="" aria-describedby="temperature" required>
+            <input type="number" id="temperatureInput" placeholder="" aria-describedby="temperature" data-validator="tempValidation" required>
             <select class="property-unit" id="temperatureUnitInput"></select>
             <button type="button" id="addTimeTableButtonTemperature" data-open="timetableModal" class="primary button property-button" title="Change value for specific points in time">
                 <i class="fa fa-clock-o" aria-hidden="true"></i>
@@ -23,14 +23,14 @@
         </div>
         <div class="property-row">
             <label for="pHInput" class="middle property-name">pH</label>
-            <input type="number" id="pHInput" placeholder="" aria-describedby="pH" required>
+            <input type="number" id="pHInput" placeholder="" aria-describedby="pH" data-validator="phValidation" required>
             <button type="button" id="addTimeTableButtonPh" data-open="timetableModal" class="primary button property-button" title="Change value for specific points in time">
                 <i class="fa fa-clock-o" aria-hidden="true"></i>
             </button>
         </div>
         <div class="property-row">
             <label for="awInput" class="middle property-name">aw</label>
-            <input type="number" id="awInput" placeholder="" aria-describedby="aw" required>
+            <input type="number" id="awInput" placeholder="" aria-describedby="aw" data-validator="awValidation" required>
             <button type="button" id="addTimeTableButtonAw" data-open="timetableModal" class="primary button property-button" title="Change value for specific points in time">
                 <i class="fa fa-clock-o" aria-hidden="true"></i>
             </button>
@@ -43,7 +43,7 @@
                 <i class="fa fa-clock-o" aria-hidden="true"></i>
             </button>
         </div>
-        <% var parameters = model.get('parameters').models %>
+        <% let parameters = model.get('parameters').models %>
         <% _.each(parameters, function (parameter) { %>
             <div class="property-row">
                 <input type="text" id="parameterInputName<%= parameter.get('name') %>" class="middle property-name">
