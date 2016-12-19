@@ -93,6 +93,7 @@ export let SettingsView = Backbone.View.extend({
             self.updateLastChanged();
         });
     },
+    // Re-render the metadata section and re-create the bindings
     renderMetadataSection: function() {
         // Re-render the metadata section
         this.$el.find('#metadataSection').html(this.metadataTemplate({model: this.model}));
@@ -116,12 +117,13 @@ export let SettingsView = Backbone.View.extend({
             self.model.get('metadata')[index][type] = $(this).val();
         });
     },
+    // Add a click listener remove button
     addRemoveButtonBinding: function(index) {
         let self = this;
         this.$el.find('#remove-metadata-' + index).on('click', function() {
             // Remove the metadata row from the array
             delete self.model.get('metadata').splice(index, 1);
-            // Rerender the section
+            // Re-render the section
             self.renderMetadataSection();
         });
     }

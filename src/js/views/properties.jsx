@@ -149,19 +149,19 @@ export let PropertiesView = Backbone.View.extend({
                 if(!required) return true;
                 let value = $el.val();
                 return (0 <= value && value <= 1)
-            }
+            };
         Foundation.Abide.defaults.validators['phValidation'] =
             function($el, required) {
                 if(!required) return true;
                 let value = $el.val();
                 return (0 <= value && value <= 14)
-            }
+            };
         Foundation.Abide.defaults.validators['tempValidation'] =
             function($el, required) {
                 if(!required) return true;
                 let value = $el.val();
                 return (-273.15 <= value && value <= 1000)
-            }
+            };
     },
     // Add an input port to the selected node
     addInPort: function(){

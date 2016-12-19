@@ -10,14 +10,17 @@
     .timetable-row {
         display: flex;
         flex-flow: row nowrap;
+        margin-bottom: .4rem;
 
         .timetable-key {
-            width: 50%;
-            margin-right: .6rem;
-            flex-shrink: 0;
+            margin-right: .4rem;
+            margin-bottom: 0;
+            flex-grow: 1;
         }
 
         .timetable-value {
+            margin-right: .2rem;
+            margin-bottom: 0;
             flex-grow: 1;
         }
     }

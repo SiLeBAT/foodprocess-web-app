@@ -7,6 +7,9 @@
                        value="<%= dataElement.key %>" required>
                 <input type="number" class="timetable-value" id="timetableList-value-<%= i %>" placeholder="" aria-describedby="process name"
                        value="<%= dataElement.value %>" required>
+                <button type="button" id="remove-timetable-row-<%= i %>" class="secondary button remove-row-button" title="Remove the timetable parameter">
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                </button>
             </div>
     <% } %>
 <% } %>
