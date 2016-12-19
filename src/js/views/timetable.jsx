@@ -78,7 +78,6 @@ export let TimetableView = Backbone.View.extend({
     addRemoveButtonBinding: function(index) {
         let self = this;
         this.$el.find('#remove-timetable-row-' + index).on('click', function() {
-            console.log(index);
             // Remove the metadata row from the array
             delete self.model.get('timeValues').splice(index, 1);
             // Re-render the section

@@ -1,5 +1,5 @@
 .properties {
-    width: 350px;
+    width: 370px;
     background-color: $sideBackgroundColor;
     position: relative;
     z-index: 100;
@@ -28,7 +28,7 @@
             flex-flow: row nowrap;
 
             .property-name {
-                width: 93px;
+                width: 100px;
                 margin-right: 10px;
                 flex-shrink: 0;
                 margin-bottom: 0;
@@ -43,11 +43,16 @@
                 height: 2.4375rem;
                 width: 66px;
                 margin-left: -1px;
+
+                &.optional-parameter-unit {
+                    flex-shrink: 1;
+                    width: 100%;
+                }
             }
 
             .property-button {
                 height: 2.4375rem;
-                margin-left: 1px;
+                margin-left: 0;
             }
 
             * {

@@ -84,7 +84,6 @@ export let PropertiesView = Backbone.View.extend({
             let parameters = this.model.get('parameters').models;
             let self = this;
             _.each(parameters, function (parameterModel) {
-                console.log(parameterModel)
                 let parameterId = parameterModel.get('id');
                 let timetableModal = new TimetableView(parameterModel);
                 timetableModal.setElement(self.$('#timetable' + parameterId));
@@ -130,14 +129,23 @@ export let PropertiesView = Backbone.View.extend({
             };
             let binder = new Backbone.ModelBinder(); // needs to be a new instance for each "bindings"!
             binder.bind(parameterModel, self.el, bindings);
+            // Add a click listener for the remove button
+            self.$el.find('#removeParameter' + parameterId).on('click', function() {
+                // Remove the parameter
+                self.model.get('parameters').remove(parameterId);
+                // Re-render the section
+                self.render();
+            });
         });
     },
     addParameter: function() {
         let parametersCollection = this.model.get('parameters');
-        let collectionSize = parametersCollection.size();
-        let id = "Param" + collectionSize;
-        parametersCollection.add(new ParameterModel({id: id}));
-
+        let idString = "Param";
+        let idNumber = 0;
+        if (parametersCollection.size()) {
+            idNumber = parseInt(parametersCollection.at(parametersCollection.size() - 1).get('id').replace(idString, '')) + 1;
+        }
+        parametersCollection.add(new ParameterModel({id: idString + idNumber}));
         this.render();
     },
     // delete the node and clear the menu
