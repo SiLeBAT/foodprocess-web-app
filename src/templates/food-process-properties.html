@@ -49,7 +49,7 @@
             <div class="property-row">
                 <input type="text" id="parameterInputName<%= parameter.get('id') %>" class="middle property-name">
                 <input type="number" id="parameterInputValue<%= parameter.get('id') %>" placeholder="" aria-describedby="parameter" required>
-                <input class="property-unit" id="parameterInputUnit<%= parameter.get('id') %>">
+                <input type="text" class="property-unit" id="parameterInputUnit<%= parameter.get('id') %>">
                 <button type="button" id="addTimeTableParameter" data-open="timetableModal<%= parameter.get('id') %>" class="primary button property-button" title="Change value for specific points in time">
                     <i class="fa fa-clock-o" aria-hidden="true"></i>
                 </button>
