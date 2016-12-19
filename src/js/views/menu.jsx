@@ -5,7 +5,7 @@ let _ = require('lodash');
 
 let menuTemplate = require('../../templates/menu.html');
 
-import {FoodProcessNode, IngredientsNode, nodeConfig} from '../models/index.jsx';
+import {FoodProcessNode, IngredientsNode, nodeConfig, MetadataModel} from '../models/index.jsx';
 import {SettingsView} from './index.jsx';
 
 export let MenuView = Backbone.View.extend({
@@ -28,19 +28,13 @@ export let MenuView = Backbone.View.extend({
         'change #uploadInput': 'loadModel',
     },
     // The model for all metadata
-    model: new Backbone.Model({ // FIXME: auslagern
-        workflowName: '',
-        author: '',
-        created: '',
-        lastChanged: '',
-        metadata: [],
-    }),
+    model: new MetadataModel(),
     initialize: function(workspaceGraph, workspaceElement) {
         this.workspaceGraph = workspaceGraph;
         this.workspaceElement = workspaceElement;
     },
     render: function() {
-        this.workspaceGraph.set('meta', this.model);
+        this.workspaceGraph.set('settings', this.model);
         this.$el.html(this.template);
         this.renderNodesLibrary();
         this.stickit();
@@ -49,6 +43,8 @@ export let MenuView = Backbone.View.extend({
         this.settings = new SettingsView(this.model, this.workspaceGraph, this.$el.find('#workflowNameInput'), this.$el.find('#authorInput'));
         this.settings.setElement(this.$('#settings'));
         this.settings.render();
+
+        this.$el.foundation();
     },
     renderNodesLibrary: function() {
         // Create a graph to hold the nodes of the library
@@ -111,10 +107,6 @@ export let MenuView = Backbone.View.extend({
             flyingNodeShape.position(nodeConfig.portSize/2, 0);
             // Add the copy of the node to the new graph
             flyingNodeGraph.addCell(flyingNodeShape);
-            flyingNodeElement.offset({
-                left: event.pageX - offset.x - nodeConfig.portSize/2,
-                top: event.pageY - offset.y
-            });
 
             // Move the flying node with the movement of the mouse
             rootElement.on('mousemove.fly touchmove.fly', function(event) {
@@ -125,7 +117,7 @@ export let MenuView = Backbone.View.extend({
                     posY = event.originalEvent.touches[0].pageY;
                 }
                 flyingNodeElement.offset({
-                    left: posX - offset.x,
+                    left: posX - offset.x - nodeConfig.portSize/2,
                     top: posY - offset.y
                 });
             });
@@ -170,13 +162,24 @@ export let MenuView = Backbone.View.extend({
         let exportJSON = this.workspaceGraph.toJSON();
         let blob = new Blob([JSON.stringify(exportJSON)], {type: "application/json"});
         let url  = URL.createObjectURL(blob);
-        let fileName = (exportJSON.meta.get('workflowName') || 'workflow') + '.json';
+        let fileName = (exportJSON.settings.get('workflowName') || 'workflow') + '.json';
         $(event.target).attr('download', fileName);
         $(event.target).attr('href', url);
     },
     loadModel: function(event) {
-        // TODO
-        console.log(event.target.files);
+        let files = event.target.files;
+        if (!files || !files.length) {
+            return;
+        }
+        let fileReader = new FileReader();
+        let self = this;
+        fileReader.onload = function(event) {
+            let dataFromJSON = JSON.parse(event.target.result);
+            self.workspaceGraph.fromJSON(dataFromJSON);
+            self.model = new MetadataModel(dataFromJSON.settings);
+            self.render();
+        };
+        fileReader.readAsText(files.item(0));
     },
 
 });

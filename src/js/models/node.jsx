@@ -2,6 +2,8 @@ let joint = require('jointjs/dist/joint.js');
 let _ = require('lodash');
 let Backbone = require('backbone');
 
+import { ParameterCollection, ParameterModel } from './index.jsx';
+
 // Possible types of nodes
 export const nodeTypes = {
     FOOD_PROCESS: 0,
@@ -76,6 +78,23 @@ joint.shapes.custom.Node = joint.shapes.basic.Rect.extend({
         properties: {}
     }, joint.shapes.devs.Model.prototype.defaults),
 
+    initialize: function() {
+        joint.shapes.basic.Rect.prototype.initialize.apply(this, arguments);
+        let properties = this.get('properties');
+        if (properties instanceof Backbone.Model) {
+            return;
+        }
+        properties = new Backbone.Model(this.get('properties'));
+        if (properties.get('type') === nodeTypes.FOOD_PROCESS) {
+            let parameters = new ParameterCollection();
+            for (let paramModel of properties.get('parameters')) {
+                parameters.add(new ParameterModel(paramModel));
+            }
+            properties.set('parameters', parameters);
+        }
+        this.set('properties', properties);
+    },
+
     // Add an input or output port to the node
     // Use type 'in' for input and 'out' for output
     addDefaultPort(type) {
@@ -111,7 +130,7 @@ joint.shapes.custom.Node = joint.shapes.basic.Rect.extend({
     // Overwrite the toJSON method to convert the custom properties to json too
     toJSON: function() {
         let propertiesJSON = this.get('properties').toJSON();
-        let jsonNode = joint.shapes.basic.Rect.prototype.toJSON.apply(this);
+        let jsonNode = joint.shapes.basic.Rect.prototype.toJSON.apply(this, arguments);
         jsonNode.properties = propertiesJSON;
         return jsonNode;
     }
@@ -120,7 +139,18 @@ joint.shapes.custom.Node = joint.shapes.basic.Rect.extend({
 // The NodeView creates a HTML element wich follows the node and displays the node icon.
 joint.shapes.custom.NodeView = joint.dia.ElementView.extend({
     init: function() {
-        this.template = this.createTemplate(this.model.get('properties').get('icon'), this.model.get('properties').get('cssClasses') || '');
+        joint.dia.ElementView.prototype.init.apply(this, arguments);
+        let icon = '';
+        let cssClasses = '';
+        let properties = this.model.get('properties');
+        if (properties instanceof Backbone.Model) {
+            icon = properties.get('icon');
+            cssClasses = properties.get('cssClasses') || '';
+        } else {
+            icon = properties.icon;
+            cssClasses = properties.cssClasses || '';
+        }
+        this.template = this.createTemplate(icon, cssClasses);
 
         // Update the box position whenever the underlying model changes.
         this.listenTo(this.model, 'change', this.updateBox);

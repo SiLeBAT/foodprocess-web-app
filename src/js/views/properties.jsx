@@ -103,7 +103,7 @@ export let PropertiesView = Backbone.View.extend({
         } else {
             // Unregister change listener from current node
             this.model && this.model.off('change:processName');
-            this.currentNode = nodeView.model; //
+            this.currentNode = nodeView.model;
             this.model = this.currentNode.get('properties');
 
             // Register change listener to update the model and label of the node

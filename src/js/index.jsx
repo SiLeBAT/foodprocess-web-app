@@ -25,11 +25,10 @@ import {WorkspaceView, MenuView, PropertiesView} from './views/index.jsx';
 let appTemplate = require('../templates/app.html');
 
 let AppView = Backbone.View.extend({
-    el: $('#app'),
+    el: '#app',
     template: _.template(appTemplate),
     initialize: function() {
         this.render();
-        $(document).foundation();
     },
     render: function() {
         this.$el.html(this.template({}));
