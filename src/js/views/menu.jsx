@@ -144,8 +144,11 @@ export let MenuView = Backbone.View.extend({
                     let newNode = flyingNodeShape.clone();
                     // Clone the properties and parameters separately to generate a unique id (applies for all nested models)
                     let clonedProperties = newNode.get('properties').clone();
-                    let clonedParameters = clonedProperties.get('parameters').clone();
-                    clonedProperties.set('parameters', clonedParameters);
+                    let parameters = clonedProperties.get('parameters');
+                    if (parameters) {
+                        let clonedParameters = clonedProperties.get('parameters').clone();
+                        clonedProperties.set('parameters', clonedParameters);
+                    }
                     newNode.set({
                         properties: clonedProperties
                     });
