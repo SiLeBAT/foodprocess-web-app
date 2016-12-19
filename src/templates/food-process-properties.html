@@ -43,16 +43,18 @@
                 <i class="fa fa-clock-o" aria-hidden="true"></i>
             </button>
         </div>
+
         <% let parameters = model.get('parameters').models %>
         <% _.each(parameters, function (parameter) { %>
             <div class="property-row">
-                <input type="text" id="parameterInputName<%= parameter.get('name') %>" class="middle property-name">
-                <input type="number" id="parameterInputValue<%= parameter.get('name') %>" placeholder="" aria-describedby="parameter" required>
-                <select class="property-unit" id="pressureUnitInput<%= parameter.get('name') %>"></select>
-                <button type="button" id="addTimeTableParameter" data-open="timetableModal" class="primary button property-button" title="Change value for specific points in time">
+                <input type="text" id="parameterInputName<%= parameter.get('id') %>" class="middle property-name">
+                <input type="number" id="parameterInputValue<%= parameter.get('id') %>" placeholder="" aria-describedby="parameter" required>
+                <input class="property-unit" id="parameterInputUnit<%= parameter.get('id') %>">
+                <button type="button" id="addTimeTableParameter" data-open="timetableModal<%= parameter.get('id') %>" class="primary button property-button" title="Change value for specific points in time">
                     <i class="fa fa-clock-o" aria-hidden="true"></i>
                 </button>
             </div>
+            <div class="reveal timetable tiny" id="timetable<%= parameter.get('id') %>" data-reveal></div>
         <% }); %>
 
     </form>
@@ -74,5 +76,3 @@
     </div>
     <button type="button" id="deleteNodeButton" class="alert button expanded last" title="Delete the selected FoodProcess">Delete Node</button>
 </div>
-
-<div id="timetable"></div>

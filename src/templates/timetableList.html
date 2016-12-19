@@ -1,15 +1,15 @@
-<% var timeValues = model.get('pressureTimeValues') %>
-    <% if (timeValues.length) { %>
-        <% for(var i = 0; i < timeValues.length; i++) { %>
-            <div class="timetable-row">
-                <% var dataElement = timeValues[i] %>
-                <input type="number" class="timetable-key" id="timetableList-key-<%= i %>" placeholder="" aria-describedby="process name"
-                       value="<%= dataElement.key %>" required>
-                <input type="number" class="timetable-value" id="timetableList-value-<%= i %>" placeholder="" aria-describedby="process name"
-                       value="<%= dataElement.value %>" required>
-                <button type="button" id="remove-timetable-row-<%= i %>" class="secondary button remove-row-button" title="Remove the timetable parameter">
-                    <i class="fa fa-times" aria-hidden="true"></i>
-                </button>
-            </div>
+<% var timeValues = model.get('timeValues') %>
+<% if (timeValues.length) { %>
+    <% for(var i = 0; i < timeValues.length; i++) { %>
+        <div class="timetable-row">
+            <% var dataElement = timeValues[i] %>
+            <input type="number" class="timetable-key" id="timetableList-key-<%= i %>" placeholder="" aria-describedby="process name"
+                   value="<%= dataElement.key %>" required>
+            <input type="number" class="timetable-value" id="timetableList-value-<%= i %>" placeholder="" aria-describedby="process name"
+                   value="<%= dataElement.value %>" required>
+            <button type="button" id="remove-timetable-row-<%= i %>" class="secondary button remove-row-button" title="Remove the timetable parameter">
+                <i class="fa fa-times" aria-hidden="true"></i>
+            </button>
+        </div>
     <% } %>
 <% } %>
