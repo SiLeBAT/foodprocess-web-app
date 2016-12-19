@@ -77,7 +77,7 @@ joint.shapes.custom.Node = joint.shapes.basic.Rect.extend({
         },
         properties: {}
     }, joint.shapes.devs.Model.prototype.defaults),
-
+    // Overwrite the initialize function to convert the properties and parameters of a loaded workflow to Backbone models
     initialize: function() {
         joint.shapes.basic.Rect.prototype.initialize.apply(this, arguments);
         let properties = this.get('properties');

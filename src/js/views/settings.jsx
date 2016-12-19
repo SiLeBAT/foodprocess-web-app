@@ -49,6 +49,7 @@ export let SettingsView = Backbone.View.extend({
         });
     },
     render: function() {
+        // Remove the old settings modal
         $('.reveal-overlay > #settingsModal').parent().remove();
         this.$el.html(this.template({model: this.model}));
         if (!this.listenerAdded) {
