@@ -1,6 +1,6 @@
+require('backbone.modelbinder');
 let Backbone = require('backbone');
 let _ = require('lodash');
-require('backbone.modelbinder');
 
 let foodProcessPropertiesTemplate = require('../../templates/food-process-properties.html');
 let ingredientsPropertiesTemplate = require('../../templates/ingredients-properties.html');
@@ -140,12 +140,17 @@ export let PropertiesView = Backbone.View.extend({
     },
     addParameter: function() {
         let parametersCollection = this.model.get('parameters');
+        console.log(parametersCollection);
         let idString = "Param";
         let idNumber = 0;
         if (parametersCollection.size()) {
             idNumber = parseInt(parametersCollection.at(parametersCollection.size() - 1).get('id').replace(idString, '')) + 1;
         }
-        parametersCollection.add(new ParameterModel({id: idString + idNumber}));
+        parametersCollection.add(new ParameterModel({
+            id: idString + idNumber,
+            timeValues: []
+        }));
+        console.log(parametersCollection);
         this.render();
     },
     // delete the node and clear the menu

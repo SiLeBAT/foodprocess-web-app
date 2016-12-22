@@ -70,7 +70,7 @@ export let TimetableView = Backbone.View.extend({
     // Create a listener for the metadata attribute
     addMetadataBinding: function(type, index) {
         let self = this;
-        this.$el.find('#timetableList-' + type + '-' + index).on('propertychange change click keyup input paste', function() {
+        this.$el.find('#timetableList-' + this.id + '-' + type + '-' + index).on('propertychange change click keyup input paste', function() {
             self.model.get('timeValues')[index][type] = $(this).val(); // TODO
         });
     },
