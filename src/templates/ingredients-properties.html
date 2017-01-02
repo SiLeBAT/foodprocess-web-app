@@ -1,6 +1,32 @@
-<div class="properties-area">
+<div class="ingredients-area">
     <h4>Ingredients</h4>
-    <button type="button" id="addIngredientButton" class="button expanded last" title="">Add Ingredient</button>
+
+    <form class="properties-form" data-abide novalidate>
+	    <label>
+		    <select id="ingredientSelection">
+		      	<% _.each(ingredients, function(ingredient) { %>
+		      	<option value="<%= ingredient.ID %>"><%= ingredient.Name %></option>
+		      	<% }); %>
+		      	
+		    </select>
+	    </label>
+    	<button type="button" id="addIngredientButton" class="button expanded last" title="">Add Ingredient</button>
+    </form>
+
+    <h5>Current Ingredients</h5>
+    <form class="ingredients-form" data-abide novalidate>
+        <% let chosenIngredients = model.get('ingredients') %>
+        <% _.each(chosenIngredients, function (ingredient) { %>
+            <div class="ingredient-row">
+            	<span id="ingredientAmount<%= ingredient.get('id') %>" class="ingredient-amount" aria-describedby="ingredient" disabled><%= ingredient.get('amount') %></span>
+                <span id="ingredientName<%= ingredient.get('id') %>" class="middle ingredient-name" disabled><%= ingredient.get('name') %></span>
+
+                <button type="button" id="removeIngredient<%= ingredient.get('id') %>" class="alert button remove-row-button" title="Remove ingredient">
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                </button>
+            </div>
+        <% }); %>
+    </form>
 </div>
 
 <div class="controls-area">

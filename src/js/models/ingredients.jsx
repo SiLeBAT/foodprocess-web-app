@@ -21,6 +21,14 @@ export class IngredientsNode {
     };
 }
 
+export let IngredientModel = Backbone.Model.extend({
+    defaults: {
+        id: undefined,
+        name: "",
+        amount: 1
+    }
+});
+
 // The properties for an ingredients node
 let IngredientsProperties = Backbone.Model.extend({
     defaults: {

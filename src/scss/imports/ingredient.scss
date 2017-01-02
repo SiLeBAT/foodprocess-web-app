@@ -1,0 +1,44 @@
+.ingredients-area {
+    padding: 1.5em;
+    flex-grow: 1;
+    flex-shrink: 1;
+    overflow: auto;
+    min-height: 100px;
+}
+
+    .ingredients-form {
+        margin-bottom: 0.6rem;
+    }
+
+    .ingredient-row {
+        display: flex;
+        flex-flow: row nowrap;
+
+        .ingredient-name {
+            width: 200px;
+            margin-right: 10px;
+            flex-shrink: 0;
+            margin-bottom: 0;
+        }
+
+        .ingredient-input {
+            flex-grow: 1;
+        }
+
+        .ingredient-amount {
+            flex-shrink: 0;
+            height: 2.4375rem;
+            width: 66px;
+            margin-left: -1px;
+
+            &.optional-parameter-unit {
+                flex-shrink: 1;
+                width: 100%;
+            }
+        }
+
+        .ingredient-button {
+            height: 2.4375rem;
+            margin-left: 0;
+        }
+    }

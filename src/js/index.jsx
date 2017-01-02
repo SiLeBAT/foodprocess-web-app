@@ -10,9 +10,8 @@ let joint = require('jointjs/dist/joint.js');
 require('jointjs/dist/joint.css');
 
 // Foundation
-require('foundation-sites/dist/foundation.js');
 require('foundation-sites/dist/foundation.css');
-
+require('foundation-sites/dist/foundation.js');
 // Icon font
 require('font-awesome/css/font-awesome.css');
 

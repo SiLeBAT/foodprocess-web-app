@@ -1,4 +1,8 @@
 require('backbone.modelbinder');
+
+window.$ = window.jQuery = require('jquery'); // MPA
+require('javascript-csv');
+
 let Backbone = require('backbone');
 let _ = require('lodash');
 
@@ -6,10 +10,11 @@ let foodProcessPropertiesTemplate = require('../../templates/food-process-proper
 let ingredientsPropertiesTemplate = require('../../templates/ingredients-properties.html');
 let emptyPropertiesTemplate = require('../../templates/empty-properties.html');
 
-import {nodeTypes, ParameterModel} from '../models/index.jsx';
+import {nodeTypes, ParameterModel, IngredientModel} from '../models/index.jsx';
 import {TimetableView} from './index.jsx'
 
 export let PropertiesView = Backbone.View.extend({
+    csvData: [],
     foodProcessTemplate: _.template(foodProcessPropertiesTemplate),
     ingredientsTemplate: _.template(ingredientsPropertiesTemplate),
     emptyTemplate: _.template(emptyPropertiesTemplate),
@@ -54,6 +59,7 @@ export let PropertiesView = Backbone.View.extend({
     events: {
         'click #deleteNodeButton': 'deleteCurrentNode',
         'click #addParameterButton': 'addParameter',
+        'click #addIngredientButton': 'addIngredient',
         'click #addInPortButton': 'addInPort',
         'click #addOutPortButton': 'addOutPort',
         'click #removeInPortButton': 'removeInPort',
@@ -65,35 +71,50 @@ export let PropertiesView = Backbone.View.extend({
     render: function() {
         // Render the appropriate context menu for the selected node
         let template = this.emptyTemplate;
+
         switch(this.model.toJSON().type) {
             case nodeTypes.FOOD_PROCESS:
+                // food node
                 template = this.foodProcessTemplate;
+                this.$el.html(template({model: this.model}));
+
+                // if food process, render food process specific elements
+                if(this.model != this.emptyModel) {
+                    // now that we have a model and parameters, we can add more bindings
+                    this.addParameterBindings();
+
+                    // Render the timetable modal
+                    let parameters = this.model.get('parameters').models;
+                    let self = this;
+                    _.each(parameters, function (parameterModel) {
+                        let parameterId = parameterModel.get('id');
+                        let timetableModal = new TimetableView(parameterModel);
+                        timetableModal.setElement(self.$('#timetable' + parameterId));
+                        timetableModal.render();
+                    });
+                }
+                this.stickit();
+                this.$el.foundation();
+                this.initValidators();
                 break;
+
             case nodeTypes.INGREDIENTS:
+                // ingredient node
                 template = this.ingredientsTemplate;
+                
+                self = this
+                this.receiveIngredientData().done(function(data) { // ajax
+                    let ingredients = $.csv.toObjects(data, {
+                        'separator': ";", 
+                        'delimiter': "\n"
+                    });
+                    self.$el.html(template({model: self.model, ingredients: ingredients}));
+                    self.stickit();
+                    self.$el.foundation();
+                });
                 break;
         }
-        this.$el.html(template({model: this.model}));
 
-        // if food process, render food process specific elements
-        if(this.model.toJSON().type == nodeTypes.FOOD_PROCESS && this.model != this.emptyModel) {
-            // now that we have a model and parameters, we can add more bindings
-            this.addParameterBindings();
-
-            // Render the timetable modal
-            let parameters = this.model.get('parameters').models;
-            let self = this;
-            _.each(parameters, function (parameterModel) {
-                let parameterId = parameterModel.get('id');
-                let timetableModal = new TimetableView(parameterModel);
-                timetableModal.setElement(self.$('#timetable' + parameterId));
-                timetableModal.render();
-            });
-        }
-        this.stickit();
-
-        this.$el.foundation();
-        this.initValidators();
     },
     // Set the selected node and rerender the menu
     setCurrentNode: function(nodeView) {
@@ -140,7 +161,6 @@ export let PropertiesView = Backbone.View.extend({
     },
     addParameter: function() {
         let parametersCollection = this.model.get('parameters');
-        console.log(parametersCollection);
         let idString = "Param";
         let idNumber = 0;
         if (parametersCollection.size()) {
@@ -150,7 +170,18 @@ export let PropertiesView = Backbone.View.extend({
             id: idString + idNumber,
             timeValues: []
         }));
-        console.log(parametersCollection);
+        this.render();
+    },    
+    addIngredient: function() {
+        let ingredientsCollection = this.model.get('ingredients');
+        let ingredientId = self.$el.find('#ingredientSelection').val();
+        let ingredientName = self.$el.find('#ingredientSelection option:selected').text();
+        
+        ingredientsCollection.push(new IngredientModel({
+            id: ingredientId,
+            name: ingredientName,
+            amount: 5 
+        }));
         this.render();
     },
     // delete the node and clear the menu
@@ -183,6 +214,13 @@ export let PropertiesView = Backbone.View.extend({
                 let value = $el.val();
                 return (-273.15 <= value && value <= 1000)
             };
+    },
+    receiveIngredientData: function() {
+        return $.ajax({
+            type: "GET",
+            url: 'dist/ingredients.csv', // FIXME
+            dataType: "text"
+        });
     },
     // Add an input port to the selected node
     addInPort: function(){
