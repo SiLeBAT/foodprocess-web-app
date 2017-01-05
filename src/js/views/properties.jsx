@@ -1,6 +1,6 @@
 require('backbone.modelbinder');
 
-window.$ = window.jQuery = require('jquery'); // MPA
+window.$ = window.jQuery = require('jquery');
 require('javascript-csv');
 
 let Backbone = require('backbone');
@@ -102,7 +102,7 @@ export let PropertiesView = Backbone.View.extend({
                 // ingredient node
                 template = this.ingredientsTemplate;
                 
-                self = this
+                let self = this;
                 this.receiveIngredientData().done(function(data) { // ajax
                     let ingredients = $.csv.toObjects(data, {
                         'separator': ";", 
@@ -174,8 +174,8 @@ export let PropertiesView = Backbone.View.extend({
     },    
     addIngredient: function() {
         let ingredientsCollection = this.model.get('ingredients');
-        let ingredientId = self.$el.find('#ingredientSelection').val();
-        let ingredientName = self.$el.find('#ingredientSelection option:selected').text();
+        let ingredientId = this.$el.find('#ingredientSelection').val();
+        let ingredientName = this.$el.find('#ingredientSelection option:selected').text();
         
         ingredientsCollection.push(new IngredientModel({
             id: ingredientId,

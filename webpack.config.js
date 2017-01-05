@@ -62,7 +62,7 @@ module.exports = {
                 loader: "url?limit=10000&mimetype=image/svg+xml"
             },
             {
-                test: /\.(png|jpg)$/,
+                test: /\.(png|jpg|csv)$/,
                 loader: "file-loader"
             }
         ]
