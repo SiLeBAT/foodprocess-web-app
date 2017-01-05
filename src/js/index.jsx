@@ -13,7 +13,7 @@ require('jointjs/dist/joint.css');
 require('foundation-sites/dist/foundation.css');
 require('foundation-sites/dist/foundation.js');
 // Icon font
-require('font-awesome/css/font-awesome.css');
+require("font-awesome-webpack");
 
 // Stylesheets
 require('../scss/main.scss');
