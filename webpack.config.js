@@ -16,7 +16,7 @@ module.exports = {
     output: {
         filename: "bundle.js",
         path: path.join(__dirname, 'dist'),
-        publicPath: 'http://localhost:8080/dist/',
+        publicPath: 'dist/',
     },
     devtool: production ? 'source-map' : 'eval-source-map',
     module: {
