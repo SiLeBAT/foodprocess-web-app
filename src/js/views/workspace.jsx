@@ -91,16 +91,16 @@ export let WorkspaceView = Backbone.View.extend({
             }
         });
 
-        // let zoomLevel = 1;
-        // this.$el.on('mousewheel', function(event) {
-        //     if (event.originalEvent.wheelDelta > 0) {
-        //         // zoom in
-        //         zoomLevel = Math.min(3, zoomLevel + 0.1);
-        //     } else {
-        //         // zoom out
-        //         zoomLevel = Math.max(0.2, zoomLevel - 0.1);
-        //     }
-        //     workspace.scale(zoomLevel, zoomLevel, 0, 0);
-        // });
+        let zoomLevel = 1;
+        this.$el.on('mousewheel', function(event) {
+            if (event.originalEvent.wheelDelta > 0) {
+                // zoom in
+                zoomLevel = Math.min(3, zoomLevel + 0.1);
+            } else {
+                // zoom out
+                zoomLevel = Math.max(0.2, zoomLevel - 0.1);
+            }
+            workspace.scale(zoomLevel, zoomLevel); //, 0, 0);
+        });
     }
 });

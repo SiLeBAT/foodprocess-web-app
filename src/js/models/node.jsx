@@ -181,11 +181,8 @@ joint.shapes.custom.NodeView = joint.dia.ElementView.extend({
         // Set the position and the size of the box so that it covers the JointJS element
         // (taking the paper transformations into account).
         let bbox = this.getBBox({ useModelGeometry: true });
-        // let scale = V(this.paper.viewport).scale();
-        let scale = {
-            sx: 1,
-            sy: 1
-        };
+        let scale = joint.V(this.paper.viewport).scale();
+
         this.$box.css({
             transform: 'scale(' + scale.sx + ',' + scale.sy + ')',
             transformOrigin: '0 0',
