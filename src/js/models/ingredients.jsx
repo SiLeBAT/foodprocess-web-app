@@ -1,5 +1,9 @@
+window.$ = window.jQuery = require('jquery');
+require('javascript-csv');
 let joint = require('jointjs/dist/joint.js');
 let Backbone = require('backbone');
+
+let ingredientsCSV = require('../../cv/ingredients.csv');
 
 import { nodeTypes } from './index.jsx';
 
@@ -40,3 +44,38 @@ let IngredientsProperties = Backbone.Model.extend({
         ingredients: []
     }
 });
+
+// TODO: Move me
+class IngredientsService {
+    constructor() {
+        this.readFile();
+    }
+    getIngredients() {
+        return this.ingredients;
+    }
+    readFile() {
+        self = this;
+        $.ajax({
+            url: ingredientsCSV,
+            success: function(data) {
+                let csvData = data;          
+            
+                let list = $.csv.toObjects(csvData, {
+                    'separator': ";", 
+                    'delimiter': "\n"
+                });
+                self.ingredients = list;
+                self.ingredients.sort(self.compareByName);
+            }
+        })
+    }
+    compareByName(a, b) {
+        if (a.Name < b.Name)
+            return -1;
+        if (a.Name > b.Name)
+            return 1;
+        return 0;
+    }
+}
+// make it a singleton
+export let ingredientsServiceInstance = new IngredientsService();

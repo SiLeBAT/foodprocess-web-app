@@ -1,8 +1,5 @@
 require('backbone.modelbinder');
 
-window.$ = window.jQuery = require('jquery');
-require('javascript-csv');
-
 let Backbone = require('backbone');
 let _ = require('lodash');
 
@@ -10,11 +7,11 @@ let foodProcessPropertiesTemplate = require('../../templates/food-process-proper
 let ingredientsPropertiesTemplate = require('../../templates/ingredients-properties.html');
 let emptyPropertiesTemplate = require('../../templates/empty-properties.html');
 
-import {nodeTypes, ParameterModel, IngredientModel} from '../models/index.jsx';
+import {nodeTypes, ParameterModel, IngredientModel, ingredientsServiceInstance} from '../models/index.jsx';
 import {TimetableView} from './index.jsx'
 
 export let PropertiesView = Backbone.View.extend({
-    csvData: [],
+    ingredients: [],
     foodProcessTemplate: _.template(foodProcessPropertiesTemplate),
     ingredientsTemplate: _.template(ingredientsPropertiesTemplate),
     emptyTemplate: _.template(emptyPropertiesTemplate),
@@ -96,22 +93,20 @@ export let PropertiesView = Backbone.View.extend({
                 this.stickit();
                 this.$el.foundation();
                 this.initValidators();
+
                 break;
 
             case nodeTypes.INGREDIENTS:
                 // ingredient node
-                template = this.ingredientsTemplate;
+                template = this.ingredientsTemplate; 
+                this.$el.html(template({
+                    model: this.model, 
+                    ingredients: ingredientsServiceInstance.getIngredients()})
+                );
                 
-                let self = this;
-                this.receiveIngredientData().done(function(data) { // ajax
-                    let ingredients = $.csv.toObjects(data, {
-                        'separator': ";", 
-                        'delimiter': "\n"
-                    });
-                    self.$el.html(template({model: self.model, ingredients: ingredients}));
-                    self.stickit();
-                    self.$el.foundation();
-                });
+                this.stickit();
+                this.$el.foundation();
+
                 break;
         }
 
@@ -214,13 +209,6 @@ export let PropertiesView = Backbone.View.extend({
                 let value = $el.val();
                 return (-273.15 <= value && value <= 1000)
             };
-    },
-    receiveIngredientData: function() {
-        return $.ajax({
-            type: "GET",
-            url: 'dist/ingredients.csv', // FIXME
-            dataType: "text"
-        });
     },
     // Add an input port to the selected node
     addInPort: function(){

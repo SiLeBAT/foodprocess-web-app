@@ -1,7 +1,12 @@
-// Dependencies
+/* 
+ * External dependencies 
+ */
+
+// General purpose
 window.$ = window.jQuery = require('jquery');
 let _ = require('lodash');
 let Backbone = require('backbone');
+
 // Stickit for easier data binding
 require('backbone.stickit');
 
@@ -12,16 +17,28 @@ require('jointjs/dist/joint.css');
 // Foundation
 require('foundation-sites/dist/foundation.css');
 require('foundation-sites/dist/foundation.js');
+
 // Icon font
 require('font-awesome/css/font-awesome.css');
+
+/* 
+ * Application dependencies
+ */
 
 // Stylesheets
 require('../scss/main.scss');
 
-import {WorkspaceView, MenuView, PropertiesView} from './views/index.jsx';
+// CSV files
+
+let processesCSV = require('../cv/processes.csv');
 
 // Templates
 let appTemplate = require('../templates/app.html');
+
+// views
+import {WorkspaceView, MenuView, PropertiesView} from './views/index.jsx';
+import {ingredientsServiceInstance} from './models/index.jsx';  // init service and read csv
+
 
 let AppView = Backbone.View.extend({
     el: '#app',
@@ -41,6 +58,7 @@ let AppView = Backbone.View.extend({
         this.menu = new MenuView(workspaceGraph, workspaceElement);
         this.menu.setElement(this.$('#menu'));
         this.menu.render();
+
         // Render the properties
         this.properties = new PropertiesView();
         this.properties.setElement(this.$('#properties'));
