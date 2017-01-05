@@ -63,6 +63,12 @@ export let WorkspaceView = Backbone.View.extend({
         });
 
         let self = this;
+        let pointerdown = false;
+        // Paper drag start position
+        let dragStartPosition = {};
+        // Paper origin on drag start
+        let dragStartOrigin = {};
+
         // Listen for clicks on a node
         workspace.on('cell:pointerdown', function(nodeView) {
             // Remove the focus of the element that is currently in focus
@@ -80,7 +86,17 @@ export let WorkspaceView = Backbone.View.extend({
             }
         });
         // Listen for clicks on the paper
-        workspace.on('blank:pointerdown', function(nodeView) {
+        workspace.on('blank:pointerdown', function(event) {
+            pointerdown = true;
+            dragStartPosition = {
+                x: event.pageX,
+                y: event.pageY
+            };
+            dragStartOrigin = {
+                x: workspace.options.origin.x,
+                y: workspace.options.origin.y
+            };
+
             // Remove the focus of the element that is currently in focus
             $($(':focus')[0]).blur();
             // Deselect currently selected node
@@ -89,6 +105,33 @@ export let WorkspaceView = Backbone.View.extend({
                 self.activeNodeView = null;
                 propertiesView.setCurrentNode(null);
             }
+        });
+
+        workspace.on('blank:pointerup', function() {
+            pointerdown = false;
+        });
+
+        // Listen for pointer move events for paper dragging
+        $(window).on('mousemove touchmove', function(event) {
+            if (!pointerdown) {
+                return;
+            }
+
+            let mousePosition = {
+                x: event.pageX,
+                y: event.pageY
+            };
+            if (event.type === 'touchmove') {
+                mousePosition.x = event.originalEvent.touches[0].pageX;
+                mousePosition.y = event.originalEvent.touches[0].pageY;
+            }
+            let newOrigin = {
+                x: dragStartOrigin.x + (mousePosition.x - dragStartPosition.x),
+                y: dragStartOrigin.y + (mousePosition.y - dragStartPosition.y)
+            };
+            newOrigin.x < 0 && (newOrigin.x = 0);
+            newOrigin.y < 0 && (newOrigin.y = 0);
+            workspace.setOrigin(newOrigin.x, newOrigin.y);
         });
 
         let zoomLevel = 1;

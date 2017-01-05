@@ -4,6 +4,8 @@
     float: left;
     overflow: hidden;
     min-width: 100px;
+    cursor: move; // fallback
+    cursor: grab;
 }
 
     .node-body {

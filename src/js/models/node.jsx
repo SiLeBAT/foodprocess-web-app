@@ -168,7 +168,7 @@ joint.shapes.custom.NodeView = joint.dia.ElementView.extend({
         let $box = this.$box = $(boxMarkup);
 
         // Update the box size and position whenever the paper transformation changes.
-        this.listenTo(this.paper, 'scale', this.updateBox);
+        this.listenTo(this.paper, 'scale translate', this.updateBox);
 
         $box.appendTo(this.paper.el);
         this.updateBox();

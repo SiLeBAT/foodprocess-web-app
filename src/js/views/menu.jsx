@@ -144,6 +144,7 @@ export let MenuView = Backbone.View.extend({
                     newNode.set({
                         properties: clonedProperties
                     });
+                    // TODO calculate the position of the node depending on the scale and origin of the workspace
                     newNode.position(posX - target.left - offset.x + nodeConfig.portSize/2, posY - target.top - offset.y);
                     // Add the node to the main workspace
                     workspaceGraph.addCell(newNode);
