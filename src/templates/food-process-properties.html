@@ -3,7 +3,6 @@
     <form class="properties-form" data-abide novalidate>
         <div class="property-row">
             <label for="processNameSelect" class="middle property-name">Name</label>
-            <!--<input type="text" id="processNameInput" placeholder="" aria-describedby="process name" required>-->
             <select id="processNameSelect"></select>
         </div>
         <div class="property-row">
@@ -14,49 +13,31 @@
     </form>
     <h5>Parameter</h5>
     <form class="properties-form" data-abide novalidate>
-        <div class="property-row">
-            <label for="temperatureInput" class="middle property-name">Temperature</label>
-            <input type="number" id="temperatureInput" placeholder="" aria-describedby="temperature" data-validator="tempValidation" required>
-            <select class="property-unit" id="temperatureUnitSelect"></select>
-            <button type="button" id="addTimeTableButtonTemperature" data-open="timetableModal" class="primary button property-button" title="Change value for specific points in time">
-                <i class="fa fa-clock-o" aria-hidden="true"></i>
-            </button>
-        </div>
-        <div class="property-row">
-            <label for="pHInput" class="middle property-name">pH</label>
-            <input type="number" id="pHInput" placeholder="" aria-describedby="pH" data-validator="phValidation" required>
-            <button type="button" id="addTimeTableButtonPh" data-open="timetableModal" class="primary button property-button" title="Change value for specific points in time">
-                <i class="fa fa-clock-o" aria-hidden="true"></i>
-            </button>
-        </div>
-        <div class="property-row">
-            <label for="awInput" class="middle property-name">aw</label>
-            <input type="number" id="awInput" placeholder="" aria-describedby="aw" data-validator="awValidation" required>
-            <button type="button" id="addTimeTableButtonAw" data-open="timetableModal" class="primary button property-button" title="Change value for specific points in time">
-                <i class="fa fa-clock-o" aria-hidden="true"></i>
-            </button>
-        </div>
-        <div class="property-row">
-            <label for="pressureInput" class="middle property-name">Pressure</label>
-            <input type="number" id="pressureInput" placeholder="" aria-describedby="pressure" required>
-            <select class="property-unit" id="pressureUnitSelect"></select>
-            <button type="button" id="addTimeTableButtonPressure" data-open="timetableModal" class="primary button property-button" title="Change value for specific points in time">
-                <i class="fa fa-clock-o" aria-hidden="true"></i>
-            </button>
-        </div>
-
         <% let parameters = model.get('parameters').models %>
         <% _.each(parameters, function (parameter) { %>
             <div class="property-row">
-                <input type="text" id="parameterInputName<%= parameter.get('id') %>" class="middle property-name">
+                <% if (parameter.get('optional')) { %>
+                    <input type="text" id="parameterInputName<%= parameter.get('id') %>" class="middle property-name">
+                <% } else { %>
+                    <label class="middle property-name"><%= parameter.get('name') %></label>
+                <% } %>
                 <input type="number" id="parameterInputValue<%= parameter.get('id') %>" placeholder="" aria-describedby="parameter" required>
-                <input type="text" class="property-unit optional-parameter-unit" id="parameterInputUnit<%= parameter.get('id') %>">
+                <% if (parameter.get('unit') !== null) { %>
+                    <!--<input type="text" class="property-unit optional-parameter-unit" id="parameterInputUnit<%= parameter.get('id') %>">-->
+                    <select class="property-unit" id="parameterUnitSelect<%= parameter.get('id') %>">
+                        <% _.each(parameter.get('unitOptions'), function(unitOption) { %>
+                        <option value="<%= unitOption.Name %>"><%= unitOption.Name %></option>
+                        <% }); %>
+                    </select>
+                <% } %>
                 <button type="button" id="addTimeTableParameter" data-open="timetableModal<%= model.cid %><%= parameter.get('id') %>" class="primary button property-button" title="Change value for specific points in time">
                     <i class="fa fa-clock-o" aria-hidden="true"></i>
                 </button>
-                <button type="button" id="removeParameter<%= parameter.get('id') %>" class="alert button remove-row-button" title="Remove the timetable parameter">
-                    <i class="fa fa-times" aria-hidden="true"></i>
-                </button>
+                <% if (parameter.get('optional')) { %>
+                    <button type="button" id="removeParameter<%= parameter.get('id') %>" class="alert button remove-row-button" title="Remove the timetable parameter">
+                        <i class="fa fa-times" aria-hidden="true"></i>
+                    </button>
+                <% } %>
             </div>
             <div id="timetable<%= model.cid %><%= parameter.get('id') %>"></div>
         <% }); %>

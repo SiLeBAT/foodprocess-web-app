@@ -1,7 +1,7 @@
 let joint = require('jointjs/dist/joint.js');
 let Backbone = require('backbone');
 
-import { nodeTypes, ParameterCollection } from './index.jsx';
+import { nodeTypes, ParameterCollection, ParameterModel } from './index.jsx';
 
 
 // This class represents a food process node. It creates an instance of the basic node and adds some configuration to it.
@@ -32,9 +32,38 @@ export class FoodProcessNode {
     };
 
     buildDefaultCollection() { // FIXME
-        return new ParameterCollection();
-        // temperature
-        // aw ...
+        let collection = new ParameterCollection();
+        collection.add(new ParameterModel({
+            id: 'Param0',
+            name: 'Temperature',
+            unit: '°C',
+            unitOptions: [{Name:'°C'}, {Name:'°F'}, {Name:'K'}],
+            timeValues: [],
+            optional: false
+        }));
+        collection.add(new ParameterModel({
+            id: 'Param1',
+            name: 'pH',
+            unit: null,
+            timeValues: [],
+            optional: false
+        }));
+        collection.add(new ParameterModel({
+            id: 'Param2',
+            name: 'aw',
+            unit: null,
+            timeValues: [],
+            optional: false
+        }));
+        collection.add(new ParameterModel({
+            id: 'Param3',
+            name: 'Pressure',
+            unit: 'bar',
+            unitOptions: [{Name:'bar'}, {Name:'Pa'}],
+            timeValues: [],
+            optional: false
+        }));
+        return collection;
     }
 }
 // The properties for a food process node

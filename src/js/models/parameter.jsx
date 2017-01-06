@@ -5,7 +5,8 @@ export let ParameterModel = Backbone.Model.extend({
         id: undefined,
         name: "",
         unit: "",
-        timeValues: []
+        timeValues: [],
+        optional: true
     }
 });
 

@@ -20,8 +20,6 @@ export let PropertiesView = Backbone.View.extend({
     emptyTemplate: _.template(emptyPropertiesTemplate),
     emptyModel: new Backbone.Model(),
     durationUnits: [{name:'sec'}, {name:'min'}, {name:'h'}, {name:'d'}],
-    temperatureUnits: [{name:'°C'}, {name:'°F'}, {name:'K'}],
-    pressureUnits: [{name:'bar'}, {name:'Pa'}],
     processNames: processNamesCV,
     // Bind the content of the input fields to the model of the node
     bindings: {
@@ -38,26 +36,6 @@ export let PropertiesView = Backbone.View.extend({
             observe: 'durationUnit',
             selectOptions: {
                 collection: 'this.durationUnits',
-                labelPath: 'name',
-                valuePath: 'name'
-            }
-        },
-        '#temperatureInput': 'temperature',
-        '#temperatureUnitSelect': {
-            observe: 'temperatureUnit',
-            selectOptions: {
-                collection: 'this.temperatureUnits',
-                labelPath: 'name',
-                valuePath: 'name'
-            }
-        },
-        '#pHInput': 'pH',
-        '#awInput': 'aw',
-        '#pressureInput': 'pressure',
-        '#pressureUnitSelect': {
-            observe: 'pressureUnit',
-            selectOptions: {
-                collection: 'this.pressureUnits',
                 labelPath: 'name',
                 valuePath: 'name'
             }
@@ -156,10 +134,14 @@ export let PropertiesView = Backbone.View.extend({
         _.each(parameters, function (parameterModel) {
             let parameterId = parameterModel.get('id');
             let bindings = {
-                name: '#parameterInputName' + parameterId,
-                value: '#parameterInputValue' + parameterId,
-                unit: '#parameterInputUnit' + parameterId
+                value: '#parameterInputValue' + parameterId
             };
+            if (parameterModel.get('optional')) {
+                bindings.name = '#parameterInputName' + parameterId;
+            }
+            if (parameterModel.get('unit') !== null) {
+                bindings.unit = '#parameterUnitSelect' + parameterId;
+            }
             let binder = new Backbone.ModelBinder(); // needs to be a new instance for each "bindings"!
             binder.bind(parameterModel, self.el, bindings);
             // Add a click listener for the remove button
