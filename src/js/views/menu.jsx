@@ -150,7 +150,7 @@ export let MenuView = Backbone.View.extend({
                     let currentWorkspaceScale = joint.V(workspace.viewport).scale();
                     let currentWorkspaceOrigin = workspace.options.origin;
                     let newPosition = {
-                        x: (posX - target.left - offset.x + nodeConfig.portSize/2 - currentWorkspaceOrigin.x) / currentWorkspaceScale.sx,
+                        x: (posX - target.left - offset.x - currentWorkspaceOrigin.x) / currentWorkspaceScale.sx,
                         y: (posY - target.top - offset.y - currentWorkspaceOrigin.y) / currentWorkspaceScale.sy
                     };
                     newNode.position(newPosition.x, newPosition.y);
