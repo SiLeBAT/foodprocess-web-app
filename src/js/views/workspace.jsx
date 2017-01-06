@@ -11,7 +11,7 @@ export let WorkspaceView = Backbone.View.extend({
         let workspaceGraph = this.workspaceGraph;
         let propertiesView = this.propertiesView;
 
-        let workspace = new joint.dia.Paper({
+        this.workspace = new joint.dia.Paper({
             el: this.$el,
             width: '100%',
             height: '100%',
@@ -64,13 +64,14 @@ export let WorkspaceView = Backbone.View.extend({
 
         let self = this;
         let pointerdown = false;
+        let performanceTimeout = false;
         // Paper drag start position
         let dragStartPosition = {};
         // Paper origin on drag start
         let dragStartOrigin = {};
 
         // Listen for clicks on a node
-        workspace.on('cell:pointerdown', function(nodeView) {
+        this.workspace.on('cell:pointerdown', function(nodeView) {
             // Remove the focus of the element that is currently in focus
             $($(':focus')[0]).blur();
             // Check if cell a node
@@ -86,15 +87,15 @@ export let WorkspaceView = Backbone.View.extend({
             }
         });
         // Listen for clicks on the paper
-        workspace.on('blank:pointerdown', function(event) {
+        this.workspace.on('blank:pointerdown', function(event) {
             pointerdown = true;
             dragStartPosition = {
                 x: event.pageX,
                 y: event.pageY
             };
             dragStartOrigin = {
-                x: workspace.options.origin.x,
-                y: workspace.options.origin.y
+                x: self.workspace.options.origin.x,
+                y: self.workspace.options.origin.y
             };
 
             // Remove the focus of the element that is currently in focus
@@ -107,15 +108,19 @@ export let WorkspaceView = Backbone.View.extend({
             }
         });
 
-        workspace.on('blank:pointerup', function() {
+        this.workspace.on('blank:pointerup', function() {
             pointerdown = false;
         });
 
         // Listen for pointer move events for paper dragging
         $(window).on('mousemove touchmove', function(event) {
-            if (!pointerdown) {
+            if (!pointerdown || performanceTimeout) {
                 return;
             }
+            performanceTimeout = true;
+            setTimeout(function() {
+                performanceTimeout = false;
+            }, 20);
 
             let mousePosition = {
                 x: event.pageX,
@@ -129,9 +134,9 @@ export let WorkspaceView = Backbone.View.extend({
                 x: dragStartOrigin.x + (mousePosition.x - dragStartPosition.x),
                 y: dragStartOrigin.y + (mousePosition.y - dragStartPosition.y)
             };
-            newOrigin.x < 0 && (newOrigin.x = 0);
-            newOrigin.y < 0 && (newOrigin.y = 0);
-            workspace.setOrigin(newOrigin.x, newOrigin.y);
+            newOrigin.x > 0 && (newOrigin.x = 0);
+            newOrigin.y > 0 && (newOrigin.y = 0);
+            self.workspace.setOrigin(newOrigin.x, newOrigin.y);
         });
 
         let zoomLevel = 1;
@@ -143,7 +148,11 @@ export let WorkspaceView = Backbone.View.extend({
                 // zoom out
                 zoomLevel = Math.max(0.2, zoomLevel - 0.1);
             }
-            workspace.scale(zoomLevel, zoomLevel); //, 0, 0);
+            self.workspace.scale(zoomLevel, zoomLevel); //, 0, 0);
         });
+    },
+
+    getWorkspace: function() {
+        return this.workspace;
     }
 });

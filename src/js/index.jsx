@@ -54,19 +54,20 @@ let AppView = Backbone.View.extend({
         // Element to render the workspace in
         let workspaceElement = this.$('#workspace');
 
-        // Render the menu
-        this.menu = new MenuView(workspaceGraph, workspaceElement);
-        this.menu.setElement(this.$('#menu'));
-        this.menu.render();
-
         // Render the properties
         this.properties = new PropertiesView();
         this.properties.setElement(this.$('#properties'));
         this.properties.render();
+
         // Render the workspace
         this.workspace = new WorkspaceView(workspaceGraph, this.properties);
         this.workspace.setElement(workspaceElement);
         this.workspace.render();
+
+        // Render the menu
+        this.menu = new MenuView(workspaceGraph, workspaceElement, this.workspace.getWorkspace());
+        this.menu.setElement(this.$('#menu'));
+        this.menu.render();
 
         this.addKeydownListener();
     },

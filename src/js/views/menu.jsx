@@ -29,9 +29,10 @@ export let MenuView = Backbone.View.extend({
     },
     // The model for all metadata
     model: new MetadataModel(),
-    initialize: function(workspaceGraph, workspaceElement) {
+    initialize: function(workspaceGraph, workspaceElement, workspace) {
         this.workspaceGraph = workspaceGraph;
         this.workspaceElement = workspaceElement;
+        this.workspace = workspace;
     },
     render: function() {
         this.workspaceGraph.set('settings', this.model);
@@ -63,12 +64,8 @@ export let MenuView = Backbone.View.extend({
         // Add the library nodes
         nodesLibraryGraph.addCells(this.createMenuNodes());
 
-        // Create a reference of the workspace object for later
-        let workspaceGraph = this.workspaceGraph;
-        let workspaceElement = this.workspaceElement;
-
         // Listen for drag events to enable drag and drop of the nodes of the library
-        this.addDragAndDropListener(workspaceGraph, workspaceElement, nodesLibraryPaper);
+        this.addDragAndDropListener(nodesLibraryPaper);
     },
     // Create the nodes for the library
     createMenuNodes: function() {
@@ -80,7 +77,12 @@ export let MenuView = Backbone.View.extend({
         nodes.push(new IngredientsNode({ x: 0, y: nodeConfig.totalHeight*2 + 1}, 0, 1));
         return nodes;
     },
-    addDragAndDropListener: function(workspaceGraph, workspaceElement, nodesLibraryPaper) {
+    addDragAndDropListener: function(nodesLibraryPaper) {
+        // Create a reference of the workspace object for later
+        let workspaceGraph = this.workspaceGraph;
+        let workspaceElement = this.workspaceElement;
+        let workspace = this.workspace;
+
         // Listen for the "pointerdown" event on a node of the library
         nodesLibraryPaper.on('cell:pointerdown', function(nodeView, event, x, y) {
             let rootElement = $('body');
@@ -145,7 +147,13 @@ export let MenuView = Backbone.View.extend({
                         properties: clonedProperties
                     });
                     // TODO calculate the position of the node depending on the scale and origin of the workspace
-                    newNode.position(posX - target.left - offset.x + nodeConfig.portSize/2, posY - target.top - offset.y);
+                    let currentWorkspaceScale = joint.V(workspace.viewport).scale();
+                    let currentWorkspaceOrigin = workspace.options.origin;
+                    let newPosition = {
+                        x: (posX - target.left - offset.x + nodeConfig.portSize/2 - currentWorkspaceOrigin.x) / currentWorkspaceScale.sx,
+                        y: (posY - target.top - offset.y - currentWorkspaceOrigin.y) / currentWorkspaceScale.sy
+                    };
+                    newNode.position(newPosition.x, newPosition.y);
                     // Add the node to the main workspace
                     workspaceGraph.addCell(newNode);
                 }
