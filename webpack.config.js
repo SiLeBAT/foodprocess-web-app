@@ -62,8 +62,16 @@ module.exports = {
                 loader: "url?limit=10000&mimetype=image/svg+xml"
             },
             {
-                test: /\.(png|jpg|csv)$/,
+                test: /\.(png|jpg)$/,
                 loader: "file-loader"
+            },
+            {
+                test: /\.json$/,
+                loader: "json-loader"
+            },
+            {
+                test: /\.csv$/,
+                loader: "csv-loader"
             }
         ]
     },
@@ -76,5 +84,10 @@ module.exports = {
             'src/scss/imports',
             'node_modules'
         ]
+    },
+    csv: {
+        dynamicTyping: true,
+        header: true,
+        skipEmptyLines: true
     }
 };

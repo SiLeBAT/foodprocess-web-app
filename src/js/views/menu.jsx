@@ -8,8 +8,10 @@ let menuTemplate = require('../../templates/menu.html');
 import {FoodProcessNode, IngredientsNode, nodeConfig, MetadataModel} from '../models/index.jsx';
 import {SettingsView} from './index.jsx';
 
+let configJSON = require('../../../config.json');
+
 export let MenuView = Backbone.View.extend({
-    template: menuTemplate,
+    template: _.template(menuTemplate),
     // Render the nodes library in the element with the given selector
     nodesLibraryElementId: 'nodes-library',
     // Bind the content of the input fields to the model
@@ -23,9 +25,9 @@ export let MenuView = Backbone.View.extend({
     },
     // Bind events to appropriate functions
     events: {
-        'click #sendToAPIButton': 'sendToAPI',
+        'click #sendToAPIButton': 'sendToAPIOpened',
         'click #saveButton': 'saveModel',
-        'change #uploadInput': 'loadModel',
+        'change #uploadInput': 'loadModel'
     },
     // The model for all metadata
     model: new MetadataModel(),
@@ -33,10 +35,12 @@ export let MenuView = Backbone.View.extend({
         this.workspaceGraph = workspaceGraph;
         this.workspaceElement = workspaceElement;
         this.workspace = workspace;
+        this.config = configJSON;
+        this.model.set('URL', this.config.defaultUrl);
     },
     render: function() {
         this.workspaceGraph.set('settings', this.model);
-        this.$el.html(this.template);
+        this.$el.html(this.template({model: this.model}));
         this.renderNodesLibrary();
         this.stickit();
 
@@ -163,8 +167,16 @@ export let MenuView = Backbone.View.extend({
             });
         });
     },
-    sendToAPI: function(event) {
-        // TODO
+    sendToAPIOpened: function() {
+        let self = this;
+        $('#sendToAPISendButton').on('click', function() {
+            self.sendToAPI($('#sendToAPIURL').val());
+        });
+    },
+    sendToAPI: function(url) {
+        // TODO ajax call to url
+        console.warn(url);
+        console.log(this.workspaceGraph.toJSON());
     },
     saveModel: function(event) {
         let exportJSON = this.workspaceGraph.toJSON();
@@ -188,6 +200,5 @@ export let MenuView = Backbone.View.extend({
             self.render();
         };
         fileReader.readAsText(files.item(0));
-    },
-
+    }
 });

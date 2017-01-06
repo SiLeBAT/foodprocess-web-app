@@ -37,8 +37,6 @@ let appTemplate = require('../templates/app.html');
 
 // views
 import {WorkspaceView, MenuView, PropertiesView} from './views/index.jsx';
-import {ingredientsServiceInstance} from './models/index.jsx';  // init service and read csv
-
 
 let AppView = Backbone.View.extend({
     el: '#app',

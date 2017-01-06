@@ -7,8 +7,10 @@ let foodProcessPropertiesTemplate = require('../../templates/food-process-proper
 let ingredientsPropertiesTemplate = require('../../templates/ingredients-properties.html');
 let emptyPropertiesTemplate = require('../../templates/empty-properties.html');
 
-import {nodeTypes, ParameterModel, IngredientModel, ingredientsServiceInstance} from '../models/index.jsx';
+import {nodeTypes, ParameterModel, IngredientModel} from '../models/index.jsx';
 import {TimetableView} from './index.jsx'
+
+let ingredientsCV = require('../../cv/ingredients.csv');
 
 export let PropertiesView = Backbone.View.extend({
     ingredients: [],
@@ -64,6 +66,7 @@ export let PropertiesView = Backbone.View.extend({
     },
     initialize: function() {
         this.model = this.emptyModel;
+        this.ingredients = ingredientsCV.sort(this.compareByName);
     },
     render: function() {
         // Render the appropriate context menu for the selected node
@@ -98,10 +101,10 @@ export let PropertiesView = Backbone.View.extend({
 
             case nodeTypes.INGREDIENTS:
                 // ingredient node
-                template = this.ingredientsTemplate; 
+                template = this.ingredientsTemplate;
                 this.$el.html(template({
                     model: this.model, 
-                    ingredients: ingredientsServiceInstance.getIngredients()})
+                    ingredients: this.ingredients})
                 );
                 
                 this.stickit();
@@ -225,5 +228,13 @@ export let PropertiesView = Backbone.View.extend({
     // Remove an output port from the selected node
     removeOutPort: function(){
         this.currentNode && this.currentNode.removeDefaultPort('out');
+    },
+    // Compare elements by Name for sorting
+    compareByName: function(a, b) {
+        if (a.Name < b.Name)
+            return -1;
+        if (a.Name > b.Name)
+            return 1;
+        return 0;
     }
 });
