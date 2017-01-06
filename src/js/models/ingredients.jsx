@@ -1,7 +1,7 @@
 let joint = require('jointjs/dist/joint.js');
 let Backbone = require('backbone');
 
-import { nodeTypes } from './index.jsx';
+import { nodeTypes, IngredientCollection } from './index.jsx';
 
 // This class represents an ingredients node. It creates an instance of the basic node and adds some configuration to it.
 export class IngredientsNode {
@@ -10,6 +10,7 @@ export class IngredientsNode {
         this.node = new joint.shapes.custom.Node({
             properties: new IngredientsProperties()
         });
+        this.node.get('properties').set('ingredients', new IngredientCollection());
         // Add the given position to the default position
         let newPosition = {
             x: this.node.position().x + position.x,
@@ -21,14 +22,6 @@ export class IngredientsNode {
     };
 }
 
-export let IngredientModel = Backbone.Model.extend({
-    defaults: {
-        id: undefined,
-        name: "",
-        amount: 1
-    }
-});
-
 // The properties for an ingredients node
 let IngredientsProperties = Backbone.Model.extend({
     defaults: {
@@ -37,6 +30,6 @@ let IngredientsProperties = Backbone.Model.extend({
         icon: 'cutlery',
         // optional additional css class for the node content
         cssClasses: 'ingredients',
-        ingredients: []
+        ingredients: undefined // instance of IngredientsCollection
     }
 });

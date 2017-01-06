@@ -2,31 +2,27 @@
     <h4>Ingredients</h4>
 
     <form class="properties-form" data-abide novalidate>
-	    <label>
-		    <select id="ingredientSelection">
-		      	<% _.each(ingredients, function(ingredient) { %>
-		      	<option value="<%= ingredient.ID %>"><%= ingredient.Name %></option>
-		      	<% }); %>
-		      	
-		    </select>
-	    </label>
-    	<button type="button" id="addIngredientButton" class="button expanded last" title="">Add Ingredient</button>
-    </form>
-
-    <h5>Current Ingredients</h5>
-    <form class="ingredients-form" data-abide novalidate>
-        <% let chosenIngredients = model.get('ingredients') %>
+        <% let chosenIngredients = model.get('ingredients').models %>
         <% _.each(chosenIngredients, function (ingredient) { %>
-            <div class="ingredient-row">
-            	<span id="ingredientAmount<%= ingredient.get('id') %>" class="ingredient-amount" aria-describedby="ingredient" disabled><%= ingredient.get('amount') %></span>
-                <span id="ingredientName<%= ingredient.get('id') %>" class="middle ingredient-name" disabled><%= ingredient.get('name') %></span>
-
-                <button type="button" id="removeIngredient<%= ingredient.get('id') %>" class="alert button remove-row-button" title="Remove ingredient">
+            <div class="property-row">
+                <select id="ingredientValueSelect<%= ingredient.get('id') %>" class="ingredient-select">
+                    <% _.each(ingredients, function(ingredientOption) { %>
+                    <option value="<%= ingredientOption.ID %>"><%= ingredientOption.Name %></option>
+                    <% }); %>
+                </select>
+                <input type="number" id="ingredientAmountInput<%= ingredient.get('id') %>" class="ingredient-amount" placeholder="" aria-describedby="amount" required>
+                <select class="property-unit amount" id="ingredientUnitSelect<%= ingredient.get('id') %>">
+                    <option value="kg">kg</option>
+                    <option value="g">g</option>
+                    <option value="mg">mg</option>
+                </select>
+                <button type="button" id="removeIngredient<%= ingredient.get('id') %>" class="alert button remove-row-button" title="Remove the ingredient">
                     <i class="fa fa-times" aria-hidden="true"></i>
                 </button>
             </div>
         <% }); %>
     </form>
+    <button type="button" id="addIngredientButton" class="button expanded last" title="">Add Ingredient</button>
 </div>
 
 <div class="controls-area">

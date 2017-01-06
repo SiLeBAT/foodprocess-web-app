@@ -25,7 +25,7 @@ export let PropertiesView = Backbone.View.extend({
     bindings: {
         '#processNameInput': 'processName',
         '#durationInput': 'duration',
-        '#durationUnitInput': {
+        '#durationUnitSelect': {
             observe: 'durationUnit',
             selectOptions: {
                 collection: 'this.durationUnits',
@@ -34,7 +34,7 @@ export let PropertiesView = Backbone.View.extend({
             }
         },
         '#temperatureInput': 'temperature',
-        '#temperatureUnitInput': {
+        '#temperatureUnitSelect': {
             observe: 'temperatureUnit',
             selectOptions: {
                 collection: 'this.temperatureUnits',
@@ -45,14 +45,14 @@ export let PropertiesView = Backbone.View.extend({
         '#pHInput': 'pH',
         '#awInput': 'aw',
         '#pressureInput': 'pressure',
-        '#pressureUnitInput': {
+        '#pressureUnitSelect': {
             observe: 'pressureUnit',
             selectOptions: {
                 collection: 'this.pressureUnits',
                 labelPath: 'name',
                 valuePath: 'name'
             }
-        },
+        }
     },
     // Bind events to appropriate functions
     events: {
@@ -106,10 +106,16 @@ export let PropertiesView = Backbone.View.extend({
                     model: this.model, 
                     ingredients: this.ingredients})
                 );
+
+                this.addIngredientBindings();
                 
                 this.stickit();
                 this.$el.foundation();
 
+                break;
+
+            default:
+                this.$el.html(template);
                 break;
         }
 
@@ -141,7 +147,6 @@ export let PropertiesView = Backbone.View.extend({
         _.each(parameters, function (parameterModel) {
             let parameterId = parameterModel.get('id');
             let bindings = {
-                // FIXME: binding erfolgt noch über name (entweder in ui validieren oder auf ID ändern)
                 name: '#parameterInputName' + parameterId,
                 value: '#parameterInputValue' + parameterId,
                 unit: '#parameterInputUnit' + parameterId
@@ -169,16 +174,38 @@ export let PropertiesView = Backbone.View.extend({
             timeValues: []
         }));
         this.render();
-    },    
+    },
+    addIngredientBindings: function() {
+        let ingredients = this.model.get('ingredients').models;
+        let self = this;
+        _.each(ingredients, function (ingredientModel) {
+            let ingredientId = ingredientModel.get('id');
+            let bindings = {
+                value: '#ingredientValueSelect' + ingredientId,
+                amount: '#ingredientAmountInput' + ingredientId,
+                unit: '#ingredientUnitSelect' + ingredientId
+            };
+            let binder = new Backbone.ModelBinder(); // needs to be a new instance for each "bindings"!
+            binder.bind(ingredientModel, self.el, bindings);
+            // Add a click listener for the remove button
+            self.$el.find('#removeIngredient' + ingredientId).on('click', function() {
+                // Remove the parameter
+                self.model.get('ingredients').remove(ingredientId);
+                // Re-render the section
+                self.render();
+            });
+        });
+    },
     addIngredient: function() {
         let ingredientsCollection = this.model.get('ingredients');
-        let ingredientId = this.$el.find('#ingredientSelection').val();
-        let ingredientName = this.$el.find('#ingredientSelection option:selected').text();
-        
-        ingredientsCollection.push(new IngredientModel({
-            id: ingredientId,
-            name: ingredientName,
-            amount: 5 
+        let idString = "Ingredient";
+        let idNumber = 0;
+        if (ingredientsCollection.size()) {
+            idNumber = parseInt(ingredientsCollection.at(ingredientsCollection.size() - 1).get('id').replace(idString, '')) + 1;
+        }
+        ingredientsCollection.add(new IngredientModel({
+            id: idString + idNumber,
+            value: this.ingredients[0].ID
         }));
         this.render();
     },

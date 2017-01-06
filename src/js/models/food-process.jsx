@@ -1,7 +1,7 @@
 let joint = require('jointjs/dist/joint.js');
 let Backbone = require('backbone');
 
-import { nodeTypes, ParameterCollection, ParameterModel } from './index.jsx';
+import { nodeTypes, ParameterCollection } from './index.jsx';
 
 
 // This class represents a food process node. It creates an instance of the basic node and adds some configuration to it.

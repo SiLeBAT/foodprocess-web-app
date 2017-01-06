@@ -48,6 +48,20 @@
                     flex-shrink: 1;
                     width: 100%;
                 }
+
+                &.amount {
+                    width: 60px;
+                }
+            }
+
+            .ingredient-select {
+                flex-grow: 1;
+                flex-shrink: 1;
+                margin-bottom: 0;
+            }
+
+            .ingredient-amount {
+                width: 40%;
             }
 
             .property-button {
