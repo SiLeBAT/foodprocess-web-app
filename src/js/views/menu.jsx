@@ -146,7 +146,6 @@ export let MenuView = Backbone.View.extend({
                     newNode.set({
                         properties: clonedProperties
                     });
-                    // TODO calculate the position of the node depending on the scale and origin of the workspace
                     let currentWorkspaceScale = joint.V(workspace.viewport).scale();
                     let currentWorkspaceOrigin = workspace.options.origin;
                     let newPosition = {

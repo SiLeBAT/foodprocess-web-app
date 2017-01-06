@@ -54,14 +54,14 @@ class IngredientsService {
         return this.ingredients;
     }
     readFile() {
-        self = this;
+        let self = this;
         $.ajax({
             url: ingredientsCSV,
             success: function(data) {
-                let csvData = data;          
-            
+                let csvData = data;
+
                 let list = $.csv.toObjects(csvData, {
-                    'separator': ";", 
+                    'separator': ";",
                     'delimiter': "\n"
                 });
                 self.ingredients = list;

@@ -18,12 +18,13 @@ export let TimetableView = Backbone.View.extend({
     },
     // Bind events to appropriate functions
     listenerAdded: false,
-    initialize: function(model) {
+    initialize: function(model, nodeId) {
         this.model = model;
+        this.nodeId = nodeId;
         this.id = model.get('id');
     },
     render: function() {
-        this.$el.html(this.template({model: this.model}));
+        this.$el.html(this.template({model: this.model, nodeId: this.nodeId}));
 
         if (!this.listenerAdded) {
             this.$el.find('#timetableListSection' + this.id).html(this.timetableListTemplate({model: this.model}));

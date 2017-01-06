@@ -50,14 +50,14 @@
                 <input type="text" id="parameterInputName<%= parameter.get('id') %>" class="middle property-name">
                 <input type="number" id="parameterInputValue<%= parameter.get('id') %>" placeholder="" aria-describedby="parameter" required>
                 <input type="text" class="property-unit optional-parameter-unit" id="parameterInputUnit<%= parameter.get('id') %>">
-                <button type="button" id="addTimeTableParameter" data-open="timetableModal<%= parameter.get('id') %>" class="primary button property-button" title="Change value for specific points in time">
+                <button type="button" id="addTimeTableParameter" data-open="timetableModal<%= model.cid %><%= parameter.get('id') %>" class="primary button property-button" title="Change value for specific points in time">
                     <i class="fa fa-clock-o" aria-hidden="true"></i>
                 </button>
                 <button type="button" id="removeParameter<%= parameter.get('id') %>" class="alert button remove-row-button" title="Remove the timetable parameter">
                     <i class="fa fa-times" aria-hidden="true"></i>
                 </button>
             </div>
-            <div id="timetable<%= parameter.get('id') %>"></div>
+            <div id="timetable<%= model.cid %><%= parameter.get('id') %>"></div>
         <% }); %>
 
     </form>

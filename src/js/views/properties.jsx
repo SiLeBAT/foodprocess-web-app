@@ -84,9 +84,9 @@ export let PropertiesView = Backbone.View.extend({
                     let parameters = this.model.get('parameters').models;
                     let self = this;
                     _.each(parameters, function (parameterModel) {
-                        let parameterId = parameterModel.get('id');
-                        let timetableModal = new TimetableView(parameterModel);
-                        timetableModal.setElement(self.$('#timetable' + parameterId));
+                        let nodeId = self.model.cid;
+                        let timetableModal = new TimetableView(parameterModel, nodeId);
+                        timetableModal.setElement(self.$('#timetable' + nodeId + parameterModel.get('id')));
                         timetableModal.render();
                     });
                 }
