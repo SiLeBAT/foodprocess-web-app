@@ -7,6 +7,5 @@ export let MetadataModel = Backbone.Model.extend({
         created: '',
         lastChanged: '',
         metadata: [],
-        URL: ''
     }
 });

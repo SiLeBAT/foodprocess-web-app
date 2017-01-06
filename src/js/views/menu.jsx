@@ -36,11 +36,10 @@ export let MenuView = Backbone.View.extend({
         this.workspaceElement = workspaceElement;
         this.workspace = workspace;
         this.config = configJSON;
-        this.model.set('URL', this.config.defaultUrl);
     },
     render: function() {
         this.workspaceGraph.set('settings', this.model);
-        this.$el.html(this.template({model: this.model}));
+        this.$el.html(this.template({model: this.model, url: this.config.defaultUrl}));
         this.renderNodesLibrary();
         this.stickit();
 
@@ -168,15 +167,28 @@ export let MenuView = Backbone.View.extend({
         });
     },
     sendToAPIOpened: function() {
+        if (this.sendToAPIInitialized) {
+            return;
+        }
         let self = this;
         $('#sendToAPISendButton').on('click', function() {
             self.sendToAPI($('#sendToAPIURL').val());
         });
+        this.sendToAPIInitialized = true;
     },
     sendToAPI: function(url) {
-        // TODO ajax call to url
-        console.warn(url);
-        console.log(this.workspaceGraph.toJSON());
+        // $.ajax({
+        //     type: "POST",
+        //     url: url,
+        //     dataType: 'json',
+        //     data: JSON.stringify(this.workspaceGraph.toJSON()),
+        //     success: function (response) {
+        //         console.log("Success: ", response);
+        //     },
+        //     error: function(response) {
+        //         console.error("Error: ", response);
+        //     }
+        // });
     },
     saveModel: function(event) {
         let exportJSON = this.workspaceGraph.toJSON();
