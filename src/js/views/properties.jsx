@@ -11,6 +11,7 @@ import {nodeTypes, ParameterModel, IngredientModel} from '../models/index.jsx';
 import {TimetableView} from './index.jsx'
 
 let ingredientsCV = require('../../cv/ingredients.csv');
+let processNamesCV = require('../../cv/processes.csv');
 
 export let PropertiesView = Backbone.View.extend({
     ingredients: [],
@@ -21,9 +22,17 @@ export let PropertiesView = Backbone.View.extend({
     durationUnits: [{name:'sec'}, {name:'min'}, {name:'h'}, {name:'d'}],
     temperatureUnits: [{name:'°C'}, {name:'°F'}, {name:'K'}],
     pressureUnits: [{name:'bar'}, {name:'Pa'}],
+    processNames: processNamesCV,
     // Bind the content of the input fields to the model of the node
     bindings: {
-        '#processNameInput': 'processName',
+        '#processNameSelect': {
+            observe: 'processName',
+            selectOptions: {
+                collection: 'this.processNames',
+                labelPath: 'Name',
+                valuePath: 'Name'
+            }
+        },
         '#durationInput': 'duration',
         '#durationUnitSelect': {
             observe: 'durationUnit',
