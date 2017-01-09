@@ -2,6 +2,7 @@ let $ = require('jquery');
 let joint = require('jointjs/dist/joint.js');
 let Backbone = require('backbone');
 let _ = require('lodash');
+let moment = require('moment');
 
 let menuTemplate = require('../../templates/menu.html');
 
@@ -36,6 +37,13 @@ export let MenuView = Backbone.View.extend({
         this.workspaceElement = workspaceElement;
         this.workspace = workspace;
         this.config = configJSON;
+
+        let self = this;
+        $(window).on('beforeunload', function() {
+            if (self.unsavedChanged()) {
+                return "The model contains unsaved changes that will be lost. Continue anyway?";
+            }
+        });
     },
     render: function() {
         this.workspaceGraph.set('settings', this.model);
@@ -181,6 +189,7 @@ export let MenuView = Backbone.View.extend({
         });
     },
     saveModel: function(event) {
+        this.model.set('lastSaved', new Date());
         let exportJSON = this.workspaceGraph.toJSON();
         let blob = new Blob([JSON.stringify(exportJSON)], {type: "application/json"});
         let url  = URL.createObjectURL(blob);
@@ -189,18 +198,28 @@ export let MenuView = Backbone.View.extend({
         $(event.target).attr('href', url);
     },
     loadModel: function(event) {
-        let files = event.target.files;
-        if (!files || !files.length) {
-            return;
+        if (!this.unsavedChanged() || confirm('The model contains unsaved changes that will be lost. Continue anyway?')) {
+            let files = event.target.files;
+            if (!files || !files.length) {
+                return;
+            }
+            let fileReader = new FileReader();
+            let self = this;
+            fileReader.onload = function(event) {
+                let dataFromJSON = JSON.parse(event.target.result);
+                self.workspaceGraph.fromJSON(dataFromJSON);
+                self.model = new MetadataModel(dataFromJSON.settings);
+                self.render();
+            };
+            fileReader.readAsText(files.item(0));
+        } else {
+            event.target.value = "";
         }
-        let fileReader = new FileReader();
-        let self = this;
-        fileReader.onload = function(event) {
-            let dataFromJSON = JSON.parse(event.target.result);
-            self.workspaceGraph.fromJSON(dataFromJSON);
-            self.model = new MetadataModel(dataFromJSON.settings);
-            self.render();
-        };
-        fileReader.readAsText(files.item(0));
+    },
+    unsavedChanged: function() {
+        let lastChanged = moment(this.model.get('lastChanged')).unix();
+        let lastSaved = moment(this.model.get('lastSaved')).unix() || null;
+        let created = moment(this.model.get('created')).unix();
+        return (!lastSaved || lastChanged > lastSaved) && lastChanged !== created;
     }
 });

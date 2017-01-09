@@ -6,6 +6,7 @@ export let MetadataModel = Backbone.Model.extend({
         author: '',
         created: '',
         lastChanged: '',
+        lastSaved: '',
         metadata: [],
     }
 });
