@@ -167,18 +167,18 @@ export let MenuView = Backbone.View.extend({
         this.sendToAPIInitialized = true;
     },
     sendToAPI: function(url) {
-        // $.ajax({
-        //     type: "POST",
-        //     url: url,
-        //     dataType: 'json',
-        //     data: JSON.stringify(this.workspaceGraph.toJSON()),
-        //     success: function (response) {
-        //         console.log("Success: ", response);
-        //     },
-        //     error: function(response) {
-        //         console.error("Error: ", response);
-        //     }
-        // });
+        $.ajax({
+            type: "POST",
+            url: url,
+            dataType: 'json',
+            data: JSON.stringify(this.workspaceGraph.toJSON()),
+            success: function (response) {
+                console.log("Success: ", response);
+            },
+            error: function(response) {
+                console.error("Error: ", response);
+            }
+        });
     },
     saveModel: function(event) {
         let exportJSON = this.workspaceGraph.toJSON();

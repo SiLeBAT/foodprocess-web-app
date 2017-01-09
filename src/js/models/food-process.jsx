@@ -77,16 +77,6 @@ let FoodProcessProperties = Backbone.Model.extend({
         processName: "",
         duration: undefined,
         durationUnit: "min",
-        // temperature: undefined,
-        // temperatureUnit: "°C",
-        // temperatureTimeValues: [],
-        // pH: undefined,
-        // phTimeValues: [],
-        // aw: undefined,
-        // awTimeValues: [],
-        // pressure: undefined,
-        // pressureUnit: "bar",
-        // pressureTimeValues: [],
         parameters: undefined // instance of ParameterCollection
     },
     clone: function() {

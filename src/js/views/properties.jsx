@@ -28,7 +28,7 @@ export let PropertiesView = Backbone.View.extend({
             selectOptions: {
                 collection: 'this.processNames',
                 labelPath: 'Name',
-                valuePath: 'Name',
+                valuePath: 'ID',
                 defaultOption: {
                     label: 'Choose one...',
                     value: null
@@ -122,9 +122,11 @@ export let PropertiesView = Backbone.View.extend({
             // Register change listener to update the model and label of the node
             let propertiesModel = this.model;
             let currentNode = this.currentNode;
+            let self = this;
             this.model.on('change:processName', function() {
-                currentNode.setName(propertiesModel.get('processName'));
-                $(nodeView.el).find('.label').text(propertiesModel.get('processName'));
+                let processName = _.find(self.processNames, { ID: propertiesModel.get('processName') }).Name;
+                currentNode.setName(processName);
+                $(nodeView.el).find('.label').text(processName);
             });
         }
         this.render();
