@@ -88,7 +88,6 @@ export let PropertiesView = Backbone.View.extend({
                 this.stickit();
                 this.$el.foundation();
                 this.initValidators();
-
                 break;
 
             case nodeTypes.INGREDIENTS:
@@ -98,12 +97,9 @@ export let PropertiesView = Backbone.View.extend({
                     model: this.model, 
                     ingredients: this.ingredients})
                 );
-
                 this.addIngredientBindings();
-                
                 this.stickit();
                 this.$el.foundation();
-
                 break;
 
             default:
@@ -118,12 +114,10 @@ export let PropertiesView = Backbone.View.extend({
             this.model = this.emptyModel;
             this.currentNode = null;
         } else {
-            console.warn(this.model.attributes);
             // Unregister change listener from current node
             this.model && this.model.off('change:processName');
             this.currentNode = nodeView.model;
             this.model = this.currentNode.get('properties');
-            console.log(this.model.attributes);
 
             // Register change listener to update the model and label of the node
             let propertiesModel = this.model;

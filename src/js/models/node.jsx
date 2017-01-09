@@ -2,7 +2,7 @@ let joint = require('jointjs/dist/joint.js');
 let _ = require('lodash');
 let Backbone = require('backbone');
 
-import { ParameterCollection, ParameterModel } from './index.jsx';
+import { ParameterCollection, ParameterModel, IngredientCollection, IngredientModel } from './index.jsx';
 
 // Possible types of nodes
 export const nodeTypes = {
@@ -85,12 +85,21 @@ joint.shapes.custom.Node = joint.shapes.basic.Rect.extend({
             return;
         }
         properties = new Backbone.Model(this.get('properties'));
-        if (properties.get('type') === nodeTypes.FOOD_PROCESS) {
-            let parameters = new ParameterCollection();
-            for (let paramModel of properties.get('parameters')) {
-                parameters.add(new ParameterModel(paramModel));
-            }
-            properties.set('parameters', parameters);
+        switch(properties.get('type')) {
+            case nodeTypes.FOOD_PROCESS:
+                let parameters = new ParameterCollection();
+                for (let paramModel of properties.get('parameters')) {
+                    parameters.add(new ParameterModel(paramModel));
+                }
+                properties.set('parameters', parameters);
+                break;
+            case nodeTypes.INGREDIENTS:
+                let ingredients = new IngredientCollection();
+                for (let ingredientModel of properties.get('ingredients')) {
+                    ingredients.add(new IngredientModel(ingredientModel));
+                }
+                properties.set('ingredients', ingredients);
+                break;
         }
         this.set('properties', properties);
     },
