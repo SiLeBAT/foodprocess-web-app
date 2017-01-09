@@ -133,6 +133,15 @@ joint.shapes.custom.Node = joint.shapes.basic.Rect.extend({
         let jsonNode = joint.shapes.basic.Rect.prototype.toJSON.apply(this, arguments);
         jsonNode.properties = propertiesJSON;
         return jsonNode;
+    },
+    clone: function() {
+        let nodeClone =  joint.shapes.basic.Rect.prototype.clone.apply(this, arguments);
+        // Clone the properties and parameters separately to generate a unique id (applies for all nested models)
+        let propertiesClone = nodeClone.get('properties').clone();
+        nodeClone.set({
+            properties: propertiesClone
+        });
+        return nodeClone;
     }
 });
 

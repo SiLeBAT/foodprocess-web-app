@@ -28,7 +28,11 @@ export let PropertiesView = Backbone.View.extend({
             selectOptions: {
                 collection: 'this.processNames',
                 labelPath: 'Name',
-                valuePath: 'Name'
+                valuePath: 'Name',
+                defaultOption: {
+                    label: 'Choose one...',
+                    value: null
+                }
             }
         },
         '#durationInput': 'duration',
@@ -56,6 +60,7 @@ export let PropertiesView = Backbone.View.extend({
         this.ingredients = ingredientsCV.sort(this.compareByName);
     },
     render: function() {
+        this.unstickit();
         // Render the appropriate context menu for the selected node
         let template = this.emptyTemplate;
 
@@ -113,10 +118,12 @@ export let PropertiesView = Backbone.View.extend({
             this.model = this.emptyModel;
             this.currentNode = null;
         } else {
+            console.warn(this.model.attributes);
             // Unregister change listener from current node
             this.model && this.model.off('change:processName');
             this.currentNode = nodeView.model;
             this.model = this.currentNode.get('properties');
+            console.log(this.model.attributes);
 
             // Register change listener to update the model and label of the node
             let propertiesModel = this.model;

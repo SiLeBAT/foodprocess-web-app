@@ -1,5 +1,7 @@
 let Backbone = require('backbone');
 
+import { CustomCollection } from './collection.jsx';
+
 export let ParameterModel = Backbone.Model.extend({
     defaults: {
         id: undefined,
@@ -10,6 +12,6 @@ export let ParameterModel = Backbone.Model.extend({
     }
 });
 
-export let ParameterCollection = Backbone.Collection.extend({
+export let ParameterCollection = CustomCollection.extend({
     model: ParameterModel
 });

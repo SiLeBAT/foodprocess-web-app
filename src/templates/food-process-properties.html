@@ -23,7 +23,6 @@
                 <% } %>
                 <input type="number" id="parameterInputValue<%= parameter.get('id') %>" placeholder="" aria-describedby="parameter" required>
                 <% if (parameter.get('unit') !== null) { %>
-                    <!--<input type="text" class="property-unit optional-parameter-unit" id="parameterInputUnit<%= parameter.get('id') %>">-->
                     <select class="property-unit" id="parameterUnitSelect<%= parameter.get('id') %>">
                         <% _.each(parameter.get('unitOptions'), function(unitOption) { %>
                         <option value="<%= unitOption.Name %>"><%= unitOption.Name %></option>

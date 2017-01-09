@@ -1,5 +1,7 @@
 let Backbone = require('backbone');
 
+import { CustomCollection } from './collection.jsx';
+
 export let IngredientModel = Backbone.Model.extend({
     defaults: {
         id: undefined,
@@ -9,6 +11,6 @@ export let IngredientModel = Backbone.Model.extend({
     }
 });
 
-export let IngredientCollection = Backbone.Collection.extend({
+export let IngredientCollection = CustomCollection.extend({
     model: IngredientModel
 });

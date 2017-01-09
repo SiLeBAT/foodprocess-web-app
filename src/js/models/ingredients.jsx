@@ -31,5 +31,14 @@ let IngredientsProperties = Backbone.Model.extend({
         // optional additional css class for the node content
         cssClasses: 'ingredients',
         ingredients: undefined // instance of IngredientsCollection
+    },
+    clone: function() {
+        let propertiesClone =  Backbone.Model.prototype.clone.apply(this, arguments);
+        let ingredients = propertiesClone.get('ingredients');
+        if (ingredients) {
+            let ingredientsClone = ingredients.clone();
+            propertiesClone.set('ingredients', ingredientsClone);
+        }
+        return propertiesClone;
     }
 });
