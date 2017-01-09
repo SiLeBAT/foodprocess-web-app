@@ -3,6 +3,7 @@ let joint = require('jointjs/dist/joint.js');
 let Backbone = require('backbone');
 let _ = require('lodash');
 let moment = require('moment');
+let platform = require('platform');
 
 let menuTemplate = require('../../templates/menu.html');
 
@@ -194,6 +195,10 @@ export let MenuView = Backbone.View.extend({
         let blob = new Blob([JSON.stringify(exportJSON)], {type: "application/json"});
         let url  = URL.createObjectURL(blob);
         let fileName = (exportJSON.settings.get('workflowName') || 'workflow') + '.json';
+        if (platform.name === "Microsoft Edge") {
+            window.navigator.msSaveOrOpenBlob(blob, fileName);
+            return;
+        }
         $(event.target).attr('download', fileName);
         $(event.target).attr('href', url);
     },

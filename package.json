@@ -38,6 +38,7 @@
     "moment": "^2.17.0",
     "node-sass": "^3.10.1",
     "path": "^0.12.7",
+    "platform": "^1.3.3",
     "read-file": "0.2.0",
     "sass-loader": "^4.0.2",
     "style-loader": "^0.13.1",

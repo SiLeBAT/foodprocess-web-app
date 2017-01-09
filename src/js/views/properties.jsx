@@ -80,9 +80,13 @@ export let PropertiesView = Backbone.View.extend({
                     let self = this;
                     _.each(parameters, function (parameterModel) {
                         let nodeId = self.model.cid;
-                        let timetableModal = new TimetableView(parameterModel, nodeId);
-                        timetableModal.setElement(self.$('#timetable' + nodeId + parameterModel.get('id')));
-                        timetableModal.render();
+                        let timetableModalId = '#timetableModal' + nodeId + parameterModel.get('id');
+                        // Only render if modal doesn't already exist
+                        if ($(timetableModalId).length === 0) {
+                            let timetableModal = new TimetableView(parameterModel, nodeId);
+                            timetableModal.setElement(self.$('#timetable' + nodeId + parameterModel.get('id')));
+                            timetableModal.render();
+                        }
                     });
                 }
                 this.stickit();
@@ -97,7 +101,7 @@ export let PropertiesView = Backbone.View.extend({
                     model: this.model, 
                     ingredients: this.ingredients})
                 );
-                this.addIngredientBindings();
+                this.addIngredientBindings();y
                 this.stickit();
                 this.$el.foundation();
                 break;
