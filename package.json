@@ -6,11 +6,13 @@
   "scripts": {
     "start": "webpack-dev-server",
     "build.prod": "webpack -p",
-    "build.dev": "webpack"
+    "build.dev": "webpack",
+    "docu": "node_modules/.bin/asciidoctorjs -o README.html README.adoc"
   },
   "author": "",
   "license": "private",
   "dependencies": {
+    "asciidoctor.js": "^1.5.5-4",
     "autoprefixer-loader": "^3.2.0",
     "babel-core": "^6.18.0",
     "babel-loader": "^6.2.7",
@@ -42,9 +44,11 @@
     "sass-loader": "^4.0.2",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
-    "webpack": "^1.13.3"
+    "webpack": "^1.13.3",
+    "asciidoctor-cli": "1.5.5-beta.3"
   },
   "devDependencies": {
-    "webpack-dev-server": "^1.16.2"
+    "webpack-dev-server": "^1.16.2",
+    "webpack-shell-plugin": "^0.5.0"
   }
 }
