@@ -1,6 +1,7 @@
 let path = require('path');
 let webpack = require('webpack');
 let minimist = require('minimist');
+const WebpackShellPlugin = require('webpack-shell-plugin');
 
 let production = (function(prod) {
     let cliParams = minimist(process.argv.slice(2));
@@ -72,11 +73,16 @@ module.exports = {
             {
                 test: /\.csv$/,
                 loader: "csv-loader"
+            },
+            {   
+                test: /\.adoc$/, 
+                loader: "html!asciidoctor" 
             }
         ]
     },
     plugins: [
-        new webpack.NoErrorsPlugin()
+        new webpack.NoErrorsPlugin(),
+        new WebpackShellPlugin({onBuildEnd:['npm run docu']})
     ],
     sassLoader: {
         includePaths: [
