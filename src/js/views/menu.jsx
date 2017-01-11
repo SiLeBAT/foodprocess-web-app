@@ -48,7 +48,7 @@ export let MenuView = Backbone.View.extend({
     },
     render: function() {
         this.workspaceGraph.set('settings', this.model);
-        this.$el.html(this.template({model: this.model, url: this.config.defaultUrl}));
+        this.$el.html(this.template({model: this.model, url: this.config.defaultAPIUrl}));
         this.renderNodesLibrary();
         this.stickit();
 
