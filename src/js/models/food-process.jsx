@@ -1,10 +1,11 @@
+/** 
+*   This file creates and exports a food process node. It creates an instance of the basic node, adds some configuration, and attaches a backbone model for the properties to it.
+*/
 let joint = require('jointjs/dist/joint.js');
 let Backbone = require('backbone');
 
 import { nodeTypes, ParameterCollection, ParameterModel } from './index.jsx';
 
-
-// This class represents a food process node. It creates an instance of the basic node and adds some configuration to it.
 export class FoodProcessNode {
     constructor(position, numberOfInPorts, numberOfOutPorts) {
         // Set the properties of the node
@@ -31,6 +32,7 @@ export class FoodProcessNode {
         return this.node;
     };
 
+    // the default collection contains parameters that are common to all process nodes and that are always visible
     buildDefaultCollection() { // FIXME
         let collection = new ParameterCollection();
         collection.add(new ParameterModel({
@@ -66,6 +68,7 @@ export class FoodProcessNode {
         return collection;
     }
 }
+
 // The properties for a food process node
 let FoodProcessProperties = Backbone.Model.extend({
     defaults: {

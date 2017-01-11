@@ -1,7 +1,6 @@
 let path = require('path');
 let webpack = require('webpack');
 let minimist = require('minimist');
-const WebpackShellPlugin = require('webpack-shell-plugin');
 
 let production = (function(prod) {
     let cliParams = minimist(process.argv.slice(2));
@@ -81,8 +80,7 @@ module.exports = {
         ]
     },
     plugins: [
-        new webpack.NoErrorsPlugin(),
-        new WebpackShellPlugin({onBuildEnd:['npm run docu']})
+        new webpack.NoErrorsPlugin()
     ],
     sassLoader: {
         includePaths: [

@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server",
-    "build.prod": "webpack -p",
+    "build.prod": "webpack -p && npm run docu",
     "build.dev": "webpack",
-    "docu": "node_modules/.bin/asciidoctorjs -o README.html README.adoc"
+    "docu": "asciidoctorjs -o README.html README.adoc"
   },
   "author": "",
   "license": "private",
