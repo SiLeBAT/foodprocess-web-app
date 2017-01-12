@@ -17,15 +17,19 @@
         <% _.each(parameters, function (parameter) { %>
             <div class="property-row">
                 <% if (parameter.get('optional')) { %>
-                    <input type="text" id="parameterInputName<%= parameter.get('id') %>" class="middle property-name">
+                    <select class="property-name" id="parameterNameSelect<%= parameter.get('id') %>">
+                        <% _.each((parameterNames), function(parameterName) { %>
+                        <option value="<%= parameterName.ID %>"><%= parameterName.Name %></option>
+                        <% }); %>
+                    </select>
                 <% } else { %>
                     <label class="middle property-name"><%= parameter.get('name') %></label>
                 <% } %>
-                <input type="number" id="parameterInputValue<%= parameter.get('id') %>" placeholder="" aria-describedby="parameter" required>
+                <input type="text" id="parameterInputValue<%= parameter.get('id') %>" placeholder="" aria-describedby="parameter" required>
                 <% if (parameter.get('unit') !== null) { %>
                     <select class="property-unit" id="parameterUnitSelect<%= parameter.get('id') %>">
-                        <% _.each(parameter.get('unitOptions'), function(unitOption) { %>
-                        <option value="<%= unitOption.Name %>"><%= unitOption.Name %></option>
+                        <% _.each((parameter.get('unitOptions') || allUnits), function(unitOption) { %>
+                        <option value="<%= unitOption.ID %>"><%= unitOption.Name %></option>
                         <% }); %>
                     </select>
                 <% } %>

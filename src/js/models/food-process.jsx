@@ -39,7 +39,7 @@ export class FoodProcessNode {
             id: 'Param0',
             name: 'Temperature',
             unit: '°C',
-            unitOptions: [{Name:'°C'}, {Name:'°F'}, {Name:'K'}],
+            unitOptions: [{Name:'°C', ID:'°C'}, {Name:'°F', ID:'°F'}, {Name:'K', ID:'K'}],
             timeValues: [],
             optional: false
         }));
@@ -61,7 +61,7 @@ export class FoodProcessNode {
             id: 'Param3',
             name: 'Pressure',
             unit: 'bar',
-            unitOptions: [{Name:'bar'}, {Name:'Pa'}],
+            unitOptions: [{Name:'bar', ID:'bar'}, {Name:'Pa', ID:'Pa'}],
             timeValues: [],
             optional: false
         }));

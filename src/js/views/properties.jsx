@@ -12,6 +12,8 @@ import {TimetableView} from './index.jsx'
 
 let ingredientsCV = require('../../cv/ingredients.csv');
 let processNamesCV = require('../../cv/processes.csv');
+let parameterNamesCV = require('../../cv/parameters.csv');
+let unitsCV = require('../../cv/units.csv');
 
 export let PropertiesView = Backbone.View.extend({
     ingredients: [],
@@ -20,7 +22,6 @@ export let PropertiesView = Backbone.View.extend({
     emptyTemplate: _.template(emptyPropertiesTemplate),
     emptyModel: new Backbone.Model(),
     durationUnits: [{name:'sec'}, {name:'min'}, {name:'h'}, {name:'d'}],
-    processNames: processNamesCV,
     // Bind the content of the input fields to the model of the node
     bindings: {
         '#processNameSelect': {
@@ -58,6 +59,9 @@ export let PropertiesView = Backbone.View.extend({
     initialize: function() {
         this.model = this.emptyModel;
         this.ingredients = ingredientsCV.sort(this.compareByName);
+        this.processNames = processNamesCV.sort(this.compareByName);
+        this.allUnits = unitsCV.sort(this.compareByName);
+        this.parameterNames = parameterNamesCV.sort(this.compareByName);
     },
     render: function() {
         this.unstickit();
@@ -68,7 +72,7 @@ export let PropertiesView = Backbone.View.extend({
             case nodeTypes.FOOD_PROCESS:
                 // food node
                 template = this.foodProcessTemplate;
-                this.$el.html(template({model: this.model}));
+                this.$el.html(template({model: this.model, allUnits: this.allUnits, parameterNames: this.parameterNames}));
 
                 // if food process, render food process specific elements
                 if(this.model != this.emptyModel) {
@@ -143,7 +147,7 @@ export let PropertiesView = Backbone.View.extend({
                 value: '#parameterInputValue' + parameterId
             };
             if (parameterModel.get('optional')) {
-                bindings.name = '#parameterInputName' + parameterId;
+                bindings.name = '#parameterNameSelect' + parameterId;
             }
             if (parameterModel.get('unit') !== null) {
                 bindings.unit = '#parameterUnitSelect' + parameterId;
