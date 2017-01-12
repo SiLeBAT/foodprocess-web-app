@@ -60,8 +60,9 @@ export let PropertiesView = Backbone.View.extend({
         'click #removeInPortButton': 'removeInPort',
         'click #removeOutPortButton': 'removeOutPort'
     },
-    initialize: function() {
+    initialize: function(workspaceGraph) {
         this.model = this.emptyModel;
+        this.workspaceGraph = workspaceGraph;
         this.ingredients = ingredientsCV.sort(this.compareByName);
         this.processNames = processNamesCV.sort(this.compareByName);
         this.allUnits = unitsCV.sort(this.compareByName);
@@ -76,7 +77,11 @@ export let PropertiesView = Backbone.View.extend({
             case nodeTypes.FOOD_PROCESS:
                 // food node
                 template = this.foodProcessTemplate;
-                this.$el.html(template({model: this.model, allUnits: this.allUnits, parameterNames: this.parameterNames}));
+                this.$el.html(template({
+                    model: this.model,
+                    allUnits: this.allUnits,
+                    parameterNames: this.parameterNames
+                }));
 
                 // if food process, render food process specific elements
                 if(this.model != this.emptyModel) {
@@ -100,6 +105,11 @@ export let PropertiesView = Backbone.View.extend({
                 this.stickit();
                 this.$el.foundation();
                 this.initValidators();
+
+                // Trigger workspace change event to update "lastChanged"
+                this.model.get('parameters').on('change', function() {
+                    self.workspaceGraph.trigger('change');
+                });
                 break;
 
             case nodeTypes.INGREDIENTS:
@@ -107,17 +117,30 @@ export let PropertiesView = Backbone.View.extend({
                 template = this.ingredientsTemplate;
                 this.$el.html(template({
                     model: this.model, 
-                    ingredients: this.ingredients})
-                );
+                    ingredients: this.ingredients,
+                    allUnits: this.allUnits
+                }));
                 this.addIngredientBindings();
                 this.stickit();
                 this.$el.foundation();
+
+                // Trigger workspace change event to update "lastChanged"
+                this.model.get('ingredients').on('change', function() {
+                    self.workspaceGraph.trigger('change');
+                });
                 break;
 
             default:
                 this.$el.html(template);
                 break;
         }
+
+        // Trigger workspace change event to update "lastChanged"
+        let self = this;
+        this.model.on('change', function() {
+            console.log("property change");
+            self.workspaceGraph.trigger('change');
+        });
     },
     // Set the selected node and rerender the menu
     setCurrentNode: function(nodeView) {

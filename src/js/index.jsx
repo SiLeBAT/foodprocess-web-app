@@ -53,7 +53,7 @@ let AppView = Backbone.View.extend({
         let workspaceElement = this.$('#workspace');
 
         // Render the properties
-        this.properties = new PropertiesView();
+        this.properties = new PropertiesView(workspaceGraph);
         this.properties.setElement(this.$('#properties'));
         this.properties.render();
 

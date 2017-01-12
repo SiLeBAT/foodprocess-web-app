@@ -10,14 +10,11 @@
                     <option value="<%= ingredientOption.ID %>"><%= ingredientOption.Name %></option>
                     <% }); %>
                 </select>
-                <input type="number" id="ingredientAmountInput<%= ingredient.get('id') %>" class="ingredient-amount" placeholder="" aria-describedby="amount" required>
+                <input type="text" id="ingredientAmountInput<%= ingredient.get('id') %>" class="ingredient-amount" placeholder="" aria-describedby="amount" required>
                 <select class="property-unit small" id="ingredientUnitSelect<%= ingredient.get('id') %>">
-                    <option value="piece">piece</option>
-                    <option value="kg">kg</option>
-                    <option value="g">g</option>
-                    <option value="mg">mg</option>
-                    <option value="l">l</option>
-                    <option value="ml">ml</option>
+                    <% _.each(allUnits, function(unitOption) { %>
+                    <option value="<%= unitOption.ID %>"><%= unitOption.Name %></option>
+                    <% }); %>
                 </select>
                 <button type="button" id="removeIngredient<%= ingredient.get('id') %>" class="alert button remove-row-button" title="Remove the ingredient">
                     <i class="fa fa-times" aria-hidden="true"></i>
