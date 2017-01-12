@@ -14,6 +14,8 @@ export let SettingsView = Backbone.View.extend({
     bindings: {
         '#settingsWorkflowNameInput': 'workflowName',
         '#settingsAuthorInput': 'author',
+        '#settingsReferenceInput': 'reference',
+        '#settingsDescriptionInput': 'description',
         '#settingsCreated': {
             observe: 'created',
             onGet: 'formatDate'
