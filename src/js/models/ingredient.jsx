@@ -1,3 +1,7 @@
+/**
+ *   This file declares and exports a model and collection for ingredients. The collection can be used to contain all ingredients of a ingredients-node.
+ */
+
 let Backbone = require('backbone');
 
 import { CustomCollection } from './collection.jsx';

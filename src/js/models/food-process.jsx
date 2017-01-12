@@ -1,6 +1,7 @@
-/** 
-*   This file creates and exports a food process node. It creates an instance of the basic node, adds some configuration, and attaches a backbone model for the properties to it.
+/**
+*   This file declares and exports a food process node. It creates an instance of the basic node, adds some configuration, and attaches a backbone model for the properties to it.
 */
+
 let joint = require('jointjs/dist/joint.js');
 let Backbone = require('backbone');
 

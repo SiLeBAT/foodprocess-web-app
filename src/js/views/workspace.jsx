@@ -1,3 +1,7 @@
+/**
+ *   This file declares and exports the view for the workspace. It creates a joint paper and adds some configuration. It furthermore handles all mouse events for node selection, scrolling and zooming.
+ */
+
 let joint = require('jointjs/dist/joint.js');
 let Backbone = require('backbone');
 

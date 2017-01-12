@@ -1,3 +1,7 @@
+/**
+ *   This file declares and exports the view for a timetable. The declaration contains all data bindings and events for the view.
+ */
+
 let $ = require('jquery');
 let joint = require('jointjs/dist/joint.js');
 let Backbone = require('backbone');

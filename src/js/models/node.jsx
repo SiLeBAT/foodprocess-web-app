@@ -1,3 +1,7 @@
+/**
+ *   This file declares the basic node. The node extends a basic rect, adds some configuration, defines default values and overwrites some methods. Furthermore the file contains a declaration for a custom node view to add html elements to the node.
+ */
+
 let joint = require('jointjs/dist/joint.js');
 let _ = require('lodash');
 let Backbone = require('backbone');

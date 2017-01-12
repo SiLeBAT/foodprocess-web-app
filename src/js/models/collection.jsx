@@ -1,3 +1,7 @@
+/**
+ *   This file declares and exports a custom collection. The collection overwrites the clone method to clone all containing models too.
+ */
+
 let Backbone = require('backbone');
 
 export let CustomCollection = Backbone.Collection.extend({

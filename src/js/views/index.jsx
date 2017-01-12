@@ -1,3 +1,6 @@
+/**
+ *   This file exports everything from all views to have a centralized file for imports.
+ */
 export * from './menu.jsx';
 export * from './properties.jsx';
 export * from './workspace.jsx';

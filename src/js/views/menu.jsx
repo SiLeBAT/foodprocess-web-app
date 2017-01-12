@@ -1,3 +1,7 @@
+/**
+ *   This file declares and exports the view for the menu. The declaration contains all data bindings and events for the view. It implements the behavior for the drag and drop node library and the import, export and send functionality. Furthermore it renders the settings view.
+ */
+
 let $ = require('jquery');
 let joint = require('jointjs/dist/joint.js');
 let Backbone = require('backbone');

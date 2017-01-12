@@ -1,3 +1,7 @@
+/**
+ *   This file declares and exports the view for the properties. The declaration contains all data bindings and events for the view. It contains implementations of properties for both, ingredient- and food-process-nodes.
+ */
+
 require('backbone.modelbinder');
 
 let Backbone = require('backbone');

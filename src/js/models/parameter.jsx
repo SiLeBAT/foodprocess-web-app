@@ -1,3 +1,7 @@
+/**
+ *   This file declares and exports a model and collection for parameters. The collection can be used to contain all parameters of a food-process-node.
+ */
+
 let Backbone = require('backbone');
 
 import { CustomCollection } from './collection.jsx';
