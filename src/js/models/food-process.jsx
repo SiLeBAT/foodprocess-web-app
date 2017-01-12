@@ -33,7 +33,7 @@ export class FoodProcessNode {
     };
 
     // the default collection contains parameters that are common to all process nodes and that are always visible
-    buildDefaultCollection() { // FIXME
+    buildDefaultCollection() {
         let collection = new ParameterCollection();
         collection.add(new ParameterModel({
             id: 'Param0',
