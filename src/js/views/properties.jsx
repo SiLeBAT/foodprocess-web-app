@@ -101,7 +101,7 @@ export let PropertiesView = Backbone.View.extend({
                     model: this.model, 
                     ingredients: this.ingredients})
                 );
-                this.addIngredientBindings();y
+                this.addIngredientBindings();
                 this.stickit();
                 this.$el.foundation();
                 break;
@@ -110,7 +110,6 @@ export let PropertiesView = Backbone.View.extend({
                 this.$el.html(template);
                 break;
         }
-
     },
     // Set the selected node and rerender the menu
     setCurrentNode: function(nodeView) {

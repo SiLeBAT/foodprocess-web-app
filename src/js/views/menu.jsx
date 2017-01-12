@@ -20,10 +20,6 @@ export let MenuView = Backbone.View.extend({
     bindings: {
         '#workflowNameInput': 'workflowName',
         '#authorInput': 'author',
-        '#settingsWorkflowNameInput': 'workflowName',
-        '#settingsAuthorInput': 'author',
-        '#settingsCreated': 'created',
-        '#settingsLastChange': 'lastChange',
     },
     // Bind events to appropriate functions
     events: {
@@ -52,12 +48,12 @@ export let MenuView = Backbone.View.extend({
         this.renderNodesLibrary();
         this.stickit();
 
+        this.$el.foundation();
+
         // Render the settings modal
         this.settings = new SettingsView(this.model, this.workspaceGraph, this.$el.find('#workflowNameInput'), this.$el.find('#authorInput'));
         this.settings.setElement(this.$('#settings'));
         this.settings.render();
-
-        this.$el.foundation();
     },
     renderNodesLibrary: function() {
         // Create a graph to hold the nodes of the library

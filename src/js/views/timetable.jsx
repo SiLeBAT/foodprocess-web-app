@@ -36,7 +36,7 @@ export let TimetableView = Backbone.View.extend({
     },
 
     updateLastChanged: function() {
-        this.model.set('lastChanged', new Date()); // TODO
+        this.model.set('lastChanged', new Date());
     },
     // Add a key value pair to the metadata
     addPropertyListener: function() {
