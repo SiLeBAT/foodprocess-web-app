@@ -34,6 +34,11 @@
                 margin-bottom: 0;
             }
 
+            .property-name-select {
+                /* fixed width because of Microsoft Edge problems */
+                width: calc(100% - 110px);
+            }
+
             .property-input {
                 flex-grow: 1;
             }
@@ -58,6 +63,8 @@
                 flex-grow: 1;
                 flex-shrink: 1;
                 margin-bottom: 0;
+                /* fixed width because of Microsoft Edge problems */
+                width: 160px;
             }
 
             .ingredient-amount {
