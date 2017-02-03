@@ -7,13 +7,13 @@
             <div class="property-row">
                 <select id="ingredientValueSelect<%= ingredient.get('id') %>" class="ingredient-select">
                     <% _.each(ingredients, function(ingredientOption) { %>
-                    <option value="<%= ingredientOption.ID %>"><%= ingredientOption.Name %></option>
+                    <option value="<%= ingredientOption.id %>"><%= ingredientOption.name %></option>
                     <% }); %>
                 </select>
                 <input type="text" id="ingredientAmountInput<%= ingredient.get('id') %>" class="ingredient-amount" placeholder="" aria-describedby="amount" required>
                 <select class="property-unit small" id="ingredientUnitSelect<%= ingredient.get('id') %>">
                     <% _.each(allUnits, function(unitOption) { %>
-                    <option value="<%= unitOption.ID %>"><%= unitOption.Name %></option>
+                    <option value="<%= unitOption.id %>"><%= unitOption.name %></option>
                     <% }); %>
                 </select>
                 <button type="button" id="removeIngredient<%= ingredient.get('id') %>" class="alert button remove-row-button" title="Remove the ingredient">

@@ -1,4 +1,4 @@
-Name;ID;description;category
+name;id;description;category
 ALTA;1;alta fermentation product in the environment;Mass Ratio,Mass Concentration,Volume Ratio,Volume Concentration
 acetic_acid;2;acetic acid (possibly as salt) in the environment;Mass Ratio,Mass Concentration,Volume Ratio,Volume Concentration
 anaerobic;3;anaerobic environment;True/False Value

@@ -19,7 +19,7 @@
                 <% if (parameter.get('optional')) { %>
                     <select class="property-name" id="parameterNameSelect<%= parameter.get('id') %>">
                         <% _.each((parameterNames), function(parameterName) { %>
-                        <option value="<%= parameterName.ID %>"><%= parameterName.Name %></option>
+                        <option value="<%= parameterName.id %>"><%= parameterName.name %></option>
                         <% }); %>
                     </select>
                 <% } else { %>
@@ -29,7 +29,7 @@
                 <% if (parameter.get('unit') !== null) { %>
                     <select class="property-unit" id="parameterUnitSelect<%= parameter.get('id') %>">
                         <% _.each((parameter.get('unitOptions') || allUnits), function(unitOption) { %>
-                        <option value="<%= unitOption.ID %>"><%= unitOption.Name %></option>
+                        <option value="<%= unitOption.id %>"><%= unitOption.unit %></option>
                         <% }); %>
                     </select>
                 <% } %>

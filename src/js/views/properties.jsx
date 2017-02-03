@@ -32,8 +32,8 @@ export let PropertiesView = Backbone.View.extend({
             observe: 'processName',
             selectOptions: {
                 collection: 'this.processNames',
-                labelPath: 'Name',
-                valuePath: 'ID',
+                labelPath: 'name',
+                valuePath: 'id',
                 defaultOption: {
                     label: 'Choose one...',
                     value: null
@@ -65,7 +65,7 @@ export let PropertiesView = Backbone.View.extend({
         this.workspaceGraph = workspaceGraph;
         this.ingredients = ingredientsCV.sort(this.compareByName);
         this.processNames = processNamesCV.sort(this.compareByName);
-        this.allUnits = unitsCV.sort(this.compareByName);
+        this.allUnits = unitsCV.sort(this.compareByUnit);
         this.parameterNames = parameterNamesCV.sort(this.compareByName);
     },
     render: function() {
@@ -138,7 +138,6 @@ export let PropertiesView = Backbone.View.extend({
         // Trigger workspace change event to update "lastChanged"
         let self = this;
         this.model.on('change', function() {
-            console.log("property change");
             self.workspaceGraph.trigger('change');
         });
     },
@@ -158,7 +157,7 @@ export let PropertiesView = Backbone.View.extend({
             let currentNode = this.currentNode;
             let self = this;
             this.model.on('change:processName', function() {
-                let processName = _.find(self.processNames, { ID: propertiesModel.get('processName') }).Name;
+                let processName = _.find(self.processNames, { id: propertiesModel.get('processName') }).name;
                 currentNode.setName(processName);
                 $(nodeView.el).find('.label').text(processName);
             });
@@ -197,10 +196,18 @@ export let PropertiesView = Backbone.View.extend({
         if (parametersCollection.size()) {
             idNumber = parseInt(parametersCollection.at(parametersCollection.size() - 1).get('id').replace(idString, '')) + 1;
         }
-        parametersCollection.add(new ParameterModel({
+        let newParameter = new ParameterModel({
             id: idString + idNumber,
             timeValues: []
-        }));
+        });
+        let self = this;
+        newParameter.on('change:name', function(event, parameterNameId) {
+            let category = _.find(self.parameterNames, {id: parseInt(parameterNameId)}).category;
+            console.log(category);
+            this.set('unitOptions', self.getUnitsOfCategory(category));
+            self.render();
+        });
+        parametersCollection.add(newParameter);
         this.render();
     },
     addIngredientBindings: function() {
@@ -233,7 +240,7 @@ export let PropertiesView = Backbone.View.extend({
         }
         ingredientsCollection.add(new IngredientModel({
             id: idString + idNumber,
-            value: this.ingredients[0].ID
+            value: this.ingredients[0].id
         }));
         this.render();
     },
@@ -291,12 +298,27 @@ export let PropertiesView = Backbone.View.extend({
     removeOutPort: function(){
         this.currentNode && this.currentNode.removeDefaultPort('out');
     },
-    // Compare elements by Name for sorting
+    // Compare elements by name for sorting
     compareByName: function(a, b) {
-        if (a.Name < b.Name)
+        let nameA = a.name.toLowerCase();
+        let nameB = b.name.toLowerCase();
+        if (nameA < nameB)
             return -1;
-        if (a.Name > b.Name)
+        if (nameA > nameB)
             return 1;
         return 0;
+    },
+    // Compare elements by unit for sorting
+    compareByUnit: function(a, b) {
+        let unitA = a.unit.toLowerCase();
+        let unitB = b.unit.toLowerCase();
+        if (unitA < unitB)
+            return -1;
+        if (unitA > unitB)
+            return 1;
+        return 0;
+    },
+    getUnitsOfCategory: function(category) {
+        return _.filter(this.allUnits, { 'category': category });
     }
 });

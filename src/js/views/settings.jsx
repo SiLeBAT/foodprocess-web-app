@@ -133,11 +133,13 @@ export let SettingsView = Backbone.View.extend({
         }));
         this.renderMetadataSection();
     },
-    // Compare elements by Name for sorting
+    // Compare elements by name for sorting
     compareByName: function(a, b) {
-        if (a.Name < b.Name)
+        let nameA = a.name.toLowerCase();
+        let nameB = b.name.toLowerCase();
+        if (nameA < nameB)
             return -1;
-        if (a.Name > b.Name)
+        if (nameA > nameB)
             return 1;
         return 0;
     }
