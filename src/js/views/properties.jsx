@@ -249,24 +249,31 @@ export let PropertiesView = Backbone.View.extend({
         this.render();
     },
     initValidators: function() {
-        Foundation.Abide.defaults.validators['awValidation'] =
-            function($el, required) {
-                if(!required) return true;
-                let value = $el.val();
-                return (0 <= value && value <= 1)
-            };
-        Foundation.Abide.defaults.validators['phValidation'] =
-            function($el, required) {
-                if(!required) return true;
-                let value = $el.val();
-                return (0 <= value && value <= 14)
-            };
-        Foundation.Abide.defaults.validators['tempValidation'] =
-            function($el, required) {
-                if(!required) return true;
-                let value = $el.val();
-                return (-273.15 <= value && value <= 1000)
-            };
+        let parameters = this.model.get('parameters').models;
+        _.each(parameters, function (parameterModel) {
+            let minValue = 0;
+            let maxValue = 0;
+            switch(parameterModel.get('name')) {
+                case 'aw':
+                    minValue = 0;
+                    maxValue = 1;
+                    break;
+                case 'Temperature':
+                    minValue = -273.15;
+                    maxValue = 1000;
+                    break;
+                case 'pH':
+                    minValue = 0;
+                    maxValue = 14;
+                    break;
+            }
+            Foundation.Abide.defaults.validators[parameterModel.get('id') + 'Validation'] =
+                function($el, required) {
+                    if(!required) return true;
+                    let value = $el.val();
+                    return (minValue <= value && value <= maxValue)
+                };
+        });
     },
     // Add an input port to the selected node
     addInPort: function(){

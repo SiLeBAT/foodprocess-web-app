@@ -25,7 +25,7 @@
                 <% } else { %>
                     <label class="middle property-name"><%= parameter.get('name') %></label>
                 <% } %>
-                <input type="text" id="parameterInputValue<%= parameter.get('id') %>" placeholder="" aria-describedby="parameter" required>
+                <input type="text" id="parameterInputValue<%= parameter.get('id') %>" placeholder="" aria-describedby="parameter" data-validator="<%= parameter.get('id') %>Validation" required>
                 <% if (parameter.get('unit') !== null) { %>
                     <select class="property-unit" id="parameterUnitSelect<%= parameter.get('id') %>">
                         <% _.each((parameter.get('unitOptions') || allUnits), function(unitOption) { %>
