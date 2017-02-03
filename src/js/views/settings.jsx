@@ -8,8 +8,12 @@ let Backbone = require('backbone');
 let moment = require('moment');
 let _ = require('lodash');
 
+import {AdditionalMetadataModel, AdditionalMetadataCollection} from '../models/index.jsx';
+
 let settingsTemplate = require('../../templates/settings.html');
 let metadataTemplate = require('../../templates/metadata.html');
+
+let metadataNamesCV = require('../../cv/metadata.csv');
 
 export let SettingsView = Backbone.View.extend({
     template: _.template(settingsTemplate),
@@ -32,11 +36,11 @@ export let SettingsView = Backbone.View.extend({
     // Bind events to appropriate functions
     events: {},
     listenerAdded: false,
-    initialize: function(model, workspaceGraph, workflowNameInput, authorInput) {
+    initialize: function(model, workspaceGraph) {
         this.model = model;
         this.workspaceGraph = workspaceGraph;
-        this.workflowNameInput = workflowNameInput;
-        this.authorInput = authorInput;
+
+        this.metadataNames = metadataNamesCV.sort(this.compareByName);
 
         // Set the dates of creation and last change
         !this.model.get('created') && this.model.set('created', new Date());
@@ -52,6 +56,10 @@ export let SettingsView = Backbone.View.extend({
                 return;
             }
             self.updateLastChanged();
+        });
+        // Trigger workspace change event to update "lastChanged"
+        this.model.get('metadata').on('change', function() {
+            self.workspaceGraph.trigger('change');
         });
     },
     render: function() {
@@ -81,46 +89,56 @@ export let SettingsView = Backbone.View.extend({
     addMetadataButtonListener: function() {
         let self = this;
         this.$el.find('#addMetadataButton').on('click', function() {
-            // Add empty key value pair
-            self.model.get('metadata').push({
-                key: '',
-                value: ''
-            });
-            self.renderMetadataSection();
+            self.addAdditionalMetadata();
         });
     },
     // Re-render the metadata section and re-create the bindings
     renderMetadataSection: function() {
         // Re-render the metadata section
-        this.$el.find('#metadataSection').html(this.metadataTemplate({model: this.model}));
+        this.$el.find('#metadataSection').html(this.metadataTemplate({model: this.model, metadataNames: this.metadataNames}));
         // Add bindings for all metadata inputs for data synchronization
-        this.addBindings();
+        this.addMetadataBindings();
         // Scroll to bottom if the settings view is higher than the viewport
         this.$el.scrollTop(this.$el.children(':first').height());
     },
-    // Add bindings for all metadata inputs for data synchronization
-    addBindings: function() {
-        for (let i = 0; i < this.model.get('metadata').length; i++) {
-            this.addInputBinding('key', i);
-            this.addInputBinding('value', i);
-            this.addRemoveButtonBinding(i);
+    addMetadataBindings: function() {
+        let additionalMetadata = this.model.get('metadata').models;
+        let self = this;
+        _.each(additionalMetadata, function (metadataModel) {
+            let metadataId = metadataModel.get('id');
+            let bindings = {
+                key: '#metadataKeySelect' + metadataId,
+                value: '#metadataValueInput' + metadataId
+            };
+            let binder = new Backbone.ModelBinder(); // needs to be a new instance for each "bindings"!
+            binder.bind(metadataModel, self.$el, bindings);
+            // Add a click listener for the remove button
+            self.$el.find('#removeMetadata' + metadataId).on('click', function() {
+                // Remove the metadata
+                self.model.get('metadata').remove(metadataId);
+                // Re-render the section
+                self.renderMetadataSection();
+            });
+        });
+    },
+    addAdditionalMetadata: function() {
+        let metadataCollection = this.model.get('metadata');
+        let idString = "Metadata";
+        let idNumber = 0;
+        if (metadataCollection.size()) {
+            idNumber = parseInt(metadataCollection.at(metadataCollection.size() - 1).get('id').replace(idString, '')) + 1;
         }
+        metadataCollection.add(new AdditionalMetadataModel({
+            id: idString + idNumber
+        }));
+        this.renderMetadataSection();
     },
-    // Create a listener for the metadata attribute
-    addInputBinding: function(type, index) {
-        let self = this;
-        this.$el.find('#metadata-' + type + '-' + index).on('propertychange change click keyup input paste', function() {
-            self.model.get('metadata')[index][type] = $(this).val();
-        });
-    },
-    // Add a click listener remove button
-    addRemoveButtonBinding: function(index) {
-        let self = this;
-        this.$el.find('#remove-metadata-' + index).on('click', function() {
-            // Remove the metadata row from the array
-            delete self.model.get('metadata').splice(index, 1);
-            // Re-render the section
-            self.renderMetadataSection();
-        });
+    // Compare elements by Name for sorting
+    compareByName: function(a, b) {
+        if (a.Name < b.Name)
+            return -1;
+        if (a.Name > b.Name)
+            return 1;
+        return 0;
     }
 });

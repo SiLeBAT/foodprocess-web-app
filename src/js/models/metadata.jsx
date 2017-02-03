@@ -4,6 +4,8 @@
 
 let Backbone = require('backbone');
 
+import { CustomCollection } from './collection.jsx';
+
 export let MetadataModel = Backbone.Model.extend({
     defaults: {
         workflowName: '',
@@ -13,6 +15,28 @@ export let MetadataModel = Backbone.Model.extend({
         created: '',
         lastChanged: '',
         lastSaved: '',
-        metadata: [],
+        metadata: undefined // instance of AdditionalMetadataCollection
+    },
+    initialize: function() {
+        Backbone.Model.prototype.initialize.apply(this, arguments);
+        let additionalMetadata = new AdditionalMetadataCollection();
+        if (this.get('metadata')) {
+            for (let metadataModel of this.get('metadata')) {
+                additionalMetadata.add(new AdditionalMetadataModel(metadataModel));
+            }
+        }
+        this.set('metadata', additionalMetadata);
     }
+});
+
+export let AdditionalMetadataModel = Backbone.Model.extend({
+    defaults: {
+        id: undefined,
+        key: '',
+        value: ''
+    }
+});
+
+export let AdditionalMetadataCollection = CustomCollection.extend({
+    model: AdditionalMetadataModel
 });

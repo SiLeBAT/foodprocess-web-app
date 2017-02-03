@@ -1,16 +1,18 @@
 <% let metadata = model.get('metadata') %>
 <% if (metadata.length) { %>
     <h4>Additional Values</h4>
-    <% for(let i = 0; i < metadata.length; i++) { %>
+    <% let metadata = model.get('metadata').models %>
+    <% _.each(metadata, function (metadataRow) { %>
         <div class="settings-row meta">
-            <% let dataElement = metadata[i] %>
-            <input type="text" class="settings-key meta" id="metadata-key-<%= i %>" placeholder="" aria-describedby="process name"
-                   value="<%= dataElement.key %>" required>
-            <input type="text" class="settings-value meta" id="metadata-value-<%= i %>" placeholder="" aria-describedby="process name"
-                   value="<%= dataElement.value %>" required>
-            <button type="button" id="remove-metadata-<%= i %>" class="alert button remove-row-button" title="Remove the metadata row">
+            <select class="settings-key meta" id="metadataKeySelect<%= metadataRow.get('id') %>">
+                <% _.each(metadataNames, function(metadataName) { %>
+                <option value="<%= metadataName.ID %>"><%= metadataName.Name %></option>
+                <% }); %>
+            </select>
+            <input type="text" class="settings-value meta" id="metadataValueInput<%= metadataRow.get('id') %>" placeholder="" aria-describedby="process name" required>
+            <button type="button" id="removeMetadata<%= metadataRow.get('id') %>" class="alert button remove-row-button" title="Remove the metadata row">
                 <i class="fa fa-times" aria-hidden="true"></i>
             </button>
         </div>
-    <% } %>
+    <% }); %>
 <% } %>
