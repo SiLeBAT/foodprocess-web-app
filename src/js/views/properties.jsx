@@ -203,7 +203,6 @@ export let PropertiesView = Backbone.View.extend({
         let self = this;
         newParameter.on('change:name', function(event, parameterNameId) {
             let category = _.find(self.parameterNames, {id: parseInt(parameterNameId)}).category;
-            console.log(category);
             this.set('unitOptions', self.getUnitsOfCategory(category));
             self.render();
         });
@@ -258,8 +257,8 @@ export let PropertiesView = Backbone.View.extend({
     initValidators: function() {
         let parameters = this.model.get('parameters').models;
         _.each(parameters, function (parameterModel) {
-            let minValue = 0;
-            let maxValue = 0;
+            let minValue;
+            let maxValue;
             switch(parameterModel.get('name')) {
                 case 'aw':
                     minValue = 0;
@@ -274,12 +273,17 @@ export let PropertiesView = Backbone.View.extend({
                     maxValue = 14;
                     break;
             }
-            Foundation.Abide.defaults.validators[parameterModel.get('id') + 'Validation'] =
-                function($el, required) {
-                    if(!required) return true;
-                    let value = $el.val();
-                    return (minValue <= value && value <= maxValue)
-                };
+            let validationFunction = function() {
+                return true;
+            };
+            if (minValue !== undefined && maxValue !== undefined) {
+                validationFunction = function($el, required) {
+                        if(!required) return true;
+                        let value = $el.val();
+                        return (minValue <= value && value <= maxValue)
+                    };
+            }
+            Foundation.Abide.defaults.validators[parameterModel.get('id') + 'Validation'] = validationFunction;
         });
     },
     // Add an input port to the selected node
