@@ -202,8 +202,12 @@ export let PropertiesView = Backbone.View.extend({
         });
         let self = this;
         newParameter.on('change:name', function(event, parameterNameId) {
-            let category = _.find(self.parameterNames, {id: parseInt(parameterNameId)}).category;
-            this.set('unitOptions', self.getUnitsOfCategory(category));
+            let categories = _.find(self.parameterNames, {id: parseInt(parameterNameId)}).category;          
+            let units = [];
+            _.each(categories.split(","), function(category) {
+                units = units.concat(self.getUnitsOfCategory(category))
+            });
+            this.set('unitOptions', units);
             self.render();
         });
         parametersCollection.add(newParameter);
