@@ -31,7 +31,7 @@ let IngredientsProperties = Backbone.Model.extend({
     defaults: {
         type: nodeTypes.INGREDIENTS,
         // font-awesome icon
-        icon: 'cutlery',
+        icon: 'leaf',
         // optional additional css class for the node content
         cssClasses: 'ingredients',
         ingredients: undefined // instance of IngredientsCollection
