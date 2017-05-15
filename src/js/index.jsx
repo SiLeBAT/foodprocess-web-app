@@ -45,6 +45,12 @@ let AppView = Backbone.View.extend({
         this.render();
     },
     render: function() {
+        // message for Safari users
+        var isSafari = /constructor/i.test(window.HTMLElement) || (function (p) { return p.toString() === "[object SafariRemoteNotification]"; })(!window['safari'] || safari.pushNotification);
+        if(isSafari) {
+            alert("Note: It appears that you are using a Safari browser, which is not fully supported. Some features of the application may cause issues. We recommend using another browser like Firefox or Chrome.");
+        }
+
         this.$el.html(this.template({}));
 
         // Workspace graph // JointJs graph

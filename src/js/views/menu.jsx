@@ -99,7 +99,7 @@ export let MenuView = Backbone.View.extend({
         nodesLibraryPaper.on('cell:pointerdown', function(nodeView, event, x, y) {
             let rootElement = $('body');
             // Add a DOM element to hold the node that is dragged
-            rootElement.append(`<div id="flyingNode" class="flyingNode"></div>`);
+            rootElement.append('<div id="flyingNode" class="flyingNode"></div>');
             let flyingNodeElement = $('#flyingNode');
             // Create new graph and paper for the dragged node
             let flyingNodeGraph = new joint.dia.Graph;
